@@ -28,17 +28,19 @@ void vTaskUsart1Receive(void *pvParameters)
 }
 
 
-
-
-  
-
-
-
-
-
-
-
-
 /******************************************************************************/
 
+
+void vTaskUsart2Receive(void *pvParameters)
+{
+  uint8_t usart2RxBuffer[20];
+  while(1)
+	{
+	  xQueueReceive(xUsart1RxQueue, &usart2RxBuffer,portMAX_DELAY);
+		DR16_DataDecode(usart2RxBuffer);
+		LED_TOGGLE(LED_G);
+	}
+
+}
+/******************************************************************************/
 
