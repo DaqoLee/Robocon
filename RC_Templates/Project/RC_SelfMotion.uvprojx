@@ -692,6 +692,11 @@
               <FilePath>..\Devices\LED.c</FilePath>
             </File>
             <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Key.c</FilePath>
+            </File>
+            <File>
               <FileName>DR16.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Devices\DR16.c</FilePath>
@@ -700,6 +705,11 @@
               <FileName>Motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Devices\Motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\OLED.c</FilePath>
             </File>
           </Files>
         </Group>
