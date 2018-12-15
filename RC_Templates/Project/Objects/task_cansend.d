@@ -1,8 +1,8 @@
 .\objects\task_cansend.o: ..\Task\Task_CanSend.c
 .\objects\task_cansend.o: ..\Task\Task_CanSend.h
 .\objects\task_cansend.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\task_cansend.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\task_cansend.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_cansend.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_cansend.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_cansend.o: ..\User\FreeRTOSConfig.h
 .\objects\task_cansend.o: ..\FreeRTOS\include\projdefs.h
 .\objects\task_cansend.o: ..\FreeRTOS\include\portable.h

@@ -2,7 +2,7 @@
 .\objects\task_usart.o: ..\Task\Task_Usart.h
 .\objects\task_usart.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\task_usart.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\task_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_usart.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\task_usart.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\task_usart.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -39,7 +39,7 @@
 .\objects\task_usart.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\task_usart.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\task_usart.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\task_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\task_usart.o: ..\User\FreeRTOSConfig.h
 .\objects\task_usart.o: ..\FreeRTOS\include\projdefs.h
 .\objects\task_usart.o: ..\FreeRTOS\include\portable.h

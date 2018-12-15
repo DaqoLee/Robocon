@@ -2,7 +2,7 @@
 .\objects\led.o: ..\Devices\LED.h
 .\objects\led.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\led.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\led.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\led.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\led.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\led.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
