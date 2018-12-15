@@ -60,23 +60,23 @@ void vTaskCan1Receive(void *pvParameters)
 }
 
 /******************************************************************************/
-//static void CAN1_DataDecoding(CanRxMsg rxMessage)
-//{
-//	switch(rxMessage.StdId)
-//	{
-//		case 0x201:
-//			break;
-//		case 0x401:
-//			   ZGyroModuleAngle= -0.01f*((int32_t)(rxMessage.Data[0]<<24)|\
-//		                               (int32_t)(rxMessage.Data[1]<<16)|\
-//	                                 (int32_t)(rxMessage.Data[2]<<8) |\
-//	                       	         (int32_t)(rxMessage.Data[3])); 
-//			break;
-//		
-//		default:
-//			break;
-//	}
-//}
+static void CAN1_DataDecoding(CanRxMsg rxMessage)
+{
+	switch(rxMessage.StdId)
+	{
+		case 0x201:
+			break;
+		case 0x401:
+			   ZGyroModuleAngle= -0.01f*((int32_t)(rxMessage.Data[0]<<24)|\
+		                               (int32_t)(rxMessage.Data[1]<<16)|\
+	                                 (int32_t)(rxMessage.Data[2]<<8) |\
+	                       	         (int32_t)(rxMessage.Data[3])); 
+			break;
+		
+		default:
+			break;
+	}
+}
 
 
 
