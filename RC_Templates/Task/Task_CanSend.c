@@ -54,7 +54,7 @@ void vTaskCan1Receive(void *pvParameters)
 	{
 	  xQueueReceive(xCan1RxQueue, &rxMessage,portMAX_DELAY);
 		M3508_DataDecode(rxMessage);
-		//CAN1_DataDecoding(rxMessage);
+		CAN1_DataDecoding(rxMessage);
    	LED_TOGGLE(LED_R);
 	}
 }
