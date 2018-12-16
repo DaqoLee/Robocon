@@ -11,29 +11,12 @@ QueueHandle_t xCan2RxQueue = NULL;
   */
 void BSP_CAN1_Init(void)
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
+
 	CAN_InitTypeDef     CAN_InitStructure;
 	CAN_FilterInitTypeDef   CAN_FilterInitStructure;
 	
-  RCC_AHB1PeriphClockCmd(CAN1_RX_GPIO_CLK | CAN1_TX_GPIO_CLK, ENABLE);
+	BSP_CAN1_GPIOInit();
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
-
-	/* GPIO初始化 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;  
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	
-	/* 配置Tx引脚  */
-	GPIO_InitStructure.GPIO_Pin = CAN1_TX_Pin;  
-	GPIO_Init(CAN1_TX_GPIO_PORT, &GPIO_InitStructure);
-
-	/* 配置Rx引脚 */
-	GPIO_InitStructure.GPIO_Pin = CAN1_RX_Pin;
-	GPIO_Init(CAN1_RX_GPIO_PORT, &GPIO_InitStructure);
-	
-	GPIO_PinAFConfig(CAN1_TX_GPIO_PORT, CAN1_TX_PINSOURCE, GPIO_AF_CAN1);
-	GPIO_PinAFConfig(CAN1_RX_GPIO_PORT, CAN1_RX_PINSOURCE, GPIO_AF_CAN1);
 /************************CAN模式配置*******************************************/
 	CAN_InitStructure.CAN_ABOM      =   ENABLE;          /*自动离线管理*/
 	CAN_InitStructure.CAN_AWUM      =   DISABLE;         /*使用自动唤醒模式*/  
@@ -76,29 +59,11 @@ void BSP_CAN1_Init(void)
 
 void CAN2_Init(void)
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
 	CAN_InitTypeDef     CAN_InitStructure;
 	CAN_FilterInitTypeDef   CAN_FilterInitStructure;
-
-	RCC_AHB1PeriphClockCmd(CAN2_RX_GPIO_CLK | CAN2_TX_GPIO_CLK, ENABLE);
+	
+  BSP_CAN2_GPIOInit();
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN2, ENABLE);
-	/* GPIO初始化 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;  
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	
-	/* 配置Tx引脚  */
-	GPIO_InitStructure.GPIO_Pin = CAN2_TX_Pin;  
-	GPIO_Init(CAN2_TX_GPIO_PORT, &GPIO_InitStructure);
-
-	/* 配置Rx引脚 */
-	GPIO_InitStructure.GPIO_Pin = CAN2_RX_Pin;
-	GPIO_Init(CAN2_RX_GPIO_PORT, &GPIO_InitStructure);
-	
-	GPIO_PinAFConfig(CAN2_TX_GPIO_PORT, CAN2_TX_PINSOURCE, GPIO_AF_CAN2);
-	GPIO_PinAFConfig(CAN2_RX_GPIO_PORT, CAN2_RX_PINSOURCE, GPIO_AF_CAN2);	
-	
 /************************CAN模式配置*******************************************/	
 	CAN_InitStructure.CAN_ABOM      =   ENABLE;          /*自动离线管理*/
 	CAN_InitStructure.CAN_AWUM      =   DISABLE;         /*使用自动唤醒模式*/  

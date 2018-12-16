@@ -29,12 +29,12 @@
 /******************************************************************************/
 typedef struct
 {
-	uint16_t realAngle;			//读回来的机械角度
-	 int16_t realSpeed;			//读回来的速度
-	 int16_t realCurrent;		//读回来的实际电流
-	 uint8_t temperture;			//读回来的电机温度
+	uint16_t realAngle;			/*机械角度*/
+	 int16_t realSpeed;			/*实际速度*/
+	 int16_t realCurrent;		/*实际电流*/
+	 uint8_t temperture;		/*电机温度*/
 	
-   int16_t targetCurrent;			//目标电流
+   int16_t targetCurrent;		//目标电流
 	 int16_t targetSpeed;			//目标速度
 	uint16_t targetAngle;			//目标角度
 

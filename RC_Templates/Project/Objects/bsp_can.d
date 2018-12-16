@@ -49,3 +49,4 @@
 .\objects\bsp_can.o: ..\FreeRTOS\include\task.h
 .\objects\bsp_can.o: ..\FreeRTOS\include\list.h
 .\objects\bsp_can.o: ..\FreeRTOS\include\queue.h
+.\objects\bsp_can.o: ..\BSP\BSP_GPIO.h

@@ -50,3 +50,4 @@
 .\objects\bsp_usart.o: ..\FreeRTOS\include\list.h
 .\objects\bsp_usart.o: ..\FreeRTOS\include\queue.h
 .\objects\bsp_usart.o: ..\BSP\BSP_DMA.h
+.\objects\bsp_usart.o: ..\BSP\BSP_GPIO.h

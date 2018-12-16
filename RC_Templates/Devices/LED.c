@@ -41,29 +41,12 @@
 
 void LED_Init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStructure;
-	
-  RCC_AHB1PeriphClockCmd(LED_R_GPIO_CLK|LED0_GPIO_CLK, ENABLE);
-	
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;
-  GPIO_InitStructure.GPIO_Pin =LED0_PIN|LED1_PIN|LED2_PIN|LED3_PIN\
-                              |LED4_PIN|LED5_PIN|LED6_PIN;
-  GPIO_Init(LED0_GPIO_PORT, &GPIO_InitStructure);
+  BSP_LED_GPIOInit();
 	GPIO_WriteBit(LED0_GPIO_PORT,LED0_PIN|LED1_PIN|LED2_PIN|LED3_PIN\
                               |LED4_PIN|LED5_PIN|LED6_PIN,Bit_SET);
-	
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;
-  GPIO_InitStructure.GPIO_Pin =LED_R_PIN|LED_G_PIN;
-  GPIO_Init(LED_G_GPIO_PORT, &GPIO_InitStructure);
+
 	GPIO_WriteBit(LED_R_GPIO_PORT,LED_R_PIN|LED_G_PIN,Bit_SET);
 															 
-
 }
 
 

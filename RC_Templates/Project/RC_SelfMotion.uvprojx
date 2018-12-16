@@ -649,41 +649,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Devices</GroupName>
-          <Files>
-            <File>
-              <FileName>LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\LED.c</FilePath>
-            </File>
-            <File>
-              <FileName>DR16.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\DR16.c</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\Motor.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Control</GroupName>
-          <Files>
-            <File>
-              <FileName>Chassis.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Control\Chassis.c</FilePath>
-            </File>
-            <File>
-              <FileName>Gimbal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Control\Gimbal.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>BSP</GroupName>
           <Files>
             <File>
@@ -711,11 +676,71 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\BSP_DMA.c</FilePath>
             </File>
+            <File>
+              <FileName>BSP_ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\BSP_ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>BSP_TIM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\BSP_TIM.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Devices</GroupName>
+          <Files>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Key.c</FilePath>
+            </File>
+            <File>
+              <FileName>DR16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\DR16.c</FilePath>
+            </File>
+            <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\OLED.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Control</GroupName>
+          <Files>
+            <File>
+              <FileName>Chassis.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\Chassis.c</FilePath>
+            </File>
+            <File>
+              <FileName>Gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\Gimbal.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Task</GroupName>
           <Files>
+            <File>
+              <FileName>Task_Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Task_Init.c</FilePath>
+            </File>
             <File>
               <FileName>Task_CanSend.c</FileName>
               <FileType>1</FileType>

@@ -50,5 +50,7 @@
 .\objects\task_usart.o: ..\FreeRTOS\include\list.h
 .\objects\task_usart.o: ..\FreeRTOS\include\queue.h
 .\objects\task_usart.o: ..\BSP\BSP_USART.h
+.\objects\task_usart.o: ..\BSP\BSP_DMA.h
+.\objects\task_usart.o: ..\BSP\BSP_GPIO.h
 .\objects\task_usart.o: ..\Devices\DR16.h
 .\objects\task_usart.o: ..\Devices\LED.h

@@ -50,5 +50,6 @@
 .\objects\task_cansend.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h
 .\objects\task_cansend.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\task_cansend.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
+.\objects\task_cansend.o: ..\BSP\BSP_GPIO.h
 .\objects\task_cansend.o: ..\Devices\LED.h
 .\objects\task_cansend.o: ..\Devices\Motor.h

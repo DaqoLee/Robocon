@@ -29,6 +29,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "BSP_DMA.h"
+#include "BSP_GPIO.h"
 /********USART1_Pin_define*****************************************************/
 #define USART1_TX_GPIO_CLK      RCC_AHB1Periph_GPIOB
 #define USART1_TX_GPIO_PORT     GPIOB
