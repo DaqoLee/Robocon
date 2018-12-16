@@ -55,3 +55,6 @@
 .\objects\main.o: ..\BSP\BSP_DMA.h
 .\objects\main.o: ..\BSP\BSP_CAN.h
 .\objects\main.o: ..\Task\Task_Init.h
+.\objects\main.o: ..\Devices\Key.h
+.\objects\main.o: ..\BSP\BSP_I2C.h
+.\objects\main.o: ..\Devices\OLED.h

@@ -38,7 +38,10 @@
 #define LED6_GPIO_CLK             RCC_AHB1Periph_GPIOE
 #define LED6_PIN                  GPIO_Pin_15
 #define LED6_GPIO_PORT            GPIOE
-
+/******************************************************************************/
+#define KEY_GPIO_CLK             	RCC_AHB1Periph_GPIOD
+#define KEY_PIN                  	GPIO_Pin_7
+#define KEY_GPIO_PORT           	GPIOD
 /********USART1_Pin_define*****************************************************/
 #define USART1_TX_GPIO_CLK      RCC_AHB1Periph_GPIOB
 #define USART1_TX_GPIO_PORT     GPIOB
@@ -122,7 +125,19 @@
 
 
 /******************************************************************************/
+#define I2C2_SCL_GPIO_CLK           RCC_AHB1Periph_GPIOF
+#define I2C2_SCL_GPIO_PORT          GPIOF
+#define I2C2_SCL_Pin           	  	GPIO_Pin_1
+#define I2C2_SCL_PINSOURCE			    GPIO_PinSource1
+
+#define I2C2_SDA_GPIO_CLK           RCC_AHB1Periph_GPIOF
+#define I2C2_SDA_GPIO_PORT          GPIOF
+#define I2C2_SDA_Pin           	  	GPIO_Pin_0
+#define I2C2_SDA_PINSOURCE			    GPIO_PinSource0
+/******************************************************************************/
 void BSP_LED_GPIOInit(void);
+void BSP_KEY_GPIOInit(void);
+	
 void BSP_USART1_GPIOInit(void);
 void BSP_USART2_GPIOInit(void);
 void BSP_USART3_GPIOInit(void);
@@ -131,6 +146,8 @@ void BSP_UART6_GPIOInit(void);
 
 void BSP_CAN1_GPIOInit(void);
 void BSP_CAN2_GPIOInit(void);
+
+void BSP_I2C2_GPIOInit(void);
 /******************************************************************************/
 #endif
 

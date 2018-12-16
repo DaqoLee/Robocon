@@ -24,7 +24,20 @@ void BSP_LED_GPIOInit(void)
   GPIO_Init(LED_G_GPIO_PORT, &GPIO_InitStructure);
 
 }
+/******************************************************************************/
+void BSP_KEY_GPIOInit(void)
+{		
+	GPIO_InitTypeDef GPIO_InitStructure; 
+	RCC_AHB1PeriphClockCmd(KEY_GPIO_CLK, ENABLE); 		
+	
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;   
+	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;	
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
+	GPIO_InitStructure.GPIO_Pin   = KEY_PIN;	 
+	
+	GPIO_Init(KEY_GPIO_PORT, &GPIO_InitStructure);	
 
+}
 /******************************************************************************/
 void BSP_USART1_GPIOInit(void)
 {
@@ -118,3 +131,21 @@ void BSP_CAN2_GPIOInit(void)
 	GPIO_PinAFConfig(CAN2_TX_GPIO_PORT, CAN2_TX_PINSOURCE, GPIO_AF_CAN2);
 	GPIO_PinAFConfig(CAN2_RX_GPIO_PORT, CAN2_RX_PINSOURCE, GPIO_AF_CAN2);
 }
+/******************************************************************************/
+void BSP_I2C2_GPIOInit(void)
+{
+	GPIO_InitTypeDef  GPIO_InitStructure; 
+	RCC_APB1PeriphClockCmd(I2C2_SDA_GPIO_CLK|I2C2_SCL_GPIO_CLK,ENABLE);
+	GPIO_InitStructure.GPIO_OType=GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;    /*I2C±ØÐë¿ªÂ©Êä³ö*/
+	
+	GPIO_InitStructure.GPIO_Pin   =  I2C2_SCL_Pin|I2C2_SDA_Pin ;
+	GPIO_Init(I2C2_SCL_GPIO_PORT, &GPIO_InitStructure);
+	
+//	GPIO_PinAFConfig(I2C2_SDA_GPIO_PORT, I2C2_SDA_PINSOURCE, GPIO_AF_I2C2);
+//	GPIO_PinAFConfig(I2C2_SCL_GPIO_PORT, I2C2_SCL_PINSOURCE, GPIO_AF_I2C2);
+}
+
+/******************************************************************************/
+

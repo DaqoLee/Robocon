@@ -54,3 +54,6 @@
 .\objects\task_init.o: ..\FreeRTOS\include\queue.h
 .\objects\task_init.o: ..\Task\Task_CanSend.h
 .\objects\task_init.o: ..\BSP\BSP_CAN.h
+.\objects\task_init.o: ..\Devices\Key.h
+.\objects\task_init.o: ..\Devices\OLED.h
+.\objects\task_init.o: ..\BSP\BSP_I2C.h

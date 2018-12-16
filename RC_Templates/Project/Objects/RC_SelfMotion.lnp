@@ -58,6 +58,7 @@
 ".\objects\bsp_dma.o"
 ".\objects\bsp_adc.o"
 ".\objects\bsp_tim.o"
+".\objects\bsp_i2c.o"
 ".\objects\led.o"
 ".\objects\key.o"
 ".\objects\dr16.o"
@@ -70,6 +71,7 @@
 ".\objects\task_usart.o"
 ".\objects\main.o"
 ".\objects\stm32f4xx_it.o"
+".\objects\delay.o"
 --library_type=microlib --strict --scatter ".\Objects\RC_SelfMotion.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

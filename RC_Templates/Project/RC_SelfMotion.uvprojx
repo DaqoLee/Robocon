@@ -686,6 +686,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\BSP_TIM.c</FilePath>
             </File>
+            <File>
+              <FileName>BSP_I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\BSP_I2C.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -775,6 +780,11 @@
               <FileName>stm32f4xx_conf.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\stm32f4xx_conf.h</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\delay.c</FilePath>
             </File>
           </Files>
         </Group>

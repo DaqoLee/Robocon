@@ -1,6 +1,8 @@
 #include "Task_Init.h"
 #include "Task_Usart.h"
 #include "Task_CanSend.h"
+#include "Key.h"
+#include "OLED.h"
 /******************************************************************************/
 
 /******************************************************************************/
@@ -11,15 +13,16 @@ static TaskHandle_t TaskLED6Handler=NULL;
 /******************************************************************************/
 
 void vTaskStart(void *pvParameters)
-{	
+{		
+	
 	taskENTER_CRITICAL();      
   
-	xTaskCreate(vTaskLED0,            
-						"vTaskLED0",          
-						128,       			   
-						NULL,                 
-						1,       			   
-						&TaskLED0Handler);   
+	xTaskCreate(vTaskLED0,         /* 任务函数  */   
+						"vTaskLED0",         /* 任务名    */ 
+						128,       			     /* 任务栈大小*/
+						NULL,                /* 任务参数  */
+						1,       			   		 /* 任务优先级*/
+						&TaskLED0Handler);   /* 任务句柄  */ 
 	
 	xTaskCreate(vTaskLED6,            
 						"vTaskLED6",          
@@ -58,7 +61,7 @@ static void vTaskLED0(void *pvParameters)
 		}
 		for(uint8_t i=6;i>0;i--)
 		{
-				LED_OFF(i);
+//				LED_OFF(i);
 				vTaskDelay(30);
 		}
 	
@@ -70,8 +73,12 @@ static void vTaskLED6(void *pvParameters)
 	
 	while(1)
 	{
-//    LED_TOGGLE(LED_R);
-		vTaskDelay(180);
+		KeyScan();
+		if(!KeyStatus)
+		{
+			LED_TOGGLE(LED_R);
+			vTaskDelay(180);
+		}
 
 	}
 }
