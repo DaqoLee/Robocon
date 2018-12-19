@@ -21,14 +21,14 @@ void DR16_DataDecode(uint8_t *DR16Buffer)
 	DR16_Data.switch_left = ( (DR16Buffer[5] >> 4)& 0x000C ) >> 2;
 	DR16_Data.switch_right =  (DR16Buffer[5] >> 4)& 0x0003 ;
 	
-	DR16_Data.mouse.x = DR16Buffer[6] | (DR16Buffer[7] << 8);	//x axis
+	DR16_Data.mouse.x = DR16Buffer[6] | (DR16Buffer[7] << 8);	
 	DR16_Data.mouse.y = DR16Buffer[8] | (DR16Buffer[9] << 8);
 	DR16_Data.mouse.z = DR16Buffer[10]| (DR16Buffer[11] << 8);
 	
-	DR16_Data.mouse.press_left 	= DR16Buffer[12];	// is pressed?
+	DR16_Data.mouse.press_left 	= DR16Buffer[12];	
 	DR16_Data.mouse.press_right 	= DR16Buffer[13];
 	
-	DR16_Data.keyBoard.key_code 	= DR16Buffer[14] | DR16Buffer[15] << 8; //key borad code
+	DR16_Data.keyBoard.key_code 	= DR16Buffer[14] | DR16Buffer[15] << 8; 
 }
 
 

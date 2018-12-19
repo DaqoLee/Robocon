@@ -61,7 +61,7 @@ static void vTaskLED0(void *pvParameters)
 		}
 		for(uint8_t i=6;i>0;i--)
 		{
-//				LED_OFF(i);
+				LED_OFF(i);
 				vTaskDelay(30);
 		}
 	

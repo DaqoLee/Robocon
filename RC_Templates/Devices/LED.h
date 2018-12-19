@@ -45,7 +45,7 @@ typedef enum
 											else if((LED_State_e)x==LED_G){GPIOB->BSRRH|=LED_G_PIN;}\
 											else {GPIOE->BSRRH|=1<<(9+(LED_State_e)x);}
 													
-#define LED_OFF(x)		if((LED_State_e)x==LED_R)     {GPIOB->C|=LED_R_PIN;}\
+#define LED_OFF(x)		if((LED_State_e)x==LED_R)     {GPIOB->BSRRL|=LED_R_PIN;}\
 											else if((LED_State_e)x==LED_G){GPIOB->BSRRL|=LED_G_PIN;}\
 											else {GPIOE->BSRRL|=1<<(9+(LED_State_e)x);}
 													
