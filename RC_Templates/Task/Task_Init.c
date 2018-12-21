@@ -76,7 +76,7 @@ static void vTaskLED6(void *pvParameters)
 		KeyScan();
 		if(!KeyStatus)
 		{
-			LED_TOGGLE(LED_R);
+//			LED_TOGGLE(LED_R);
 			vTaskDelay(180);
 		}
 

@@ -721,6 +721,21 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\OLED.c</FilePath>
             </File>
+            <File>
+              <FileName>Servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>Cylinder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Cylinder.c</FilePath>
+            </File>
+            <File>
+              <FileName>Gyro.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Gyro.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -772,6 +787,11 @@
               <FilePath>..\User\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\delay.c</FilePath>
+            </File>
+            <File>
               <FileName>FreeRTOSConfig.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\FreeRTOSConfig.h</FilePath>
@@ -780,11 +800,6 @@
               <FileName>stm32f4xx_conf.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\User\stm32f4xx_conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\delay.c</FilePath>
             </File>
           </Files>
         </Group>

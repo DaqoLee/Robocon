@@ -10,12 +10,12 @@ void BSP_USART1_Init(uint32_t BaudRate)
 	BSP_USART1_GPIOInit();
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
-	USART_InitStructure.USART_BaudRate            = BaudRate;
-	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-	USART_InitStructure.USART_Mode                = USART_Mode_Rx | USART_Mode_Tx;
-	USART_InitStructure.USART_Parity              = USART_Parity_No;
-	USART_InitStructure.USART_StopBits            = USART_StopBits_1;
-	USART_InitStructure.USART_WordLength          = USART_WordLength_8b;
+	USART_InitStructure.USART_BaudRate           = BaudRate;
+	USART_InitStructure.USART_HardwareFlowControl= USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode               = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStructure.USART_Parity             = USART_Parity_No;
+	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
+	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
 	
 	xUsart1RxQueue=xQueueCreate(50,sizeof(Usart1Buffer));
@@ -46,7 +46,7 @@ void USART1_IRQHandler(void)
 		/*获取DMAbuff剩余大小，是否匹配*/
 		if (DMA_GetCurrDataCounter(USART1_RX_DMA_STREAM) == 2)
 		{
-			xQueueSendFromISR(xUsart1RxQueue, &Usart1Buffer, &xHigherPriorityTaskWoken);
+			xQueueSendFromISR(xUsart1RxQueue,&Usart1Buffer,&xHigherPriorityTaskWoken);
 			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		}
 		

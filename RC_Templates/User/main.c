@@ -53,7 +53,7 @@ int main(void)
 	BSP_I2C2_Init();
   LED_Init();
 	KEY_Init();
-  OLED_Init();
+//  OLED_Init();
  /* 创建开始任务 */
 	xTaskCreate(vTaskStart,           /* 任务函数  */        
 					  	"vTaskStart",         /* 任务名    */      

@@ -1,6 +1,7 @@
 #include "BSP_TIM.h"
 
-void BSP_TIM1PWMOutput(u16 prescaler, u16 period, u16 Pulse){
+void BSP_TIM1PWMOutput(u16 prescaler, u16 period, u16 Pulse)
+{
 	//IO≥ı ºªØ
 //	TIM1_GPIOInit();
 	
