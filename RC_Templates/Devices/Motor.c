@@ -63,8 +63,10 @@ void M6020_DataDecode(CanRxMsg RxMessage)
 	if(RxMessage.StdId<M6623_ID_START||RxMessage.StdId>M6623_ID_END)
 		return;
 	stdId=RxMessage.StdId-M6623_ID_START;
-	M6623[stdId].realAngle = (uint16_t)(RxMessage.Data[0]<<8 | RxMessage.Data[1]);
-	M6623[stdId].realCurrent = (int16_t)(RxMessage.Data[2]<<8 | RxMessage.Data[3]);
+	M6020[stdId].realAngle = (uint16_t)(RxMessage.Data[0]<<8 | RxMessage.Data[1]);
+	M6020[stdId].realSpeed = (int16_t)(RxMessage.Data[2]<<8 | RxMessage.Data[3]);
+	M6020[stdId].realCurrent = (int16_t)(RxMessage.Data[4]<<8 | RxMessage.Data[5]);
+	M6020[stdId].temperture=(uint16_t)RxMessage.Data[6];
 	
 }
 

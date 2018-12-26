@@ -70,6 +70,7 @@ typedef struct
 typedef struct
 {
 	uint16_t realAngle;			//读回来的机械角度
+	 int16_t realSpeed;			//读回来的速度
 	 int16_t realCurrent;		//读回来的实际电流
 	 uint8_t temperture;			//读回来的电机温度
 	
@@ -87,7 +88,7 @@ typedef struct
 
 /******************************************************************************/
 void M3508_DataDecode(CanRxMsg RxMessage);
-
+void M6020_DataDecode(CanRxMsg RxMessage);
 /******************************************************************************/
 #endif
 
