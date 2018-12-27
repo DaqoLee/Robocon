@@ -26,6 +26,7 @@
 #ifndef __MOTOR_H_
 #define __MOTOR_H_
 #include "stm32f4xx.h"
+#include "pid.h"
 /******************************************************************************/
 typedef struct
 {
@@ -34,49 +35,52 @@ typedef struct
 	 int16_t realCurrent;		/*实际电流*/
 	 uint8_t temperture;		/*电机温度*/
 	
-   int16_t targetCurrent;		//目标电流
-	 int16_t targetSpeed;			//目标速度
-	uint16_t targetAngle;			//目标角度
+   int16_t targetCurrent;	/*目标电流*/
+	 int16_t targetSpeed;		/*目标速度*/
+	uint16_t targetAngle;		/*目标角度*/
 
 }M3508_t;
 
 
 typedef struct
 {
-	uint16_t realAngle;			//读回来的机械角度
-	 int16_t realSpeed;			//读回来的速度
-	 int16_t realCurrent;		//读回来的实际电流
-	 uint8_t temperture;			//读回来的电机温度
+	uint16_t realAngle;			/*机械角度*/
+	int16_t  realSpeed;			/*实际速度*/
+	int16_t  realCurrent;		/*实际电流*/
+	uint8_t  temperture;		/*电机温度*/
 	
-   int16_t targetCurrent;			//目标电流
-	 int16_t targetSpeed;			//目标速度
-	uint16_t targetAngle;			//目标角度
+   int16_t targetCurrent;	/*目标电流*/
+	 int16_t targetSpeed;		/*目标速度*/
+	uint16_t targetAngle;		/*目标角度*/
 
 }M2006_t;
 
 
 typedef struct
 {
-	uint16_t realAngle;			//读回来的机械角度
-	 int16_t realCurrent;		//读回来的实际电流
-	 uint8_t temperture;			//读回来的电机温度
+	uint16_t realAngle;			/*机械角度*/
+	 int16_t realCurrent;		/*实际电流*/
+	 uint8_t temperture;		/*电机温度*/
 	
-   int16_t targetCurrent;			//目标电流
-	uint16_t targetAngle;			//目标角度
+   int16_t targetCurrent;	/*目标电流*/
+	uint16_t targetAngle;		/*目标角度*/
 
 }M6623_t;
 
 
 typedef struct
 {
-	uint16_t realAngle;			//读回来的机械角度
-	 int16_t realSpeed;			//读回来的速度
-	 int16_t realCurrent;		//读回来的实际电流
-	 uint8_t temperture;			//读回来的电机温度
+	uint16_t realAngle;			/*机械角度*/
+	 int16_t realSpeed;			/*实际速度*/
+	 int16_t realCurrent;		/*实际电流*/
+	 uint8_t temperture;		/*电机温度*/
 	
-   int16_t targetCurrent;			//目标电流
-	uint16_t targetAngle;			//目标角度
-
+   int16_t targetCurrent;	/*目标电流*/
+	uint16_t targetSpeed;		/*目标速度*/
+	uint16_t targetAngle;		/*目标角度*/
+	
+     pid_t OutPID;				/*外环PID*/
+	   pid_t InPID;					/*内环PID*/
 }M6020_t;
 /******************************************************************************/
 
@@ -89,6 +93,8 @@ typedef struct
 /******************************************************************************/
 void M3508_DataDecode(CanRxMsg RxMessage);
 void M6020_DataDecode(CanRxMsg RxMessage);
+void MotorParamInit(void);
+void setM6020Current(void);
 /******************************************************************************/
 #endif
 

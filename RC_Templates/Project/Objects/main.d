@@ -58,3 +58,6 @@
 .\objects\main.o: ..\Devices\Key.h
 .\objects\main.o: ..\BSP\BSP_I2C.h
 .\objects\main.o: ..\Devices\OLED.h
+.\objects\main.o: ..\Devices\Motor.h
+.\objects\main.o: ..\User\pid.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -35,7 +35,7 @@ void BSP_CAN1_Init(void)
 	CAN_InitStructure.CAN_Prescaler =   5;
 	CAN_Init(CAN1, &CAN_InitStructure);
 
-  xCan1RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
+
 	
 /*********************CAN筛选器初始化******************************************/
 	CAN_FilterInitStructure.CAN_FilterNumber        =   0;/*筛选器组0*/
@@ -82,7 +82,7 @@ void CAN2_Init(void)
 	CAN_InitStructure.CAN_Prescaler =   5;
 	CAN_Init(CAN2, &CAN_InitStructure);
 
-  xCan2RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
+
 /*********************CAN筛选器初始化******************************************/
 	CAN_FilterInitStructure.CAN_FilterNumber        =   14;/*筛选器组0*/
 	CAN_FilterInitStructure.CAN_FilterMode          =   CAN_FilterMode_IdMask;

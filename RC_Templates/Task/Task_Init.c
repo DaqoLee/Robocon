@@ -3,6 +3,8 @@
 #include "Task_CanSend.h"
 #include "Key.h"
 #include "OLED.h"
+#include "Motor.h"
+#include "BSP_USART.h"
 /******************************************************************************/
 
 /******************************************************************************/
@@ -14,6 +16,10 @@ static TaskHandle_t TaskLED6Handler=NULL;
 
 void vTaskStart(void *pvParameters)
 {		
+	xUsart1RxQueue=xQueueCreate(50,20*sizeof(uint8_t));
+	xCan1RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
+	xCan2RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
+	xCanSendQueue=xQueueCreate(64, sizeof(CanSend_t));
 	
 	taskENTER_CRITICAL();      
   
@@ -44,6 +50,14 @@ void vTaskStart(void *pvParameters)
 						NULL,                 
 						2,       			   
 						&xHandleCan1Receive); 
+						
+ 		xTaskCreate(vTaskCanSend,            
+						"vTaskCanSend",          
+						128,       			   
+						NULL,                 
+						1,       			   
+						&xHandleCanSend); 
+						
 	vTaskDelete(StartTaskHandler); 
 	taskEXIT_CRITICAL();
 }
@@ -70,15 +84,18 @@ static void vTaskLED0(void *pvParameters)
 
 static void vTaskLED6(void *pvParameters)
 {
+//	CanSend_t CANSendData;
 	
 	while(1)
 	{
-		KeyScan();
-		if(!KeyStatus)
-		{
+//		KeyScan();
+//		if(!KeyStatus)
+//		{
 //			LED_TOGGLE(LED_R);
-			vTaskDelay(180);
-		}
+//		    CANSendData.SendCanTxMsg.DLC   =   8;
+      setM6020Current();
+			vTaskDelay(10);
+//		}
 
 	}
 }

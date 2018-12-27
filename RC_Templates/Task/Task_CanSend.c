@@ -2,7 +2,7 @@
 #include "LED.h"
 #include "Motor.h"
 /******************************************************************************/
-xQueueHandle  QueueCanSend;
+xQueueHandle xCanSendQueue;
 TaskHandle_t xHandleCan1Receive = NULL;
 TaskHandle_t xHandleCanSend = NULL;
 float ZGyroModuleAngle=0.0f;
@@ -13,7 +13,7 @@ void vTaskCanSend(void *Parameters)
 	
 	while(1)
 	{
-		xQueueReceive(QueueCanSend, &CANSendData, portMAX_DELAY);
+		xQueueReceive(xCanSendQueue, &CANSendData, portMAX_DELAY);
 			
 		if(CANSendData.CANx == 1)
 		{     

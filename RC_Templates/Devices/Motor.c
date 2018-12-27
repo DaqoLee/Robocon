@@ -24,11 +24,23 @@
 
 
 #include "Motor.h"
+#include "Task_CanSend.h"
 /******************************************************************************/
 M3508_t M3508[4];
 M6623_t M6623[2];
 M6020_t M6020[2];
 M2006_t M2006;
+/******************************************************************************/
+
+void MotorParamInit(void)
+{
+	M6020[0].targetCurrent=1000;
+	M6020[1].targetAngle=4000;
+	PID_StructInit(&M6020[0].OutPID,POSITION_PID, 20000, 500, 10.0f,	1.0f, 2.8f);
+	PID_StructInit(&M6020[1].OutPID,POSITION_PID, 20000, 500, 10.0f,	1.0f, 2.8f);                             
+}
+
+
 /******************************************************************************/
 void M3508_DataDecode(CanRxMsg RxMessage)
 {
@@ -85,5 +97,25 @@ void M2006_DataDecode(CanRxMsg RxMessage)
 }
 
 /******************************************************************************/
+void setM6020Current(void)
+{
+	static CanSend_t CANSendData;
+	
+	M6020[1].targetCurrent=PID_Calc(&M6020[1].OutPID,M6020[1].realAngle, 
+	                                                 M6020[1].targetAngle);
+	
+	CANSendData.CANx=1;
+	CANSendData.SendCanTxMsg.DLC   =   8;
+	CANSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
+	CANSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
+	CANSendData.SendCanTxMsg.StdId =  0x1FF;
+	CANSendData.SendCanTxMsg.Data[0]=M6020[0].targetCurrent >> 8;
+	CANSendData.SendCanTxMsg.Data[1]=M6020[0].targetCurrent ;
+	CANSendData.SendCanTxMsg.Data[2]=M6020[1].targetCurrent >> 8;
+	CANSendData.SendCanTxMsg.Data[3]=M6020[1].targetCurrent ;
+	
+	xQueueSend(xCanSendQueue, &CANSendData, 20);
+}
 
+/******************************************************************************/
 

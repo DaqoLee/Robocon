@@ -57,3 +57,8 @@
 .\objects\task_init.o: ..\Devices\Key.h
 .\objects\task_init.o: ..\Devices\OLED.h
 .\objects\task_init.o: ..\BSP\BSP_I2C.h
+.\objects\task_init.o: ..\Devices\Motor.h
+.\objects\task_init.o: ..\User\pid.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_init.o: ..\BSP\BSP_USART.h
+.\objects\task_init.o: ..\BSP\BSP_DMA.h

@@ -782,14 +782,19 @@
               <FilePath>..\User\main.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4xx_it.c</FileName>
+              <FileName>pid.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\stm32f4xx_it.c</FilePath>
+              <FilePath>..\User\pid.c</FilePath>
             </File>
             <File>
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\stm32f4xx_it.c</FilePath>
             </File>
             <File>
               <FileName>FreeRTOSConfig.h</FileName>

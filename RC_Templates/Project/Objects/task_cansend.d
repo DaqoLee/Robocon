@@ -53,3 +53,5 @@
 .\objects\task_cansend.o: ..\BSP\BSP_GPIO.h
 .\objects\task_cansend.o: ..\Devices\LED.h
 .\objects\task_cansend.o: ..\Devices\Motor.h
+.\objects\task_cansend.o: ..\User\pid.h
+.\objects\task_cansend.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

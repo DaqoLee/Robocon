@@ -18,8 +18,6 @@ void BSP_USART1_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
 	
-	xUsart1RxQueue=xQueueCreate(50,sizeof(Usart1Buffer));
-	
 	USART1_RXDMA_Config((uint32_t)Usart1Buffer,20);
 	
 	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);
