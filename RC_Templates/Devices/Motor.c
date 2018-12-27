@@ -97,14 +97,16 @@ void M2006_DataDecode(CanRxMsg RxMessage)
 }
 
 /******************************************************************************/
-void setM6020Current(void)
+void setM6020Current(CANx_e CANx)
 {
 	static CanSend_t CANSendData;
 	
+	M6020[0].targetCurrent=PID_Calc(&M6020[0].OutPID,M6020[0].realAngle, 
+	                                                 M6020[0].targetAngle);
 	M6020[1].targetCurrent=PID_Calc(&M6020[1].OutPID,M6020[1].realAngle, 
 	                                                 M6020[1].targetAngle);
 	
-	CANSendData.CANx=1;
+	CANSendData.CANx=CANx;
 	CANSendData.SendCanTxMsg.DLC   =   8;
 	CANSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
 	CANSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
@@ -118,4 +120,24 @@ void setM6020Current(void)
 }
 
 /******************************************************************************/
+
+void setM3508Current(CANx_e CANx)
+{
+	static CanSend_t CANSendData;
+	
+	CANSendData.CANx=CANx;
+	CANSendData.SendCanTxMsg.DLC   =   8;
+	CANSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
+	CANSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
+	CANSendData.SendCanTxMsg.StdId =  0x200;
+	CANSendData.SendCanTxMsg.Data[0]=M6020[0].targetCurrent >> 8;
+	CANSendData.SendCanTxMsg.Data[1]=M6020[0].targetCurrent ;
+	CANSendData.SendCanTxMsg.Data[2]=M6020[1].targetCurrent >> 8;
+	CANSendData.SendCanTxMsg.Data[3]=M6020[1].targetCurrent ;
+	
+	xQueueSend(xCanSendQueue, &CANSendData, 20);
+}
+
+/******************************************************************************/
+
 

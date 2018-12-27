@@ -16,10 +16,10 @@ static TaskHandle_t TaskLED6Handler=NULL;
 
 void vTaskStart(void *pvParameters)
 {		
-	xUsart1RxQueue=xQueueCreate(50,20*sizeof(uint8_t));
+	xUsart1RxQueue =xQueueCreate(20,20*sizeof(uint8_t));
 	xCan1RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
 	xCan2RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
-	xCanSendQueue=xQueueCreate(64, sizeof(CanSend_t));
+	xCanSendQueue=xQueueCreate(20, sizeof(CanSend_t));
 	
 	taskENTER_CRITICAL();      
   
@@ -93,7 +93,7 @@ static void vTaskLED6(void *pvParameters)
 //		{
 //			LED_TOGGLE(LED_R);
 //		    CANSendData.SendCanTxMsg.DLC   =   8;
-      setM6020Current();
+      setM6020Current(CAN_1);
 			vTaskDelay(10);
 //		}
 

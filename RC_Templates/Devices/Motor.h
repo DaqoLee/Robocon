@@ -82,6 +82,12 @@ typedef struct
      pid_t OutPID;				/*外环PID*/
 	   pid_t InPID;					/*内环PID*/
 }M6020_t;
+
+typedef enum
+{
+	CAN_1   =1,
+	CAN_2   =2
+}CANx_e;
 /******************************************************************************/
 
 #define M3508_ID_START	0x201
@@ -90,11 +96,13 @@ typedef struct
 #define M6623_ID_START	0x205
 #define M6623_ID_END	  0x206
 
+#define M6020_ID_START	0x205
+#define M6020_ID_END	  0x208
 /******************************************************************************/
 void M3508_DataDecode(CanRxMsg RxMessage);
 void M6020_DataDecode(CanRxMsg RxMessage);
 void MotorParamInit(void);
-void setM6020Current(void);
+void setM6020Current(CANx_e CANx);
 /******************************************************************************/
 #endif
 
