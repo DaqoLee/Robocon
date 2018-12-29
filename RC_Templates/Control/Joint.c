@@ -12,6 +12,7 @@ void Thigh_M6020Ctrl(void)
 		M6020[i].targetCurrent=PID_Calc(&M6020[i].OutPID,M6020[i].realAngle, 
 	                                                 M6020[i].targetAngle);
 	}
+	M6020[0].funSetCurrent(CAN_1);
 	M6020_setCurrent(CAN_1);
 }
 

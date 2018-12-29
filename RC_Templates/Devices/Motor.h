@@ -28,6 +28,13 @@
 #include "stm32f4xx.h"
 #include "pid.h"
 /******************************************************************************/
+
+typedef enum
+{
+	CAN_1   =1,
+	CAN_2   =2
+}CANx_e;
+
 typedef struct
 {
 	uint16_t realAngle;			/*机械角度*/
@@ -81,13 +88,11 @@ typedef struct
 	
      pid_t OutPID;				/*外环PID*/
 	   pid_t InPID;					/*内环PID*/
+	
+void (*funSetCurrent)	(CANx_e CANx);
+	
 }M6020_t;
 
-typedef enum
-{
-	CAN_1   =1,
-	CAN_2   =2
-}CANx_e;
 /******************************************************************************/
 
 #define M3508_ID_START	0x201

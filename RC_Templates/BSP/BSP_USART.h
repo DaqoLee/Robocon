@@ -26,9 +26,6 @@
 #ifndef __BSP_USART_H_
 #define __BSP_USART_H_
 #include "stm32f4xx.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
 #include "BSP_DMA.h"
 #include "BSP_GPIO.h"
 #include "stdio.h"	

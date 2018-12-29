@@ -2,7 +2,7 @@
 .\objects\oled.o: ..\Devices\OLED.h
 .\objects\oled.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\oled.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\oled.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\oled.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\oled.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\oled.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\oled.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -39,7 +39,7 @@
 .\objects\oled.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\oled.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\oled.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\oled.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\oled.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\oled.o: ..\User\FreeRTOSConfig.h
 .\objects\oled.o: ..\FreeRTOS\include\projdefs.h
 .\objects\oled.o: ..\FreeRTOS\include\portable.h

@@ -36,6 +36,7 @@ void MotorParamInit(void)
 {
 
 	M6020[1].targetAngle=4000;
+	M6020[1].funSetCurrent=M6020_setCurrent;
 	PID_StructInit(&M6020[0].OutPID,POSITION_PID, 20000, 500, 10.0f,	0.1f, 2.8f);
 	PID_StructInit(&M6020[1].OutPID,POSITION_PID, 20000, 500, 10.0f,	0.1f, 2.8f);                             
 }

@@ -34,9 +34,10 @@ void ControlTaskCreate(void)
 /******************************************************************************/
 static void vTaskCtrlChassis(void *pvParameters)
 {
+	portTickType CurrentControlTick = 0;
   while(1)
 	{
-	  vTaskDelay(10);
+	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
 
@@ -45,9 +46,12 @@ static void vTaskCtrlChassis(void *pvParameters)
 
 static void vTaskCtrlGimbal(void *pvParameters)
 {
+	portTickType CurrentControlTick = 0;
   while(1)
 	{
-	  vTaskDelay(10);
+		
+		
+	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
 
@@ -57,9 +61,10 @@ static void vTaskCtrlGimbal(void *pvParameters)
 
 static void vTaskCtrlJoint(void *pvParameters)
 {
+	portTickType CurrentControlTick = 0;
   while(1)
 	{
-	  vTaskDelay(10);
+	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
 

@@ -1,8 +1,8 @@
 .\objects\task_ctrl.o: ..\Task\Task_Ctrl.c
 .\objects\task_ctrl.o: ..\Task\Task_Ctrl.h
 .\objects\task_ctrl.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\task_ctrl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\task_ctrl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_ctrl.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_ctrl.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_ctrl.o: ..\User\FreeRTOSConfig.h
 .\objects\task_ctrl.o: ..\FreeRTOS\include\projdefs.h
 .\objects\task_ctrl.o: ..\FreeRTOS\include\portable.h
