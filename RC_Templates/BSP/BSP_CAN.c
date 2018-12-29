@@ -1,7 +1,6 @@
 #include "BSP_CAN.h"
 /******************************************************************************/
-QueueHandle_t xCan1RxQueue = NULL;
-QueueHandle_t xCan2RxQueue = NULL;
+
 
 /******************************************************************************/
 /**
@@ -102,38 +101,5 @@ void CAN2_Init(void)
 
 }
 /******************************************************************************/
-void CAN1_RX0_IRQHandler(void)
-{
-	CanRxMsg rxMessage;	
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	
-	if(CAN_GetITStatus(CAN1, CAN_IT_FMP0))
-	{
-		CAN_Receive(CAN1, CAN_FIFO0, &rxMessage);
-		xQueueSendFromISR(xCan1RxQueue, &rxMessage, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-		
-  	CAN_ClearITPendingBit(CAN1, CAN_IT_FMP0);
-	}
-}
 
-
-
-/******************************************************************************/
-void CAN2_RX0_IRQHandler(void)
-{
-	CanRxMsg rxMessage;	
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	if(CAN_GetITStatus(CAN2, CAN_IT_FMP0))
-	{
-		CAN_Receive(CAN2, CAN_FIFO0, &rxMessage);
-		xQueueSendFromISR(xCan2RxQueue, &rxMessage, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-		
-    CAN_ClearITPendingBit(CAN2, CAN_IT_FMP0);
-	}
-	
-}
-
-/******************************************************************************/
 

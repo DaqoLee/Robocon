@@ -29,9 +29,14 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
-extern TaskHandle_t xHandleUsart1Receive;
+/******************************************************************************/
 
-void vTaskUsart1Receive(void *pvParameters);
+extern QueueHandle_t xUsart1RxQueue;
+extern QueueHandle_t xUsart2RxQueue;
+extern QueueHandle_t xUsart3RxQueue;
+
+void UsartTaskCreate(void);
+/******************************************************************************/
 #endif
 
 

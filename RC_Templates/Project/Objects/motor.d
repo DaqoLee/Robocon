@@ -40,7 +40,7 @@
 .\objects\motor.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\motor.o: ..\User\pid.h
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-.\objects\motor.o: ..\Task\Task_CanSend.h
+.\objects\motor.o: ..\Task\Task_Can.h
 .\objects\motor.o: ..\FreeRTOS\include\FreeRTOS.h
 .\objects\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\motor.o: ..\User\FreeRTOSConfig.h

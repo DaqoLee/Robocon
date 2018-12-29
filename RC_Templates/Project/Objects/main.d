@@ -37,8 +37,6 @@
 .\objects\main.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h
 .\objects\main.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\main.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
-.\objects\main.o: ..\Devices\LED.h
-.\objects\main.o: ..\BSP\BSP_GPIO.h
 .\objects\main.o: ..\FreeRTOS\include\FreeRTOS.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: ..\User\FreeRTOSConfig.h
@@ -49,16 +47,6 @@
 .\objects\main.o: ..\FreeRTOS\include\mpu_wrappers.h
 .\objects\main.o: ..\FreeRTOS\include\task.h
 .\objects\main.o: ..\FreeRTOS\include\list.h
-.\objects\main.o: ..\BSP\BSP_NVIC.h
-.\objects\main.o: ..\BSP\BSP_USART.h
-.\objects\main.o: ..\FreeRTOS\include\queue.h
-.\objects\main.o: ..\BSP\BSP_DMA.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\main.o: ..\BSP\BSP_CAN.h
 .\objects\main.o: ..\Task\Task_Init.h
-.\objects\main.o: ..\Devices\Key.h
-.\objects\main.o: ..\BSP\BSP_I2C.h
-.\objects\main.o: ..\Devices\OLED.h
-.\objects\main.o: ..\Devices\Motor.h
-.\objects\main.o: ..\User\pid.h
-.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\main.o: ..\Devices\LED.h
+.\objects\main.o: ..\BSP\BSP_GPIO.h

@@ -52,7 +52,7 @@
 .\objects\task_init.o: ..\FreeRTOS\include\list.h
 .\objects\task_init.o: ..\Task\Task_Usart.h
 .\objects\task_init.o: ..\FreeRTOS\include\queue.h
-.\objects\task_init.o: ..\Task\Task_CanSend.h
+.\objects\task_init.o: ..\Task\Task_Can.h
 .\objects\task_init.o: ..\BSP\BSP_CAN.h
 .\objects\task_init.o: ..\Devices\Key.h
 .\objects\task_init.o: ..\Devices\OLED.h
@@ -63,3 +63,5 @@
 .\objects\task_init.o: ..\BSP\BSP_USART.h
 .\objects\task_init.o: ..\BSP\BSP_DMA.h
 .\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\task_init.o: ..\Task\Task_Ctrl.h
+.\objects\task_init.o: ..\BSP\BSP_NVIC.h

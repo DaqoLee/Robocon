@@ -767,14 +767,19 @@
               <FilePath>..\Task\Task_Init.c</FilePath>
             </File>
             <File>
-              <FileName>Task_CanSend.c</FileName>
+              <FileName>Task_Ctrl.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Task\Task_CanSend.c</FilePath>
+              <FilePath>..\Task\Task_Ctrl.c</FilePath>
             </File>
             <File>
               <FileName>Task_Usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\Task_Usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>Task_Can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Task_Can.c</FilePath>
             </File>
           </Files>
         </Group>

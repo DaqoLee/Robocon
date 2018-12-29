@@ -1,8 +1,8 @@
 #include "BSP_USART.h"
 
 /******************************************************************************/
-QueueHandle_t xUsart1RxQueue = NULL;
-static uint8_t Usart1Buffer[20];
+
+uint8_t Usart1Buffer[20];
 /******************************************************************************/
 void BSP_USART1_Init(uint32_t BaudRate)
 {
@@ -47,34 +47,6 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_Cmd(USART2, ENABLE);
 }
 /******************************************************************************/
-/**
-  * @brief  USART1中断服务函数，DR遥控器
-  * @param  None
-  * @retval None
-  */
-void USART1_IRQHandler(void)
-{
-	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	
-	if(USART_GetITStatus(USART1, USART_IT_IDLE) != RESET)
-	{
-		/*关闭DMA*/
-		DMA_Cmd(USART1_RX_DMA_STREAM, DISABLE);
-		/*获取DMAbuff剩余大小，是否匹配*/
-		if (DMA_GetCurrDataCounter(USART1_RX_DMA_STREAM) == 2)
-		{
-			xQueueSendFromISR(xUsart1RxQueue,&Usart1Buffer,&xHigherPriorityTaskWoken);
-			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-		}
-		
-		/*打开DMA*/
-		DMA_Cmd(USART1_RX_DMA_STREAM, ENABLE);
-		/*清除空闲中断标志位*/
-		(void)USART1->DR;
-		(void)USART1->SR;
-
-	}
-}
 
 
 #if 1

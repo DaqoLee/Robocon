@@ -23,41 +23,16 @@
  */
 
 #include "stm32f4xx.h"
-#include "LED.h"
 #include "FreeRTOS.h"
 #include "task.h"
-#include "BSP_NVIC.h"
-#include "BSP_USART.h"
-#include "BSP_DMA.h"
-#include "BSP_CAN.h"
 #include "Task_Init.h"
-#include "Key.h"
-#include "BSP_I2C.h"
-#include "OLED.h"
-#include "Motor.h"
-/******************************************************************************/
-
-
-/******************************************************************************/
-
 
 /******************************************************************************/
 
 
 int main(void)
 {	
- /* 外设初始化 */
-
-	BSP_NVIC_Init();
-  BSP_USART1_Init(100000);
-  BSP_USART2_Init(115200);
-	BSP_CAN1_Init();
-	BSP_I2C2_Init();
-  LED_Init();
-	KEY_Init();
-	MotorParamInit();
-//  OLED_Init();
- /* 创建开始任务 */
+  /* 创建开始任务 */
 	xTaskCreate(vTaskStart,           /* 任务函数  */        
 					  	"vTaskStart",         /* 任务名    */      
 						  512,       			      /* 任务栈大小*/  

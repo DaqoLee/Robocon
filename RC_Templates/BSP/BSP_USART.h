@@ -117,7 +117,7 @@
 /********USART6_DMA_define_END********/
 
 /******************************************************************************/
-extern QueueHandle_t xUsart1RxQueue ;
+extern uint8_t Usart1Buffer[20];
 /******************************************************************************/
 void BSP_USART1_Init(uint32_t BaudRate);
 void BSP_USART2_Init(uint32_t BaudRate);

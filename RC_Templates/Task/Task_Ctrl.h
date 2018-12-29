@@ -6,7 +6,7 @@
   * By(ZHE WOLF TEAM OF GCU ROBOT)
   * https://github.com/GCUWildwolfteam
   *
-  * FileName   : Joint.h   
+  * FileName   : Task_Ctrl.h   
   * Version    : v1.0		
   * Author     : Daqo Lee			
   * Date       : 2018-12-29         
@@ -23,15 +23,10 @@
 
 
 
-#ifndef __JOINT_H_
-#define __JOINT_H_
+#ifndef __TASK__CTRL_H_
+#define __TASK__CTRL_H_
 
-
-/******************************************************************************/
-
-
-void Thigh_M6020Ctrl(void);
-
+void ControlTaskCreate(void);
 #endif
 
 

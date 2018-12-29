@@ -5,12 +5,13 @@
 /******************************************************************************/
 
 
-void Thigh_M6020Ctrl()
+void Thigh_M6020Ctrl(void)
 {
-	M6020[0].targetCurrent=PID_Calc(&M6020[0].OutPID,M6020[0].realAngle, 
-	                                                 M6020[0].targetAngle);
-	M6020[1].targetCurrent=PID_Calc(&M6020[1].OutPID,M6020[1].realAngle, 
-	                                                 M6020[1].targetAngle);
+	for(uint8_t i=0;i<4;i++)
+	{
+		M6020[i].targetCurrent=PID_Calc(&M6020[i].OutPID,M6020[i].realAngle, 
+	                                                 M6020[i].targetAngle);
+	}
 	M6020_setCurrent(CAN_1);
 }
 

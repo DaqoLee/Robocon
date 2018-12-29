@@ -23,21 +23,19 @@
 
 
 
-#ifndef __TASK__CAN_SEND_H_
-#define __TASK__CAN_SEND_H_
+#ifndef __TASK__CAN_H_
+#define __TASK__CAN_H_
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
 #include "BSP_CAN.h"
-
-
-void vTaskCanSend(void *Parameters);
-void vTaskCan1Receive(void *pvParameters);
-static void CAN1_DataDecoding(CanRxMsg rxMessage);
-
-extern TaskHandle_t xHandleCan1Receive ;
-extern TaskHandle_t xHandleCanSend ;
-extern xQueueHandle  xCanSendQueue;
+/******************************************************************************/
+extern QueueHandle_t  xCanSendQueue;
+extern QueueHandle_t xCan1RxQueue ;
+extern QueueHandle_t xCan2RxQueue ;
+/******************************************************************************/
+void CanTaskCreate(void);
+/******************************************************************************/
 #endif
 
 

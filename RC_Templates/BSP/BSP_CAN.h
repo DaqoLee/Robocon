@@ -61,8 +61,7 @@ typedef struct
 #define CAN2_TX_Pin          	 	    GPIO_Pin_13
 #define CAN2_TX_PINSOURCE		      	GPIO_PinSource13
 /******************************************************************************/
-extern QueueHandle_t xCan1RxQueue ;
-extern QueueHandle_t xCan2RxQueue ;
+
 
 void BSP_CAN1_Init(void);
 void BSP_CAN2_Init(void);
