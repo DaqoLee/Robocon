@@ -29,15 +29,15 @@
 M3508_t M3508[4];
 M6623_t M6623[2];
 M6020_t M6020[2];
-M2006_t M2006;
+M2006_t M2006[4];
 /******************************************************************************/
 
 void MotorParamInit(void)
 {
-	M6020[0].targetCurrent=1000;
+
 	M6020[1].targetAngle=4000;
-	PID_StructInit(&M6020[0].OutPID,POSITION_PID, 20000, 500, 10.0f,	1.0f, 2.8f);
-	PID_StructInit(&M6020[1].OutPID,POSITION_PID, 20000, 500, 10.0f,	1.0f, 2.8f);                             
+	PID_StructInit(&M6020[0].OutPID,POSITION_PID, 20000, 500, 10.0f,	0.1f, 2.8f);
+	PID_StructInit(&M6020[1].OutPID,POSITION_PID, 20000, 500, 10.0f,	0.1f, 2.8f);                             
 }
 
 
@@ -97,47 +97,70 @@ void M2006_DataDecode(CanRxMsg RxMessage)
 }
 
 /******************************************************************************/
-void setM6020Current(CANx_e CANx)
+void M6020_setCurrent(CANx_e CANx)
 {
-	static CanSend_t CANSendData;
+	static CanSend_t canSendData;
 	
-	M6020[0].targetCurrent=PID_Calc(&M6020[0].OutPID,M6020[0].realAngle, 
-	                                                 M6020[0].targetAngle);
-	M6020[1].targetCurrent=PID_Calc(&M6020[1].OutPID,M6020[1].realAngle, 
-	                                                 M6020[1].targetAngle);
+	canSendData.CANx=CANx;
+	canSendData.SendCanTxMsg.DLC   =   8;
+	canSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
+	canSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
+	canSendData.SendCanTxMsg.StdId =  0x1FF;
+	canSendData.SendCanTxMsg.Data[0]=M6020[0].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[1]=M6020[0].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[2]=M6020[1].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[3]=M6020[1].targetCurrent ;
 	
-	CANSendData.CANx=CANx;
-	CANSendData.SendCanTxMsg.DLC   =   8;
-	CANSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
-	CANSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
-	CANSendData.SendCanTxMsg.StdId =  0x1FF;
-	CANSendData.SendCanTxMsg.Data[0]=M6020[0].targetCurrent >> 8;
-	CANSendData.SendCanTxMsg.Data[1]=M6020[0].targetCurrent ;
-	CANSendData.SendCanTxMsg.Data[2]=M6020[1].targetCurrent >> 8;
-	CANSendData.SendCanTxMsg.Data[3]=M6020[1].targetCurrent ;
-	
-	xQueueSend(xCanSendQueue, &CANSendData, 20);
+	xQueueSend(xCanSendQueue, &canSendData, 20);
+
 }
 
 /******************************************************************************/
 
-void setM3508Current(CANx_e CANx)
+void M3508_setCurrent(CANx_e CANx)
 {
-	static CanSend_t CANSendData;
+	static CanSend_t canSendData;
 	
-	CANSendData.CANx=CANx;
-	CANSendData.SendCanTxMsg.DLC   =   8;
-	CANSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
-	CANSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
-	CANSendData.SendCanTxMsg.StdId =  0x200;
-	CANSendData.SendCanTxMsg.Data[0]=M6020[0].targetCurrent >> 8;
-	CANSendData.SendCanTxMsg.Data[1]=M6020[0].targetCurrent ;
-	CANSendData.SendCanTxMsg.Data[2]=M6020[1].targetCurrent >> 8;
-	CANSendData.SendCanTxMsg.Data[3]=M6020[1].targetCurrent ;
+	canSendData.CANx=CANx;
+	canSendData.SendCanTxMsg.DLC   =   8;
+	canSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
+	canSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
+	canSendData.SendCanTxMsg.StdId =  0x200;
+	canSendData.SendCanTxMsg.Data[0]=M3508[0].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[1]=M3508[0].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[2]=M3508[1].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[3]=M3508[1].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[4]=M3508[2].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[5]=M3508[2].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[6]=M3508[3].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[7]=M3508[3].targetCurrent ;
 	
-	xQueueSend(xCanSendQueue, &CANSendData, 20);
+	xQueueSend(xCanSendQueue, &canSendData, 20);
 }
 
 /******************************************************************************/
+
+void M2006_setCurrent(CANx_e CANx)
+{
+	static CanSend_t canSendData;
+	
+	canSendData.CANx=CANx;
+	canSendData.SendCanTxMsg.DLC   =   8;
+	canSendData.SendCanTxMsg.IDE   =   CAN_ID_STD;
+	canSendData.SendCanTxMsg.RTR   =   CAN_RTR_Data;
+	canSendData.SendCanTxMsg.StdId =  0x200;
+	
+	canSendData.SendCanTxMsg.Data[0]=M2006[0].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[1]=M2006[0].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[2]=M2006[1].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[3]=M2006[1].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[4]=M2006[2].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[5]=M2006[2].targetCurrent ;
+	canSendData.SendCanTxMsg.Data[6]=M2006[3].targetCurrent >> 8;
+	canSendData.SendCanTxMsg.Data[7]=M2006[3].targetCurrent ;
+	
+	xQueueSend(xCanSendQueue, &canSendData, 20);
+}
+
 
 

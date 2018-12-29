@@ -52,5 +52,6 @@
 .\objects\task_usart.o: ..\BSP\BSP_USART.h
 .\objects\task_usart.o: ..\BSP\BSP_DMA.h
 .\objects\task_usart.o: ..\BSP\BSP_GPIO.h
+.\objects\task_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\task_usart.o: ..\Devices\DR16.h
 .\objects\task_usart.o: ..\Devices\LED.h

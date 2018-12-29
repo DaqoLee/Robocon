@@ -751,6 +751,11 @@
               <FileType>1</FileType>
               <FilePath>..\Control\Gimbal.c</FilePath>
             </File>
+            <File>
+              <FileName>Joint.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Control\Joint.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

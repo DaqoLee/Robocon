@@ -50,6 +50,7 @@ int main(void)
 
 	BSP_NVIC_Init();
   BSP_USART1_Init(100000);
+  BSP_USART2_Init(115200);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
   LED_Init();

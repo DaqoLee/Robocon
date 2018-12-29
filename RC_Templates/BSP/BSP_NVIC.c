@@ -46,6 +46,14 @@ void BSP_NVIC_Init(void)
 	NVIC_Init(&NVIC_InitStructure);
 	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 	
+  /*USART2*/
+	NVIC_InitStructure.NVIC_IRQChannel						        =	USART2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelCmd				        	=	ENABLE;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority	=	5;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority		     	=	0;
+	NVIC_Init(&NVIC_InitStructure);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);	
+	
   /*USART3*/
 	NVIC_InitStructure.NVIC_IRQChannel					        	=	USART3_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelCmd					        =	ENABLE;

@@ -33,8 +33,7 @@
 extern TaskHandle_t StartTaskHandler;
 
 void vTaskStart(void *pvParameters);
-static void vTaskLED0(void *pvParameters);
-static void vTaskLED6(void *pvParameters);
+
 
 #endif
 

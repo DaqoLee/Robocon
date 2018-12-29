@@ -53,6 +53,7 @@
 .\objects\main.o: ..\BSP\BSP_USART.h
 .\objects\main.o: ..\FreeRTOS\include\queue.h
 .\objects\main.o: ..\BSP\BSP_DMA.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\BSP\BSP_CAN.h
 .\objects\main.o: ..\Task\Task_Init.h
 .\objects\main.o: ..\Devices\Key.h

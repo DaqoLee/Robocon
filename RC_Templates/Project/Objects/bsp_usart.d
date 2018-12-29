@@ -51,3 +51,4 @@
 .\objects\bsp_usart.o: ..\FreeRTOS\include\queue.h
 .\objects\bsp_usart.o: ..\BSP\BSP_DMA.h
 .\objects\bsp_usart.o: ..\BSP\BSP_GPIO.h
+.\objects\bsp_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

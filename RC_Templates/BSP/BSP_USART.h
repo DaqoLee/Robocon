@@ -31,6 +31,7 @@
 #include "queue.h"
 #include "BSP_DMA.h"
 #include "BSP_GPIO.h"
+#include "stdio.h"	
 /********USART1_Pin_define*****************************************************/
 #define USART1_TX_GPIO_CLK      RCC_AHB1Periph_GPIOB
 #define USART1_TX_GPIO_PORT     GPIOB
@@ -119,6 +120,7 @@
 extern QueueHandle_t xUsart1RxQueue ;
 /******************************************************************************/
 void BSP_USART1_Init(uint32_t BaudRate);
+void BSP_USART2_Init(uint32_t BaudRate);
 #endif
 
 

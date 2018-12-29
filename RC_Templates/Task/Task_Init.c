@@ -6,7 +6,8 @@
 #include "Motor.h"
 #include "BSP_USART.h"
 /******************************************************************************/
-
+static void vTaskLED0(void *pvParameters);
+static void vTaskLED6(void *pvParameters);
 /******************************************************************************/
 TaskHandle_t StartTaskHandler=NULL;
 static TaskHandle_t TaskLED0Handler=NULL;
@@ -21,22 +22,10 @@ void vTaskStart(void *pvParameters)
 	xCan2RxQueue=xQueueCreate(10,sizeof(CanRxMsg));
 	xCanSendQueue=xQueueCreate(20, sizeof(CanSend_t));
 	
+	vTaskDelay(1000);
+	
 	taskENTER_CRITICAL();      
   
-	xTaskCreate(vTaskLED0,         /* 任务函数  */   
-						"vTaskLED0",         /* 任务名    */ 
-						128,       			     /* 任务栈大小*/
-						NULL,                /* 任务参数  */
-						1,       			   		 /* 任务优先级*/
-						&TaskLED0Handler);   /* 任务句柄  */ 
-	
-	xTaskCreate(vTaskLED6,            
-						"vTaskLED6",          
-						128,       			   
-						NULL,                 
-						1,       			   
-						&TaskLED6Handler); 
-	
 	xTaskCreate(vTaskUsart1Receive,            
 						"vTaskUsart1Receive",          
 						128,       			   
@@ -57,6 +46,19 @@ void vTaskStart(void *pvParameters)
 						NULL,                 
 						1,       			   
 						&xHandleCanSend); 
+		xTaskCreate(vTaskLED0,       /* 任务函数  */   
+						"vTaskLED0",         /* 任务名    */ 
+						128,       			     /* 任务栈大小*/
+						NULL,                /* 任务参数  */
+						1,       			   		 /* 任务优先级*/
+						&TaskLED0Handler);   /* 任务句柄  */ 
+	
+	  xTaskCreate(vTaskLED6,            
+						"vTaskLED6",          
+						128,       			   
+						NULL,                 
+						1,       			   
+						&TaskLED6Handler); 
 						
 	vTaskDelete(StartTaskHandler); 
 	taskEXIT_CRITICAL();
@@ -93,7 +95,8 @@ static void vTaskLED6(void *pvParameters)
 //		{
 //			LED_TOGGLE(LED_R);
 //		    CANSendData.SendCanTxMsg.DLC   =   8;
-      setM6020Current(CAN_1);
+//      M6020_setCurrent(CAN_1);
+      printf("M6020[1].realAngle = %d\r\n",M6020[1].realAngle);
 			vTaskDelay(10);
 //		}
 

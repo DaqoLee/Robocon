@@ -69,6 +69,7 @@
 ".\objects\gyro.o"
 ".\objects\chassis.o"
 ".\objects\gimbal.o"
+".\objects\joint.o"
 ".\objects\task_init.o"
 ".\objects\task_cansend.o"
 ".\objects\task_usart.o"

@@ -62,3 +62,4 @@
 .\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\task_init.o: ..\BSP\BSP_USART.h
 .\objects\task_init.o: ..\BSP\BSP_DMA.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
