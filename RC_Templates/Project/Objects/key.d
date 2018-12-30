@@ -3,7 +3,7 @@
 .\objects\key.o: ..\BSP\BSP_GPIO.h
 .\objects\key.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\key.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\key.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\key.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\key.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\key.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\key.o: ..\Libraries\CMSIS\Include\core_cmFunc.h

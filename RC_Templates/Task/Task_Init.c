@@ -7,6 +7,7 @@
 #include "BSP_USART.h"
 #include "Task_Ctrl.h"
 #include "BSP_NVIC.h"
+#include "DR16.h"
 /******************************************************************************/
 static void vTaskLED0(void *pvParameters);
 static void vTaskLED6(void *pvParameters);
@@ -30,6 +31,7 @@ void vTaskStart(void *pvParameters)
 	
   LED_Init();
 	KEY_Init();
+	DR16_Init();
 	MotorParamInit();
 
 	CanTaskCreate();  /* 创建CAN任务 */

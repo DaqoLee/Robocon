@@ -93,8 +93,8 @@ static void vTaskCan1Receive(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xCan1RxQueue, &rxMessage,portMAX_DELAY);
-	  M3508_DataDecode(rxMessage);
-		M6020_DataDecode(rxMessage);
+	  Motor.pM3508getMsg(rxMessage);
+		Motor.pM6020getMsg(rxMessage);
 //	  CAN1_DataDecoding(rxMessage);
     LED_TOGGLE(LED_R);
 

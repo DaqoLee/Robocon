@@ -4,109 +4,72 @@
 #include "Task_can.h"
 #include "BSP_USART.h"
 #include "BSP_CAN.h"
-/*
-*********************************************************************************************************
-*	Cortex-M3 内核异常中断服务程序
-*********************************************************************************************************
-*/
-
-/*
-*********************************************************************************************************
-*	函 数 名: NMI_Handler
-*	功能说明: 不可屏蔽中断服务程序。
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief   This function handles NMI exception.
+  * @param  None
+  * @retval None
+  */
 void NMI_Handler(void)
 {
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: HardFault_Handler
-*	功能说明: 硬件故障中断服务程序。其他异常处理被关闭，而又发生了异常，则触发。
-*			  执行异常处理时，发生了异常，则触发。复位时默认使能。
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief  This function handles Hard Fault exception.
+  * @param  None
+  * @retval None
+  */
 void HardFault_Handler(void)
 {
-//#if 1
-//  const char *pError = ERR_INFO;
-//  uint8_t i;
-
-//  for (i = 0; i < sizeof(ERR_INFO); i++)
-//  {
-//     USART1->DR = pError[i];
-//     /* 等待发送结束 */
-//     while ((USART1->SR & USART_FLAG_TC) == (uint16_t)RESET);
-//  }
-//#endif
-
-//  /* 当硬件失效异常发生时进入死循环 */
-//  while (1)
-//  {
-//  }
+  /* Go to infinite loop when Hard Fault exception occurs */
+  while (1)
+  {
+  }
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: MemManage_Handler
-*	功能说明: 内存管理异常中断服务程序。违反MPU设定的存储器访问规则时触发。 复位时默认未使能
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief  This function handles Memory Manage exception.
+  * @param  None
+  * @retval None
+  */
 void MemManage_Handler(void)
 {
-  /* 当内存管理异常发生时进入死循环 */
+  /* Go to infinite loop when Memory Manage exception occurs */
   while (1)
   {
   }
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: BusFault_Handler
-*	功能说明: 总线访问异常中断服务程序。取指令、数据读写、堆栈操作出现异常。 复位时默认未使能
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief  This function handles Bus Fault exception.
+  * @param  None
+  * @retval None
+  */
 void BusFault_Handler(void)
 {
-  /* 当总线异常时进入死循环 */
+  /* Go to infinite loop when Bus Fault exception occurs */
   while (1)
   {
   }
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: UsageFault_Handler
-*	功能说明: 用法错误中断服务程序。执行未定义指令、非对齐操作、除零时触发。 复位时默认未使能
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief  This function handles Usage Fault exception.
+  * @param  None
+  * @retval None
+  */
 void UsageFault_Handler(void)
 {
-  /* 当用法异常时进入死循环 */
+  /* Go to infinite loop when Usage Fault exception occurs */
   while (1)
   {
   }
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: DebugMon_Handler
-*	功能说明: 调试监视器中断服务程序。
-*	形    参: 无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+/**
+  * @brief  This function handles Debug Monitor exception.
+  * @param  None
+  * @retval None
+  */
 void DebugMon_Handler(void)
 {
 }
@@ -136,6 +99,30 @@ void USART1_IRQHandler(void)
 		/*清除空闲中断标志位*/
 		(void)USART1->DR;
 		(void)USART1->SR;
+
+	}
+}
+
+void USART2_IRQHandler(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	
+	if(USART_GetITStatus(USART2, USART_IT_IDLE) != RESET)
+	{
+		/*关闭DMA*/
+		DMA_Cmd(USART2_RX_DMA_STREAM, DISABLE);
+		/*获取DMAbuff剩余大小，是否匹配*/
+		if (DMA_GetCurrDataCounter(USART2_RX_DMA_STREAM) == 2)
+		{
+			xQueueSendFromISR(xUsart2RxQueue,&Usart2Buffer,&xHigherPriorityTaskWoken);
+			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+		}
+		
+		/*打开DMA*/
+		DMA_Cmd(USART2_RX_DMA_STREAM, ENABLE);
+		/*清除空闲中断标志位*/
+		(void)USART2->DR;
+		(void)USART2->SR;
 
 	}
 }

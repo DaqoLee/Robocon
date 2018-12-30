@@ -2,7 +2,7 @@
 .\objects\bsp_can.o: ..\BSP\BSP_CAN.h
 .\objects\bsp_can.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\bsp_can.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\bsp_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bsp_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_can.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\bsp_can.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\bsp_can.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -39,7 +39,7 @@
 .\objects\bsp_can.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\bsp_can.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\bsp_can.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\bsp_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\bsp_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\bsp_can.o: ..\User\FreeRTOSConfig.h
 .\objects\bsp_can.o: ..\FreeRTOS\include\projdefs.h
 .\objects\bsp_can.o: ..\FreeRTOS\include\portable.h

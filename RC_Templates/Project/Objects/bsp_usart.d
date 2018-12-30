@@ -2,7 +2,7 @@
 .\objects\bsp_usart.o: ..\BSP\BSP_USART.h
 .\objects\bsp_usart.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\bsp_usart.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\bsp_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bsp_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_usart.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\bsp_usart.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\bsp_usart.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -40,4 +40,4 @@
 .\objects\bsp_usart.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\bsp_usart.o: ..\BSP\BSP_DMA.h
 .\objects\bsp_usart.o: ..\BSP\BSP_GPIO.h
-.\objects\bsp_usart.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\bsp_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

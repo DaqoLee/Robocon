@@ -1,4 +1,5 @@
 #include "Task_Ctrl.h"
+#include "Joint.h"
 #include "FreeRTOS.h"
 #include "task.h"
 /******************************************************************************/
@@ -64,6 +65,8 @@ static void vTaskCtrlJoint(void *pvParameters)
 	portTickType CurrentControlTick = 0;
   while(1)
 	{
+		Thigh_M6020Ctrl();
+		
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }

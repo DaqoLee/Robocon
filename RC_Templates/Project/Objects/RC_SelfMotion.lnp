@@ -67,6 +67,8 @@
 ".\objects\servo.o"
 ".\objects\cylinder.o"
 ".\objects\gyro.o"
+".\objects\robomodule.o"
+".\objects\encoder.o"
 ".\objects\chassis.o"
 ".\objects\gimbal.o"
 ".\objects\joint.o"

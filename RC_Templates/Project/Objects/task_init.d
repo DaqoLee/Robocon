@@ -2,7 +2,7 @@
 .\objects\task_init.o: ..\Task\Task_Init.h
 .\objects\task_init.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\task_init.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\task_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_init.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\task_init.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\task_init.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -41,7 +41,7 @@
 .\objects\task_init.o: ..\Devices\LED.h
 .\objects\task_init.o: ..\BSP\BSP_GPIO.h
 .\objects\task_init.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\task_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\task_init.o: ..\User\FreeRTOSConfig.h
 .\objects\task_init.o: ..\FreeRTOS\include\projdefs.h
 .\objects\task_init.o: ..\FreeRTOS\include\portable.h
@@ -59,9 +59,10 @@
 .\objects\task_init.o: ..\BSP\BSP_I2C.h
 .\objects\task_init.o: ..\Devices\Motor.h
 .\objects\task_init.o: ..\User\pid.h
-.\objects\task_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\task_init.o: ..\BSP\BSP_USART.h
 .\objects\task_init.o: ..\BSP\BSP_DMA.h
-.\objects\task_init.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\task_init.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\task_init.o: ..\Task\Task_Ctrl.h
 .\objects\task_init.o: ..\BSP\BSP_NVIC.h
+.\objects\task_init.o: ..\Devices\DR16.h

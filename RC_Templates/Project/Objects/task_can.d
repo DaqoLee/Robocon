@@ -1,8 +1,8 @@
 .\objects\task_can.o: ..\Task\Task_Can.c
 .\objects\task_can.o: ..\Task\Task_Can.h
 .\objects\task_can.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\task_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
-.\objects\task_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\task_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\task_can.o: ..\User\FreeRTOSConfig.h
 .\objects\task_can.o: ..\FreeRTOS\include\projdefs.h
 .\objects\task_can.o: ..\FreeRTOS\include\portable.h
@@ -54,4 +54,4 @@
 .\objects\task_can.o: ..\Devices\LED.h
 .\objects\task_can.o: ..\Devices\Motor.h
 .\objects\task_can.o: ..\User\pid.h
-.\objects\task_can.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\task_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

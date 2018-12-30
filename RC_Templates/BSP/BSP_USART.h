@@ -115,6 +115,7 @@
 
 /******************************************************************************/
 extern uint8_t Usart1Buffer[20];
+extern uint8_t Usart2Buffer[24];
 /******************************************************************************/
 void BSP_USART1_Init(uint32_t BaudRate);
 void BSP_USART2_Init(uint32_t BaudRate);
