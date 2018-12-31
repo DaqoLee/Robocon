@@ -42,9 +42,7 @@ static void M6020_setCurrent(CANx_e CANx);
 
 void MotorParamInit(void)
 {
-
 	Motor.M6020[1].targetAngle=4000;
-	
 	Motor.pM6020SetCur=M6020_setCurrent;
 	Motor.pM3508SetCur=M3508_setCurrent;
 	Motor.pM2006SetCur=M2006_setCurrent;

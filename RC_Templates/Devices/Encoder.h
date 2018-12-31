@@ -35,16 +35,26 @@ typedef struct
 		uint8_t DataBuff[24];
 		struct
 		{
-			float Z_Angle;																		
-			float X_Angle;
-			float Y_Angle;
-			float X_Position;
-			float Y_position;
-			float Omega;
+			float realZ_Angle;																		
+			float realX_Angle;
+			float realY_Angle;
+			float realX_Coords;
+			float realY_Coords;
+			float realOmega;
 		};
-	
+		float targetZ_Angle;																		
+		float targetX_Angle;
+		float targetY_Angle;
+		float targetX_Coords;
+		float targetY_Coords;
+		float targetOmega;
 	}; 
+	
 }Posture_t;	
+
+
+extern Posture_t Posture;
+void Posture_getMessage(uint8_t *EncoderBuf);
 #endif
 
 

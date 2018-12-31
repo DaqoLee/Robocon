@@ -802,6 +802,11 @@
               <FilePath>..\User\main.c</FilePath>
             </File>
             <File>
+              <FileName>Curve.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Curve.c</FilePath>
+            </File>
+            <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\pid.c</FilePath>

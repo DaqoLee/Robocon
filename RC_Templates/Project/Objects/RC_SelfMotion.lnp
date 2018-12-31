@@ -77,6 +77,7 @@
 ".\objects\task_usart.o"
 ".\objects\task_can.o"
 ".\objects\main.o"
+".\objects\curve.o"
 ".\objects\pid.o"
 ".\objects\delay.o"
 ".\objects\stm32f4xx_it.o"

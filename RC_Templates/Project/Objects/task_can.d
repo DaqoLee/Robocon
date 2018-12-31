@@ -54,4 +54,3 @@
 .\objects\task_can.o: ..\Devices\LED.h
 .\objects\task_can.o: ..\Devices\Motor.h
 .\objects\task_can.o: ..\User\pid.h
-.\objects\task_can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

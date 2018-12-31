@@ -4,7 +4,7 @@
 #include "LED.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "Encoder.h"
 /******************************************************************************/
 static TaskHandle_t xHandleUsart1Receive = NULL;
 static TaskHandle_t xHandleUsart2Receive = NULL;
@@ -68,10 +68,11 @@ static void vTaskUsart1Receive(void *pvParameters)
 
 static void vTaskUsart2Receive(void *pvParameters)
 {
-  uint8_t usart2RxBuffer[20];
+  uint8_t usart2RxBuffer[24];
   while(1)
 	{
 	  xQueueReceive(xUsart2RxQueue, &usart2RxBuffer,portMAX_DELAY);
+		Posture_getMessage(usart2RxBuffer);
 	}
 
 }

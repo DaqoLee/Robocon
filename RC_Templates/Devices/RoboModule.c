@@ -36,7 +36,7 @@ void RoboModule_DRV_Reset(uint8_t Group,uint8_t Number)
     }
     
     canSendData.SendCanTxMsg.StdId = stdId;      //帧ID为传入参数的stdId
-    
+
     canSendData.SendCanTxMsg.Data[0] = 0x55;
     canSendData.SendCanTxMsg.Data[1] = 0x55;
     canSendData.SendCanTxMsg.Data[2] = 0x55;

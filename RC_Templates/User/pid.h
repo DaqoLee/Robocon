@@ -26,7 +26,7 @@
 #ifndef __PID_H_
 #define __PID_H_
 #include "stm32f4xx.h"
-#include <math.h>
+//#include <math.h>
 
 #define ABS(x)		((x>0)? (x): (-x)) 
 enum{

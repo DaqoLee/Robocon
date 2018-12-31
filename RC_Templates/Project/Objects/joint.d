@@ -40,5 +40,4 @@
 .\objects\joint.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\joint.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\joint.o: ..\User\pid.h
-.\objects\joint.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\joint.o: ..\Devices\DR16.h

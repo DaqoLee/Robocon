@@ -25,12 +25,12 @@
 
 #ifndef __TASK__CAN_H_
 #define __TASK__CAN_H_
-#include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+#include "FreeRTOS.h"
 #include "BSP_CAN.h"
 /******************************************************************************/
-extern QueueHandle_t  xCanSendQueue;
+extern QueueHandle_t xCanSendQueue;
 extern QueueHandle_t xCan1RxQueue ;
 extern QueueHandle_t xCan2RxQueue ;
 /******************************************************************************/

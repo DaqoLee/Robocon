@@ -55,3 +55,4 @@
 .\objects\task_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\task_usart.o: ..\Devices\DR16.h
 .\objects\task_usart.o: ..\Devices\LED.h
+.\objects\task_usart.o: ..\Devices\Encoder.h
