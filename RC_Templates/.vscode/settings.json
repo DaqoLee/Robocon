@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "motor.h": "c",
+    "task_can.h": "c",
+    "pid.h": "c",
+    "stm32f4xx.h": "c",
+    "bsp_gpio.h": "c",
+    "math.h": "c",
+    "freertos.h": "c",
+    "stdint.h": "c"
+  }
+}
