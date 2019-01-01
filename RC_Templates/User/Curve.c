@@ -1,6 +1,6 @@
 #include "Curve.h"
 #include "Encoder.h"
-#include "math.h"
+#include <math.h>
 
 #define LEN  1000
 

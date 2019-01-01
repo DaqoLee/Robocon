@@ -11,7 +11,7 @@
   * Version    : v1.0		
   * Author     : Daqo Lee			
   * Date       : 2018-12-21         
-  * Description: 电机   
+  * Description: ç”µæœº   
   * Function List:  
   	1. ....
   	   <version>: 		
@@ -27,6 +27,7 @@
 #include "Task_Can.h"
 /******************************************************************************/
 Motor_t Motor;
+
 /******************************************************************************/
 static void M3508_getMessage(CanRxMsg RxMessage);
 static void M2006_getMessage(CanRxMsg RxMessage);
@@ -43,15 +44,15 @@ static void M6020_setCurrent(CANx_e CANx);
 void MotorParamInit(void)
 {
 	Motor.M6020[1].targetAngle=4000;
-	Motor.pM6020SetCur=M6020_setCurrent;
-	Motor.pM3508SetCur=M3508_setCurrent;
-	Motor.pM2006SetCur=M2006_setCurrent;
+	
+	Motor.pM6020setCur=M6020_setCurrent;
+	Motor.pM3508setCur=M3508_setCurrent;
+	Motor.pM2006setCur=M2006_setCurrent;
 	
 	Motor.pM6020getMsg=M6020_getMessage;
 	Motor.pM3508getMsg=M3508_getMessage;
 	Motor.pM2006getMsg=M2006_getMessage;
 	Motor.pM6623getMsg=M6623_getMessage;
-	
 	
 	PID_StructInit(&Motor.M6020[0].OutPID,POSITION_PID, 20000, 500, 10.0f,  0.1f, 2.8f);
 	PID_StructInit(&Motor.M6020[1].OutPID,POSITION_PID, 25000, 5000, 10.0f, 1.0f, 5.0f);                             

@@ -112,9 +112,9 @@ typedef struct
   M6020_t M6020[4];
   M2006_t M2006[4];
 	
-  void (*pM6020SetCur)	(CANx_e CANx);
-	void (*pM3508SetCur)	(CANx_e CANx);
-	void (*pM2006SetCur)	(CANx_e CANx);
+  void (*pM6020setCur)	(CANx_e CANx);
+	void (*pM3508setCur)	(CANx_e CANx);
+	void (*pM2006setCur)	(CANx_e CANx);
 	
 	void (*pM6020getMsg) (CanRxMsg RxMessage);
 	void (*pM3508getMsg) (CanRxMsg RxMessage);

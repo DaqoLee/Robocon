@@ -13,15 +13,16 @@
                 "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/User",
                 "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/FreeRTOS/portable/RVDS/ARM_CM4F",
                 "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/FreeRTOS/include",
-                "C:/Program Files (x86)/Microsoft Visual Studio/VC98/Include",
-                "${workspaceFolder}/**"
+                "C:/Program Files (x86)/Microsoft Visual Studio/Include",
+               "${workspaceFolder}/**"
+              
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "STM32F427_437xx",
                 "USE_STDPERIPH_DRIVER",
+                "STM32F427_437xx",
                 "__CC_ARM"
             ],
             "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",

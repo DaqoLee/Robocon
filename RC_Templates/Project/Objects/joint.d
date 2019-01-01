@@ -3,7 +3,7 @@
 .\objects\joint.o: ..\Devices\Motor.h
 .\objects\joint.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\joint.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\joint.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cmFunc.h

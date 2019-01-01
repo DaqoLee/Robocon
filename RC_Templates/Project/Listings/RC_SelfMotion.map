@@ -836,7 +836,6 @@ Section Cross References
     robomodule.o(i.RoboModule_DRV_Velocity_Position_Mode) refers to queue.o(i.xQueueGenericSend) for xQueueGenericSend
     robomodule.o(i.RoboModule_DRV_Velocity_Position_Mode) refers to robomodule.o(.bss) for canSendData
     robomodule.o(i.RoboModule_DRV_Velocity_Position_Mode) refers to task_can.o(.data) for xCanSendQueue
-    robomodule.o(i.RoboModule_Init) refers to robomodule.o(i.RoboModule_DRV_Mode_Choice) for RoboModule_DRV_Mode_Choice
     encoder.o(i.Posture_getMessage) refers to memcpya.o(.text) for __aeabi_memcpy
     encoder.o(i.Posture_getMessage) refers to encoder.o(.bss) for Posture
     joint.o(i.Thigh_M6020Ctrl) refers to dflti.o(.text) for __aeabi_i2d
@@ -2074,7 +2073,7 @@ Removing Unused input sections from the image.
     Removing robomodule.o(i.RoboModule_DRV_Reset), (92 bytes).
     Removing robomodule.o(i.RoboModule_DRV_Velocity_Mode), (148 bytes).
     Removing robomodule.o(i.RoboModule_DRV_Velocity_Position_Mode), (176 bytes).
-    Removing robomodule.o(i.RoboModule_Init), (14 bytes).
+    Removing robomodule.o(i.RoboModule_Init), (2 bytes).
     Removing robomodule.o(.bss), (288 bytes).
     Removing encoder.o(.rev16_text), (4 bytes).
     Removing encoder.o(.revsh_text), (4 bytes).
@@ -2102,9 +2101,9 @@ Removing Unused input sections from the image.
     Removing curve.o(.rev16_text), (4 bytes).
     Removing curve.o(.revsh_text), (4 bytes).
     Removing curve.o(.rrx_text), (6 bytes).
-    Removing curve.o(i.Curve_Circle), (188 bytes).
+    Removing curve.o(i.Curve_Circle), (232 bytes).
     Removing curve.o(i.Curve_Straight), (200 bytes).
-    Removing curve.o(.data), (12 bytes).
+    Removing curve.o(.data), (16 bytes).
     Removing pid.o(.rev16_text), (4 bytes).
     Removing pid.o(.revsh_text), (4 bytes).
     Removing pid.o(.rrx_text), (6 bytes).
@@ -2127,7 +2126,7 @@ Removing Unused input sections from the image.
     Removing cdcmple.o(.text), (48 bytes).
     Removing cdrcmple.o(.text), (48 bytes).
 
-1048 unused section(s) (total 52529 bytes) removed from the image.
+1048 unused section(s) (total 52565 bytes) removed from the image.
 
 ==============================================================================
 

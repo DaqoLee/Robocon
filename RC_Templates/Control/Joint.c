@@ -17,7 +17,7 @@ void Thigh_M6020Ctrl(void)
 		                                       Motor.M6020[i].realAngle, 
 	                                         Motor.M6020[i].targetAngle);
 	}
-	Motor.pM6020SetCur(CAN_1);
+	Motor.pM6020setCur(CAN_1);
 }
 
 /******************************************************************************/

@@ -2,7 +2,7 @@
 .\objects\bsp_dma.o: ..\BSP\BSP_DMA.h
 .\objects\bsp_dma.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\bsp_dma.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\bsp_dma.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\bsp_dma.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\bsp_dma.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\bsp_dma.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\bsp_dma.o: ..\Libraries\CMSIS\Include\core_cmFunc.h

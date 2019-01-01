@@ -3,7 +3,7 @@
 .\objects\robomodule.o: ..\BSP\BSP_CAN.h
 .\objects\robomodule.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\robomodule.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\robomodule.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\robomodule.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\robomodule.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\robomodule.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\robomodule.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -40,7 +40,7 @@
 .\objects\robomodule.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\robomodule.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\robomodule.o: ..\FreeRTOS\include\FreeRTOS.h
-.\objects\robomodule.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\robomodule.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\robomodule.o: ..\User\FreeRTOSConfig.h
 .\objects\robomodule.o: ..\FreeRTOS\include\projdefs.h
 .\objects\robomodule.o: ..\FreeRTOS\include\portable.h
