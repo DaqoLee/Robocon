@@ -1729,7 +1729,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x557EA749)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
-F (..\BSP\BSP_GPIO.c)(0x5C28B094)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\bsp_gpio.o --omf_browse .\objects\bsp_gpio.crf --depend .\objects\bsp_gpio.d)
+F (..\BSP\BSP_GPIO.c)(0x5C29C593)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\bsp_gpio.o --omf_browse .\objects\bsp_gpio.crf --depend .\objects\bsp_gpio.d)
 I (..\BSP\BSP_GPIO.h)(0x5C1636C5)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -2176,8 +2176,8 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x557EA749)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
-F (..\Devices\Motor.c)(0x5C29B34F)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\motor.o --omf_browse .\objects\motor.crf --depend .\objects\motor.d)
-I (..\Devices\Motor.h)(0x5C288844)
+F (..\Devices\Motor.c)(0x5C2AD9DE)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\motor.o --omf_browse .\objects\motor.crf --depend .\objects\motor.d)
+I (..\Devices\Motor.h)(0x5C2AD9DE)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -2216,7 +2216,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
 I (..\User\pid.h)(0x5C29B34F)
-I (..\Task\Task_Can.h)(0x5C275CCD)
+I (..\Task\Task_Can.h)(0x5C2ABA05)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5A3842D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x599ECD2C)
 I (..\User\FreeRTOSConfig.h)(0x5C0F2FD6)
@@ -2341,7 +2341,7 @@ I (..\FreeRTOS\include\task.h)(0x5A3842D8)
 I (..\FreeRTOS\include\list.h)(0x5A3842D8)
 I (..\FreeRTOS\include\queue.h)(0x5A3842D8)
 I (..\BSP\BSP_GPIO.h)(0x5C1636C5)
-I (..\Task\Task_Can.h)(0x5C275CCD)
+I (..\Task\Task_Can.h)(0x5C2ABA05)
 F (..\Devices\Encoder.c)(0x5C29713C)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\encoder.o --omf_browse .\objects\encoder.crf --depend .\objects\encoder.d)
 I (..\Devices\Encoder.h)(0x5C2980F0)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
@@ -2382,7 +2382,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
-F (..\Control\Chassis.c)(0x5C2719B8)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\chassis.o --omf_browse .\objects\chassis.crf --depend .\objects\chassis.d)
+F (..\Control\Chassis.c)(0x5C2AB985)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\chassis.o --omf_browse .\objects\chassis.crf --depend .\objects\chassis.d)
 I (..\Control\Chassis.h)(0x5C160219)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -2421,11 +2421,12 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x557EA749)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
+I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 F (..\Control\Gimbal.c)(0x5C1345E6)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\gimbal.o --omf_browse .\objects\gimbal.crf --depend .\objects\gimbal.d)
 I (..\Control\Gimbal.h)(0x5C1344CA)
-F (..\Control\Joint.c)(0x5C28AFE0)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\joint.o --omf_browse .\objects\joint.crf --depend .\objects\joint.d)
+F (..\Control\Joint.c)(0x5C2AD9DE)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\joint.o --omf_browse .\objects\joint.crf --depend .\objects\joint.d)
 I (..\Control\Joint.h)(0x5C2724BC)
-I (..\Devices\Motor.h)(0x5C288844)
+I (..\Devices\Motor.h)(0x5C2AD9DE)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -2466,7 +2467,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
 I (..\User\pid.h)(0x5C29B34F)
 I (..\Devices\DR16.h)(0x5C284C1E)
 F (..\Task\Task_Init.c)(0x5C284DAC)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\task_init.o --omf_browse .\objects\task_init.crf --depend .\objects\task_init.d)
-I (..\Task\Task_Init.h)(0x5C275797)
+I (..\Task\Task_Init.h)(0x5C29D763)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -2518,12 +2519,12 @@ I (..\FreeRTOS\include\task.h)(0x5A3842D8)
 I (..\FreeRTOS\include\list.h)(0x5A3842D8)
 I (..\Task\Task_Usart.h)(0x5C274B68)
 I (..\FreeRTOS\include\queue.h)(0x5A3842D8)
-I (..\Task\Task_Can.h)(0x5C275CCD)
+I (..\Task\Task_Can.h)(0x5C2ABA05)
 I (..\BSP\BSP_CAN.h)(0x5C275CC0)
 I (..\Devices\Key.h)(0x5C15EE3B)
 I (..\Devices\OLED.h)(0x5C164C45)
 I (..\BSP\BSP_I2C.h)(0x5C164C81)
-I (..\Devices\Motor.h)(0x5C288844)
+I (..\Devices\Motor.h)(0x5C2AD9DE)
 I (..\User\pid.h)(0x5C29B34F)
 I (..\BSP\BSP_USART.h)(0x5C28CEE6)
 I (..\BSP\BSP_DMA.h)(0x5C13140A)
@@ -2602,8 +2603,8 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (..\Devices\DR16.h)(0x5C284C1E)
 I (..\Devices\LED.h)(0x5C284969)
 I (..\Devices\Encoder.h)(0x5C2980F0)
-F (..\Task\Task_Can.c)(0x5C28274E)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\task_can.o --omf_browse .\objects\task_can.crf --depend .\objects\task_can.d)
-I (..\Task\Task_Can.h)(0x5C275CCD)
+F (..\Task\Task_Can.c)(0x5C29D752)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\task_can.o --omf_browse .\objects\task_can.crf --depend .\objects\task_can.d)
+I (..\Task\Task_Can.h)(0x5C2ABA05)
 I (..\FreeRTOS\include\FreeRTOS.h)(0x5A3842D8)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -2655,7 +2656,7 @@ I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h)(0x557EA751)
 I (..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h)(0x557EA749)
 I (..\BSP\BSP_GPIO.h)(0x5C1636C5)
 I (..\Devices\LED.h)(0x5C284969)
-I (..\Devices\Motor.h)(0x5C288844)
+I (..\Devices\Motor.h)(0x5C2AD9DE)
 I (..\User\pid.h)(0x5C29B34F)
 F (..\User\main.c)(0x5C276649)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
@@ -2705,10 +2706,10 @@ I (..\FreeRTOS\portable\RVDS\ARM_CM4F\portmacro.h)(0x5A3842DA)
 I (..\FreeRTOS\include\mpu_wrappers.h)(0x5A3842D8)
 I (..\FreeRTOS\include\task.h)(0x5A3842D8)
 I (..\FreeRTOS\include\list.h)(0x5A3842D8)
-I (..\Task\Task_Init.h)(0x5C275797)
+I (..\Task\Task_Init.h)(0x5C29D763)
 I (..\Devices\LED.h)(0x5C284969)
 I (..\BSP\BSP_GPIO.h)(0x5C1636C5)
-F (..\User\Curve.c)(0x5C29B2DC)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\curve.o --omf_browse .\objects\curve.crf --depend .\objects\curve.d)
+F (..\User\Curve.c)(0x5C2AFBC8)(--c99 --gnu -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I ..\Libraries\CMSIS\Include -I ..\User -I ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I ..\FreeRTOS\include -I ..\FreeRTOS\portable\RVDS\ARM_CM4F -I ..\BSP -I ..\Control -I ..\Devices -I ..\Task-I.\RTE\_RC_SelfMotion-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="525" -DSTM32F427xx -DUSE_STDPERIPH_DRIVER -DSTM32F427_437xx-o .\objects\curve.o --omf_browse .\objects\curve.crf --depend .\objects\curve.d)
 I (..\User\Curve.h)(0x5C297DA8)
 I (..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x5C132AB3)
 I (..\Libraries\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -2879,7 +2880,7 @@ I (..\FreeRTOS\include\mpu_wrappers.h)(0x5A3842D8)
 I (..\FreeRTOS\include\task.h)(0x5A3842D8)
 I (..\FreeRTOS\include\list.h)(0x5A3842D8)
 I (..\FreeRTOS\include\queue.h)(0x5A3842D8)
-I (..\Task\Task_can.h)(0x5C275CCD)
+I (..\Task\Task_can.h)(0x5C2ABA05)
 I (..\BSP\BSP_CAN.h)(0x5C275CC0)
 I (..\BSP\BSP_GPIO.h)(0x5C1636C5)
 I (..\BSP\BSP_USART.h)(0x5C28CEE6)
