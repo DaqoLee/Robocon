@@ -9,14 +9,17 @@
 static TaskHandle_t xHandleUsart1Receive = NULL;
 static TaskHandle_t xHandleUsart2Receive = NULL;
 static TaskHandle_t xHandleUsart3Receive = NULL;
+static TaskHandle_t xHandleUsartsend     = NULL;
 
 QueueHandle_t xUsart1RxQueue = NULL;
 QueueHandle_t xUsart2RxQueue = NULL;
 QueueHandle_t xUsart3RxQueue = NULL;
+QueueHandle_t xusartTxQueue = NULL;
 /******************************************************************************/
 static void vTaskUsart1Receive(void *pvParameters);
 static void vTaskUsart2Receive(void *pvParameters);
 static void vTaskUsart3Receive(void *pvParameters);
+static void vTaskUsartSend(void *pvParameters);
 /******************************************************************************/
 
 void UsartTaskCreate(void)
@@ -24,6 +27,8 @@ void UsartTaskCreate(void)
 	xUsart1RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xUsart2RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xUsart3RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
+	xusartTxQueue  = xQueueCreate(20,sizeof(USARTSend_t));
+
 	
 	xTaskCreate(vTaskUsart1Receive,             /* 任务函数  */
 						  "vTaskUsart1Receive",           /* 任务名    */
@@ -45,6 +50,13 @@ void UsartTaskCreate(void)
 						  NULL,                 
 						  3,       			   
 					  	&xHandleUsart3Receive);
+
+	xTaskCreate(vTaskUsartSend,            
+					  	"vTaskUsartSend",          
+						  128,       			   
+						  NULL,                 
+						  3,       			   
+					  	&xHandleUsartsend);
 }
 
 
@@ -89,3 +101,33 @@ static void vTaskUsart3Receive(void *pvParameters)
 
 }
 /******************************************************************************/
+
+static void vTaskUsartSend(void *pvParameters)
+{
+	USARTSend_t usartSend;
+  while(1)
+	{
+	  xQueueReceive(xusartTxQueue, &usartSend,portMAX_DELAY);
+		if(usartSend.USART_x==USART_1)
+		{
+
+		}
+		else if(usartSend.USART_x==USART_2)
+		{
+			for(uint8_t i=0;i<20;i++)
+			{
+				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
+			}			
+		}
+		else if(usartSend.USART_x==USART_3)
+		{
+			for(uint8_t i=0;i<20;i++)
+			{
+				USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
+			}			
+		}
+	}
+
+}
+/******************************************************************************/
+

@@ -126,6 +126,30 @@ void USART2_IRQHandler(void)
 
 	}
 }
+
+void USART3_IRQHandler(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	
+	if(USART_GetITStatus(USART3, USART_IT_IDLE) != RESET)
+	{
+		/*关闭DMA*/
+		DMA_Cmd(USART3_RX_DMA_STREAM, DISABLE);
+		/*获取DMAbuff剩余大小，是否匹配*/
+		if (DMA_GetCurrDataCounter(USART3_RX_DMA_STREAM) == 2)
+		{
+			xQueueSendFromISR(xUsart2RxQueue,&Usart2Buffer,&xHigherPriorityTaskWoken);
+			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+		}
+		
+		/*打开DMA*/
+		DMA_Cmd(USART2_RX_DMA_STREAM, ENABLE);
+		/*清除空闲中断标志位*/
+		(void)USART2->DR;
+		(void)USART2->SR;
+
+	}
+}
 /******************************************************************************/
 void CAN1_RX0_IRQHandler(void)
 {

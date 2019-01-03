@@ -6,7 +6,7 @@
 /******************************************************************************/
 void RoboModule_Init(void)
 {
-	RoboModule_DRV_Mode_Choice(0,0,Current_Velocity_Mode); 
+//	RoboModule_DRV_Mode_Choice(0,0,Current_Velocity_Mode); 
 
 }
 
