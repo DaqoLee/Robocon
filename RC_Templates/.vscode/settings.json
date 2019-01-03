@@ -8,6 +8,10 @@
     "math.h": "c",
     "freertos.h": "c",
     "stdint.h": "c",
+<<<<<<< HEAD
     "encoder.h": "c"
+=======
+    "chassis.h": "c"
+>>>>>>> cfdca5ad2bed99e138abdb1beacee98afc896362
   }
 }
