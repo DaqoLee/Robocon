@@ -179,5 +179,15 @@ static void M2006_setCurrent(CANx_e CANx)
 	xQueueSend(xCanSendQueue, &canSendData, 20);
 }
 
+static void M6020_setTargetAngle(float Ratio ,uint8_t Motor_ID, int16_t DR16_chx)
+{
+  static int16_t targetAngle=0;
+	targetAngle=targetAngle>8191?targetAngle - 8191:targetAngle + Ratio * DR16_chx;
+	targetAngle=targetAngle<0?8191-targetAngle:targetAngle+Ratio * DR16_chx;
 
+	Motor.M6020[Motor_ID].targetAngle=targetAngle;
+
+}
+
+/******************************************************************************/
 

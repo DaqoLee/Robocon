@@ -2,6 +2,8 @@
 #include "Joint.h"
 #include "FreeRTOS.h"
 #include "task.h"
+
+#include "Servo.h"
 /******************************************************************************/
 static void vTaskCtrlChassis(void *pvParameters);
 static void vTaskCtrlGimbal(void *pvParameters);
@@ -62,11 +64,12 @@ static void vTaskCtrlGimbal(void *pvParameters)
 
 static void vTaskCtrlJoint(void *pvParameters)
 {
+	uint8_t Txt[7]={0,1,2,3,4,5,6};
 	portTickType CurrentControlTick = 0;
   while(1)
 	{
 		Thigh_M6020Ctrl();
-		
+	Dynamixel_setMassage(0x01, 7, 0x08, Txt);
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }

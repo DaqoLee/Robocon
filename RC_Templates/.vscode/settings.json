@@ -9,9 +9,20 @@
     "freertos.h": "c",
     "stdint.h": "c",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "encoder.h": "c"
 =======
     "chassis.h": "c"
 >>>>>>> cfdca5ad2bed99e138abdb1beacee98afc896362
+=======
+    "chassis.h": "c",
+    "servo.h": "c",
+    "dr16.h": "c",
+    "bsp_dma.h": "c",
+    "string.h": "c",
+    "protocol.h": "c",
+    "bsp_usart.h": "c",
+    "task_usart.h": "c"
+>>>>>>> 20e1513c9180b80af8e268ed22f48992a61d845a
   }
 }

@@ -112,13 +112,34 @@
 #define USART6_RX_DMA_CHANNEL     DMA_Channel_5		        /*DMA通道号*/
 #define USART6_RX_DMA_STREAM      DMA2_Stream1		        /*DMA数据流*/
 /********USART6_DMA_define_END********/
+/******************************************************************************/
+typedef enum
+{
+  USART_1=1,
+  USART_2=2,
+  USART_3=3,
+  UART_4 =4,
+  UART_5 =5,
+  USART_6=6,
+}USARTx_e;
+typedef struct
+{
+  USARTx_e USART_x;
+  uint16_t crc;
+  uint8_t pUSARTSendBuff[20];
+}USARTSend_t;
+
+
 
 /******************************************************************************/
 extern uint8_t Usart1Buffer[20];
-extern uint8_t Usart2Buffer[24];
+extern uint8_t Usart2Buffer[26];
+extern uint8_t Usart3Buffer[26];
 /******************************************************************************/
 void BSP_USART1_Init(uint32_t BaudRate);
 void BSP_USART2_Init(uint32_t BaudRate);
+void BSP_USART3_Init(uint32_t BaudRate);
+void USART_sendChar(USART_TypeDef* USARTx, char ch);
 #endif
 
 

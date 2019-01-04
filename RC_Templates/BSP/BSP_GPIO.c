@@ -42,31 +42,6 @@ void BSP_KEY_GPIOInit(void)
 void BSP_USART1_GPIOInit(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_AHB1PeriphClockCmd(USART2_TX_GPIO_CLK | USART2_RX_GPIO_CLK,ENABLE);
-			/* GPIO初始化 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-		/* 配置Tx引脚  */
-	GPIO_InitStructure.GPIO_Pin = USART2_TX_Pin;  
-	GPIO_Init(USART2_TX_GPIO_PORT, &GPIO_InitStructure);
-
-	/* 配置Rx引脚 */
-	GPIO_InitStructure.GPIO_Pin = USART2_RX_Pin;
-	GPIO_Init(USART2_RX_GPIO_PORT, &GPIO_InitStructure);
-	
-	/* 连接 PXx 到 USARTx_Tx*/
-	GPIO_PinAFConfig(USART2_TX_GPIO_PORT, USART2_TX_PINSOURCE, GPIO_AF_USART2);
-
-	/*  连接 PXx 到 USARTx_Rx*/
-	GPIO_PinAFConfig(USART2_RX_GPIO_PORT, USART2_RX_PINSOURCE, GPIO_AF_USART2);
-}
-
-/******************************************************************************/
-void BSP_USART2_GPIOInit(void)
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_AHB1PeriphClockCmd(USART1_TX_GPIO_CLK | USART1_RX_GPIO_CLK,ENABLE);
 			/* GPIO初始化 */
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -89,9 +64,53 @@ void BSP_USART2_GPIOInit(void)
 }
 
 /******************************************************************************/
+void BSP_USART2_GPIOInit(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(USART2_TX_GPIO_CLK | USART2_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = USART2_TX_Pin;  
+	GPIO_Init(USART2_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 配置Rx引脚 */
+	GPIO_InitStructure.GPIO_Pin = USART2_RX_Pin;
+	GPIO_Init(USART2_RX_GPIO_PORT, &GPIO_InitStructure);
+	
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(USART2_TX_GPIO_PORT, USART2_TX_PINSOURCE, GPIO_AF_USART2);
+
+	/*  连接 PXx 到 USARTx_Rx*/
+	GPIO_PinAFConfig(USART2_RX_GPIO_PORT, USART2_RX_PINSOURCE, GPIO_AF_USART2);
+}
+
+/******************************************************************************/
 void BSP_USART3_GPIOInit(void)
 {
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(USART3_TX_GPIO_CLK | USART3_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = USART3_TX_Pin;  
+	GPIO_Init(USART3_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 配置Rx引脚 */
+	GPIO_InitStructure.GPIO_Pin = USART3_RX_Pin;
+	GPIO_Init(USART3_RX_GPIO_PORT, &GPIO_InitStructure);
 	
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(USART3_TX_GPIO_PORT, USART3_TX_PINSOURCE, GPIO_AF_USART3);
+
+	/*  连接 PXx 到 USARTx_Rx*/
+	GPIO_PinAFConfig(USART3_RX_GPIO_PORT, USART3_RX_PINSOURCE, GPIO_AF_USART3);
 }
 
 /******************************************************************************/

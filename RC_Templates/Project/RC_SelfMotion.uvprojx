@@ -831,6 +831,16 @@
               <FileType>5</FileType>
               <FilePath>..\User\stm32f4xx_conf.h</FilePath>
             </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\check.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

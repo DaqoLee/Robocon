@@ -34,6 +34,7 @@
 extern QueueHandle_t xUsart1RxQueue;
 extern QueueHandle_t xUsart2RxQueue;
 extern QueueHandle_t xUsart3RxQueue;
+extern QueueHandle_t xusartTxQueue ;
 
 void UsartTaskCreate(void);
 /******************************************************************************/
