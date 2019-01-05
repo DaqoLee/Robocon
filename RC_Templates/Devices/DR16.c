@@ -3,7 +3,11 @@
 DR16_t DR16;
 
 static void DR16_getMessage(uint8_t *DR16Buffer);
-/******************************************************************************/
+/*
+ * @brief  ???????
+ * @param	 None
+ * @retval None
+ */
 void DR16_Init(void)
 {
 	DR16.ch1=0;
@@ -22,14 +26,14 @@ void DR16_Init(void)
 	DR16.mouse.press_left 	= 0;	
 	DR16.mouse.press_right 	=0;
 	
-	DR16.pDR16getMsg=DR16_getMessage;
+	DR16.p_DR16getMsg=DR16_getMessage;
 }
 /******************************************************************************/
-/**
-  * @brief  DBUSÊý¾Ý½âÂë
-  * @param  void
-  * @retval void
-  */	
+/*
+ * @brief  ???????
+ * @param	 None
+ * @retval None
+ */	
 static void DR16_getMessage(uint8_t *DR16Buffer)
 {
 	DR16.ch1 = (DR16Buffer[0] | DR16Buffer[1]<<8) & 0x07FF;

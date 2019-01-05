@@ -61,7 +61,7 @@ typedef struct
     uint16_t jumpkey_code;         
 	}keyBoard;
 	
-	void (*pDR16getMsg)(uint8_t *DR16Buffer);
+	void (*p_DR16getMsg)(uint8_t *DR16Buffer);
 	
 }DR16_t;
 

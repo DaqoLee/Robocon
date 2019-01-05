@@ -2,7 +2,7 @@
 .\objects\dr16.o: ..\Devices\DR16.h
 .\objects\dr16.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\dr16.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\dr16.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\dr16.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\dr16.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\dr16.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\dr16.o: ..\Libraries\CMSIS\Include\core_cmFunc.h

@@ -1,8 +1,8 @@
-.\objects\pid.o: ..\User\pid.c
-.\objects\pid.o: ..\User\pid.h
+.\objects\pid.o: ..\Apps\pid.c
+.\objects\pid.o: ..\Apps\pid.h
 .\objects\pid.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\pid.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\pid.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\pid.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\pid.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\pid.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\pid.o: ..\Libraries\CMSIS\Include\core_cmFunc.h

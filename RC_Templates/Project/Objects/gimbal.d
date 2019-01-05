@@ -1,2 +1,2 @@
-.\objects\gimbal.o: ..\Control\Gimbal.c
-.\objects\gimbal.o: ..\Control\Gimbal.h
+.\objects\gimbal.o: ..\Apps\Gimbal.c
+.\objects\gimbal.o: ..\Apps\Gimbal.h

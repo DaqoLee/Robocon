@@ -68,7 +68,7 @@ static void vTaskUsart1Receive(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xUsart1RxQueue, &usart1RxBuffer,portMAX_DELAY);
-		DR16.pDR16getMsg(usart1RxBuffer);
+		DR16.p_DR16getMsg(usart1RxBuffer);
 		LED_TOGGLE(LED_G);
 	}
 

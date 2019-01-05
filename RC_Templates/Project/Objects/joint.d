@@ -1,9 +1,9 @@
-.\objects\joint.o: ..\Control\Joint.c
-.\objects\joint.o: ..\Control\Joint.h
+.\objects\joint.o: ..\Apps\Joint.c
+.\objects\joint.o: ..\Apps\Joint.h
 .\objects\joint.o: ..\Devices\Motor.h
 .\objects\joint.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\joint.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\joint.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\joint.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -39,5 +39,5 @@
 .\objects\joint.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma2d.h
 .\objects\joint.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\joint.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
-.\objects\joint.o: ..\User\pid.h
+.\objects\joint.o: ..\Apps\pid.h
 .\objects\joint.o: ..\Devices\DR16.h

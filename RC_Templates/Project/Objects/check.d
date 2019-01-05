@@ -1,3 +1,3 @@
-.\objects\check.o: ..\User\check.c
-.\objects\check.o: ..\User\check.h
-.\objects\check.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\check.o: ..\Apps\check.c
+.\objects\check.o: ..\Apps\check.h
+.\objects\check.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

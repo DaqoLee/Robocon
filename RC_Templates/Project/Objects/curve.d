@@ -1,8 +1,8 @@
-.\objects\curve.o: ..\User\Curve.c
-.\objects\curve.o: ..\User\Curve.h
+.\objects\curve.o: ..\Apps\Curve.c
+.\objects\curve.o: ..\Apps\Curve.h
 .\objects\curve.o: ..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\objects\curve.o: ..\Libraries\CMSIS\Include\core_cm4.h
-.\objects\curve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\curve.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\curve.o: ..\Libraries\CMSIS\Include\core_cmInstr.h
 .\objects\curve.o: ..\Libraries\CMSIS\Include\cmsis_armcc.h
 .\objects\curve.o: ..\Libraries\CMSIS\Include\core_cmFunc.h
@@ -39,4 +39,4 @@
 .\objects\curve.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fmc.h
 .\objects\curve.o: ..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\objects\curve.o: ..\Devices\Encoder.h
-.\objects\curve.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\curve.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
