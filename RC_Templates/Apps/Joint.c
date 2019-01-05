@@ -9,7 +9,7 @@
 
 void Thigh_M6020Ctrl(void)
 {
-	Motor.p_M6020setTarAngle(0.01,1,DR16.ch1);
+	Motor.p_M6020setTarAngle(0.05,1,DR16.ch1);
 	
 	for(uint8_t i=0;i<4;i++)
 	{
