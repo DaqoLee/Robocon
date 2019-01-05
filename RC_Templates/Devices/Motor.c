@@ -46,7 +46,7 @@ void MotorParamInit(void)
 	Motor.p_M3508getMsg = M3508_getMessage;
 	Motor.p_M2006getMsg = M2006_getMessage;
 	Motor.p_M6623getMsg = M6623_getMessage;
-	
+
 	PID_StructInit(&Motor.M6020[0].OutPID,POSITION_PID, \
 	                                      20000, 500, 10.0f,  0.1f, 2.8f);
 	PID_StructInit(&Motor.M6020[1].OutPID,POSITION_PID, \
