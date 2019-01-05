@@ -1,28 +1,3 @@
-/**
-  ************************************* Copyright ******************************   
-  * (C) Copyright 2018,Daqo Lee,China, GCU.
-  *		All Rights Reserved
-  *
-  * By(ZHE WOLF TEAM OF GCU ROBOT)
-  * https://github.com/GCUWildwolfteam
-  *
-  * FileName   : DR16.h   
-  * Version    : v1.0		
-  * Author     : Daqo Lee			
-  * Date       : 2018-12-13         
-  * Description:    
-  * Function List:  
-  	1. ....
-  	   <version>: 		
-  <modify staff>:
-  		  <data>:
-   <description>:  
-  	2. ...
-  ******************************************************************************
- */
-
-
-
 #ifndef __DR16_H_
 #define __DR16_H_
 #include "stm32f4xx.h"
