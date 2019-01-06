@@ -14,7 +14,6 @@
 
 #ifndef __MOTOR_H_
 #define __MOTOR_H_
-#include "stm32f4xx.h"
 #include "pid.h"
 /******************************************************************************/
 
@@ -30,7 +29,7 @@ typedef enum
 	RF,
 	RB,
 	LB
-	}M6020x_e;
+}M6020x_e;
 
 typedef struct
 {
@@ -71,12 +70,6 @@ typedef struct
 	#define M6623_ID_START	0x205
   #define M6623_ID_END	  0x206
 
-	#define M6020_MEDIAN   4000
-	#define M6020_RANGE    3000
-
-//	#define M6020_MEDIAN(n)  (M6020_MEDIAN_##n)
-//	#define M6020_RANGE(n)   (M6020_RANGE_##(M6020x_e)n)
-
 	uint16_t realAngle;			
 	 int16_t realCurrent;		 
 	 uint8_t temperture;		
@@ -92,6 +85,11 @@ typedef struct
 	#define M6020_ID_START	0x205
   #define M6020_ID_END	  0x208
 	
+
+	#define M6020_MEDIAN(i)   (Motor.M6020[i].medianAngle)
+	
+	#define M6020_RANGE    2048
+
 	uint16_t realAngle;			
 	 int16_t realSpeed;			
 	 int16_t realCurrent;	
@@ -100,7 +98,8 @@ typedef struct
    int16_t targetCurrent;	
 	uint16_t targetSpeed;		
 	uint16_t targetAngle;		
-	
+	uint16_t medianAngle;
+
      pid_t OutPID;				/*外环PID*/
 	   pid_t InPID;					/*内环PID*/
 	

@@ -69,7 +69,7 @@ static void vTaskCtrlJoint(void *pvParameters)
   while(1)
 	{
 		Thigh_M6020Ctrl();
-	Dynamixel_setMassage(0x01, 7, 0x08, Txt);
+	  Dynamixel_setMassage(0x01, 7, 0x08, Txt);
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }

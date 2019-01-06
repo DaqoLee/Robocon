@@ -11,6 +11,14 @@ const float Radian=PI/6;
 	
 /******************************************************************************/
 
+/*
+ * @brief  底盘运动模型分解
+ * @param  [in] Vx     X 轴方向速度
+ *         [in] Vy     Y 轴方向速度
+ *         [in] Omega  自旋速度
+ *         [in] *Speed 速度分解缓存 
+ * @retval None
+ */
 void ChassisMotionModel(float Vx, float Vy, float Omega, int16_t *Speed)								
 {
 #if   MECANUM == 1

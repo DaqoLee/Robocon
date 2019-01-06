@@ -26,7 +26,7 @@
 #ifndef __PID_H_
 #define __PID_H_
 #include "stm32f4xx.h"
-//#include <math.h>
+
 
 #define ABS(x)		((x>0)? (x): (-x)) 
 enum{
@@ -43,28 +43,28 @@ typedef struct __pid_t
 	float I;
 	float D;
 	
-	float set[3];				//目标值,包含NOW， LAST， LLAST上上次
-	float get[3];				//测量值
-	float err[3];				//误差
+	float set[3];				//�?标�?,包含NOW�? LAST�? LLAST上上�?
+	float get[3];				//测量�?
+	float err[3];				//�?�?
 	float erc[3];
 	
 	float Pout;							//p输出
 	float Iout;							//i输出
 	float Dout;							//d输出
 	
-	float posOut;						//本次位置式输出
-	float lastPosOut;				  //上次输出
-	float deltaU;						//本次增量值
-	float deltaOut;					//本次增量式输出 = last_delta_out + delta_u
+	float posOut;						//�?次位�?式输�?
+	float lastPosOut;				  //上�?�输�?
+	float deltaU;						//�?次�?�量�?
+	float deltaOut;					//�?次�?�量式输�? = last_delta_out + delta_u
 	float lastDeltaOut;
     
 	float maxErr;
 	float deadband;				//err < deadband return
 	uint32_t pidMode;
 	uint32_t maxOutput;				//输出限幅
-	uint32_t integralLimit;		//积分限幅
+	uint32_t integralLimit;		//�?分限�?
     
-	void (*f_ParamInit)(struct __pid_t *pid,  //PID参数初始化
+	void (*f_ParamInit)(struct __pid_t *pid,  //PID参数初�?�化
 									uint32_t pid_mode,
 									uint32_t maxOutput,
 									uint32_t integralLimit,

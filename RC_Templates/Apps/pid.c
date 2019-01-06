@@ -52,6 +52,12 @@ float PID_Calc(pid_t* pid, float get, float set)
     
     if(pid->pidMode == POSITION_PID) //Î»ÖÃÊ½P
     {	
+      if(pid->err[NOW] < 0)
+        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(8191 - ABS(pid->err[NOW])) \
+        ? 8191 - ABS(pid->err[NOW]):pid->err[NOW];
+      else if(pid->err[NOW]>0)
+        pid->err[NOW] = ABS(pid->err[NOW])>ABS(8191 - ABS(pid->err[NOW])) \
+        ? ABS(pid->err[NOW]) - 8191:pid->err[NOW];
       
       pid->Pout = pid->P * pid->err[NOW];
       pid->Iout += pid->I * pid->err[NOW];
