@@ -24,6 +24,14 @@ typedef enum
 	CAN_2   =2
 }CANx_e;
 
+typedef enum
+{
+  LF =1,
+	RF,
+	RB,
+	LB
+	}M6020x_e;
+
 typedef struct
 {
 	#define M3508_ID_START	0x201
@@ -63,8 +71,11 @@ typedef struct
 	#define M6623_ID_START	0x205
   #define M6623_ID_END	  0x206
 
-	#define M6020_MEDIAN    4000
-	#define M6020_RANGE    4000
+	#define M6020_MEDIAN   4000
+	#define M6020_RANGE    3000
+
+//	#define M6020_MEDIAN(n)  (M6020_MEDIAN_##n)
+//	#define M6020_RANGE(n)   (M6020_RANGE_##(M6020x_e)n)
 
 	uint16_t realAngle;			
 	 int16_t realCurrent;		 
@@ -118,11 +129,6 @@ typedef struct
 /******************************************************************************/
 
 
-
-
-
-
-/******************************************************************************/
 extern Motor_t Motor;
 
 void MotorParamInit(void);

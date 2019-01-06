@@ -27,6 +27,7 @@ static void M3508_setCurrent(CANx_e CANx);
 static void M2006_setCurrent(CANx_e CANx);
 static void M6020_setCurrent(CANx_e CANx);
 static void M6020_setTargetAngle(float Ratio ,uint8_t Motor_ID, int16_t DR16_chx);
+static void M6020_setLimitAngle(uint8_t Motor_ID);
 /******************************************************************************/
 /*
  * @brief  电机参数初始化
@@ -231,18 +232,50 @@ static void M6020_setTargetAngle(float Ratio ,uint8_t Motor_ID, int16_t DR16_chx
 
 /*
  * @brief  设置6020角度幅值
- * @param  [in] Ratio     遥控通道累加的倍率
- *         [in] Motor_ID  电机ID
+ * @param  [in] Motor_ID  电机ID
  *         [in] DR16_chx  遥控通道
  * @retval None
  */
-static void M6020_setLimitAngle(void)
+static void M6020_setLimitAngle(M6020x_e Motor_ID)
 {
-	const static uint16_t m6020Mini=(M6020_RANGE/2);
-	const static uint16_t m6020Max=(8191-m6020Mini);
+	 static uint16_t m6020Mini=1500;//=(M6020_MEDIAN/2);
+	 static uint16_t m6020Max=7500;//=(8191-m6020Mini);
 
-  
+  if(M6020_MEDIAN>m6020Mini && M6020_MEDIAN<m6020Max)
+	{
+    Motor.M6020[Motor_ID].targetAngle = Motor.M6020[Motor_ID].targetAngle \
+		> M6020_MEDIAN + m6020Mini ? M6020_MEDIAN + m6020Mini \
+	  : Motor.M6020[Motor_ID].targetAngle;
 
+		Motor.M6020[Motor_ID].targetAngle = Motor.M6020[Motor_ID].targetAngle \
+		< M6020_MEDIAN - m6020Mini ? M6020_MEDIAN - m6020Mini \
+	  : Motor.M6020[Motor_ID].targetAngle;
+	}
+	else if(M6020_MEDIAN < m6020Mini)
+	{
+		Motor.M6020[Motor_ID].targetAngle = (Motor.M6020[Motor_ID].targetAngle \
+		> (M6020_MEDIAN + m6020Mini)) && (Motor.M6020[Motor_ID].targetAngle \
+		< (M6020_MEDIAN + 4096)) ? M6020_MEDIAN + m6020Mini \
+		: Motor.M6020[Motor_ID].targetAngle ;
+
+		Motor.M6020[Motor_ID].targetAngle = (Motor.M6020[Motor_ID].targetAngle \
+		> (M6020_MEDIAN + 4096)) && (Motor.M6020[Motor_ID].targetAngle \
+		< (M6020_MEDIAN + m6020Max)) ? M6020_MEDIAN + m6020Max \
+		: Motor.M6020[Motor_ID].targetAngle ;
+	}
+	else 
+	{
+		Motor.M6020[Motor_ID].targetAngle = ((Motor.M6020[Motor_ID].targetAngle \
+		> (M6020_MEDIAN - 4096)) && (Motor.M6020[Motor_ID].targetAngle \
+		< (M6020_MEDIAN - m6020Mini))) ? M6020_MEDIAN - m6020Mini \
+		: Motor.M6020[Motor_ID].targetAngle ;
+
+		Motor.M6020[Motor_ID].targetAngle = (Motor.M6020[Motor_ID].targetAngle \
+		> (M6020_MEDIAN - m6020Max)) && (Motor.M6020[Motor_ID].targetAngle \
+		< (M6020_MEDIAN - 4096)) ? M6020_MEDIAN - m6020Max \
+		: Motor.M6020[Motor_ID].targetAngle ;	
+	}
+	
 }
 /******************************************************************************/
 
