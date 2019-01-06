@@ -85,9 +85,9 @@ typedef struct
 	#define M6020_ID_START	0x205
   #define M6020_ID_END	  0x208
 	
-
+  /*定义太长了，换个短一点的*/
 	#define M6020_MEDIAN(i)   (Motor.M6020[i].medianAngle)
-	
+
 	#define M6020_RANGE    2048
 
 	uint16_t realAngle;			
