@@ -247,7 +247,7 @@ static void M6020_setTargetAngle(float Ratio ,uint8_t M6020_ID, int16_t DR16_chx
 /*
  * @brief  设置6020角度幅值
  * @param  [in] M6020_ID  电机M6020_ID
- *         [in] DR16_chx  遥控通道
+ *         [in] *TargetAngle  目标值
  * @retval None
  */
 
