@@ -88,7 +88,8 @@ typedef struct
   /*定义太长了，换个短一点的*/
 	#define M6020_MEDIAN(i)   (Motor.M6020[i].medianAngle)
 
-	#define M6020_RANGE    2048
+  #define RATIO          (0.1f) 
+	#define M6020_RANGE    4096
 
 	uint16_t realAngle;			
 	 int16_t realSpeed;			
@@ -117,7 +118,7 @@ typedef struct
 	void (*p_M3508setCur)	(CANx_e CANx);
 	void (*p_M2006setCur)	(CANx_e CANx);
 	
-	void (*p_M6020setTarAngle)(float Ratio ,uint8_t Motor_ID, int16_t DR16_chx);
+	void (*p_M6020setTarAngle)(uint8_t Motor_ID, int16_t DR16_chx);
 	
 	void (*p_M6020getMsg) (CanRxMsg RxMessage);
 	void (*p_M3508getMsg) (CanRxMsg RxMessage);

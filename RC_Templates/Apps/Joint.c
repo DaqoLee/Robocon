@@ -13,10 +13,10 @@
  */
 void Thigh_M6020Ctrl(void)
 {
-	Motor.p_M6020setTarAngle(0.1,0,-DR16.ch1);
-	Motor.p_M6020setTarAngle(0.1,1,-DR16.ch1);
-	Motor.p_M6020setTarAngle(0.1,2,-DR16.ch1);
-	Motor.p_M6020setTarAngle(0.1,3,-DR16.ch1);
+	Motor.p_M6020setTarAngle(0,-DR16.ch1);
+	Motor.p_M6020setTarAngle(1,-DR16.ch1);
+	Motor.p_M6020setTarAngle(2,-DR16.ch1);
+	Motor.p_M6020setTarAngle(3,-DR16.ch1);
 	
 	for(uint8_t i=0;i<4;i++)
 	{

@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Libraries/STM32F4xx_StdPeriph_Driver/inc",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Libraries/CMSIS/Include",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Libraries/CMSIS/Device/ST/STM32F4xx/Include",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Devices",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Control",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/BSP",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Task",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/User",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Libraries/FreeRTOS/portable/RVDS/ARM_CM4F",
+                "C:/Users/Daqo Lee/Desktop/Robocon/Robocon/RC_Templates/Libraries/FreeRTOS/include",
+                "C:/Program Files (x86)/Microsoft Visual Studio/VC98/Include",
+               "${workspaceFolder}/**"
+              
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "USE_STDPERIPH_DRIVER",
+                "STM32F427_437xx",
+                "__CC_ARM"
+            ],
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,5 +1,4 @@
-#include "RoboModule.h"
-#include "BSP_CAN.h"
+ #include "RoboModule.h"
 #include "Task_Can.h"
 
 #define ABS(x) ((x)>0? (x):(-(x)))

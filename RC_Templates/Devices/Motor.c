@@ -26,7 +26,7 @@ static void M6623_getMessage(CanRxMsg RxMessage);
 static void M3508_setCurrent(CANx_e CANx);
 static void M2006_setCurrent(CANx_e CANx);
 static void M6020_setCurrent(CANx_e CANx);
-static void M6020_setTargetAngle(float Ratio ,uint8_t M6020_ID, int16_t DR16_chx);
+static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx);
 static void M6020_setLimitAngle(uint8_t M6020_ID,int16_t *TargetAngle);
 /******************************************************************************/
 /*
@@ -53,7 +53,7 @@ void MotorParamInit(void)
 	Motor.p_M6623getMsg = M6623_getMessage;
 
 	PID_StructInit(&Motor.M6020[0].OutPID,POSITION_PID,\
-	                                      20000, 500, 10.0f,  0.0f, 2.8f);
+	                                      25000, 500, 10.0f,  0.0f, 2.8f);
 	PID_StructInit(&Motor.M6020[1].OutPID,POSITION_PID,\
 	                                      25000, 5000, 10.0f, 0.0f, 5.0f);       
 	PID_StructInit(&Motor.M6020[2].OutPID,POSITION_PID,\
@@ -228,14 +228,14 @@ static void M2006_setCurrent(CANx_e CANx)
  *         [in] DR16_chx  遥控通道
  * @retval None
  */
-static void M6020_setTargetAngle(float Ratio ,uint8_t M6020_ID, int16_t DR16_chx)
+static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx)
 {
   static int16_t targetAngle = 0;
 
 	targetAngle = targetAngle > 8191 ? targetAngle - 8191\
-                        	: targetAngle + Ratio * DR16_chx;
+                        	: targetAngle + RATIO * DR16_chx;
 	targetAngle = targetAngle < 0 ? 8191 + targetAngle\
-	                        : targetAngle + Ratio * DR16_chx;
+	                        : targetAngle + RATIO * DR16_chx;
 	
   M6020_setLimitAngle(M6020_ID,&targetAngle);
 	
@@ -244,14 +244,12 @@ static void M6020_setTargetAngle(float Ratio ,uint8_t M6020_ID, int16_t DR16_chx
 }
 
 
-/*
+/* 
  * @brief  设置6020角度幅值
  * @param  [in] M6020_ID  电机M6020_ID
  *         [in] *TargetAngle  目标值
  * @retval None
  */
-
-
 static void M6020_setLimitAngle(uint8_t M6020_ID, int16_t *TargetAngle)
 {
   const uint16_t m6020Mini=(M6020_RANGE/2);

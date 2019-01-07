@@ -1,0 +1,14 @@
+{
+  "files.associations": {
+    "task_can.h": "c",
+    "freertos.h": "c",
+    "portable.h": "c",
+    "portmacro.h": "c",
+    "motor.h": "c",
+    "stm32f4xx.h": "c",
+    "joint.h": "c",
+    "pid.h": "c",
+    "chassis.h": "c",
+    "bsp_can.h": "c"
+  }
+}
