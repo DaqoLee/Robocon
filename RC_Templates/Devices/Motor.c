@@ -1,23 +1,29 @@
-/*
- *******************************************************************************
- * @file    Motor.c
- * @author  Daqo Lee
- * @version V1.1
- * @date    2019/1/1
- * @brief   电机报文解析与电流设定相关函数
- *
- *******************************************************************************
- * @attention
- *
- *******************************************************************************
- */
+/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : Motor.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-01-08               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
+
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 
 #include "Motor.h"
 #include "Task_Can.h"
-/******************************************************************************/
-Motor_t Motor;
+/*-------------------------- D E F I N E S -----------------------------------*/
 
-/******************************************************************************/
+Motor_t Motor;
+/*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
+
 static void M3508_getMessage(CanRxMsg RxMessage);
 static void M2006_getMessage(CanRxMsg RxMessage);
 static void M6020_getMessage(CanRxMsg RxMessage);
@@ -28,12 +34,16 @@ static void M2006_setCurrent(CANx_e CANx);
 static void M6020_setCurrent(CANx_e CANx);
 static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx);
 static void M6020_setLimitAngle(uint8_t M6020_ID,int16_t *TargetAngle);
-/******************************************************************************/
-/*
- * @brief  电机参数初始化
- * @param	 None
- * @retval None
- */
+
+/*------------------G L O B A L - F U N C T I O N S --------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   电机参数初始化
+	* @param   void
+	* @retval  void
+	*/
 void MotorParamInit(void)
 {
 	Motor.M6020[0].medianAngle = 4000;
@@ -62,11 +72,15 @@ void MotorParamInit(void)
 	                                      25000, 5000, 10.0f, 0.0f, 5.0f);                        
 }
 
-/*
- * @brief 解析3508报文
- * @param	[in] RxMessage: CAN报文
- * @retval None
- */
+/*---------------------L O C A L - F U N C T I O N S--------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   解析3508报文
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M3508_getMessage(CanRxMsg RxMessage)
 {
 	uint8_t stdId = 0;
@@ -82,11 +96,13 @@ static void M3508_getMessage(CanRxMsg RxMessage)
 	Motor.M3508[stdId].temperture = RxMessage.Data[6];
 }
 
-/*
- * @brief 解析2006报文
- * @param	[in] RxMessage: CAN报文
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   解析6623报文
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M6623_getMessage(CanRxMsg RxMessage)
 {
 	uint8_t stdId = 0;
@@ -100,11 +116,13 @@ static void M6623_getMessage(CanRxMsg RxMessage)
 	
 }
 
-/*
- * @brief 解析2006报文
- * @param	[in] RxMessage: CAN报文
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   解析6020报文
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M6020_getMessage(CanRxMsg RxMessage)
 {
 	uint8_t stdId = 0;
@@ -121,11 +139,13 @@ static void M6020_getMessage(CanRxMsg RxMessage)
 	
 }
 
-/*
- * @brief 解析2006报文
- * @param	[in] RxMessage: CAN报文
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   解析2006报文
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M2006_getMessage(CanRxMsg RxMessage)
 {
 	uint8_t stdId = 0;
@@ -141,11 +161,13 @@ static void M2006_getMessage(CanRxMsg RxMessage)
 	Motor.M3508[stdId].temperture = RxMessage.Data[6];
 }
 
-/*
- * @brief  设定6020电流
- * @param	[in] CANx: CAN1/CAN2
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   设定6020电流
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M6020_setCurrent(CANx_e CANx)
 {
 	static CanSend_t canSendData;
@@ -168,11 +190,13 @@ static void M6020_setCurrent(CANx_e CANx)
 	xQueueSend(xCanSendQueue, &canSendData, 20);
 }
 
-/*
- * @brief  设定3508电流
- * @param	[in] CANx: CAN1/CAN2
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   设定3508电流
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M3508_setCurrent(CANx_e CANx)
 {
 	static CanSend_t canSendData;
@@ -194,11 +218,13 @@ static void M3508_setCurrent(CANx_e CANx)
 	xQueueSend(xCanSendQueue, &canSendData, 20);
 }
 
-/*
- * @brief  设定2006电流
- * @param	[in] CANx: CAN1/CAN2
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   设定2006电流
+	* @param   [in] RxMessage: CAN报文缓存 
+	* @retval  void
+	*/
 static void M2006_setCurrent(CANx_e CANx)
 {
 	static CanSend_t canSendData;
@@ -221,13 +247,15 @@ static void M2006_setCurrent(CANx_e CANx)
 	xQueueSend(xCanSendQueue, &canSendData, 20);
 }
 
-/*
- * @brief  设置6020目标角度
- * @param  [in] Ratio     遥控通道累加的倍率
- *         [in] M6020_ID  电机M6020_ID
- *         [in] DR16_chx  遥控通道
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   设置6020目标角度
+  * @param  [in] Ratio     遥控通道累加的倍率
+  *         [in] M6020_ID  电机M6020_ID
+  *         [in] DR16_chx  遥控通道 
+	* @retval  void
+	*/
 static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx)
 {
   static int16_t targetAngle = 0;
@@ -243,13 +271,14 @@ static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx)
 
 }
 
-
-/* 
- * @brief  设置6020角度幅值
- * @param  [in] M6020_ID  电机M6020_ID
- *         [in] *TargetAngle  目标值
- * @retval None
- */
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 16:45
+	* @brief   设置6020角度幅值
+  * @param  [in] M6020_ID  电机M6020_ID
+  *         [in] *TargetAngle  目标值
+	* @retval  void
+	*/
 static void M6020_setLimitAngle(uint8_t M6020_ID, int16_t *TargetAngle)
 {
   const uint16_t m6020Mini=(M6020_RANGE/2);
@@ -286,5 +315,5 @@ static void M6020_setLimitAngle(uint8_t M6020_ID, int16_t *TargetAngle)
 	}
 	
 }
-/******************************************************************************/
+/*-----------------------------------FILE OF END------------------------------*/
 

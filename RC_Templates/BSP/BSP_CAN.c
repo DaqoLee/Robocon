@@ -4,7 +4,7 @@
 
 /******************************************************************************/
 /**
-  * @brief  CAN初始化
+  * @brief  CAN1��ʼ��
   * @param  void
   * @retval void
   */
@@ -13,37 +13,54 @@ void BSP_CAN1_Init(void)
 
 	CAN_InitTypeDef     CAN_InitStructure;
 	CAN_FilterInitTypeDef   CAN_FilterInitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+
+	RCC_AHB1PeriphClockCmd(CAN1_RX_GPIO_CLK | CAN1_TX_GPIO_CLK, ENABLE);
+		/* GPIO��ʼ�� */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+
 	
-	BSP_CAN1_GPIOInit();
+ /* ����Tx����  */
+	GPIO_InitStructure.GPIO_Pin = CAN1_TX_Pin;  
+	GPIO_Init(CAN1_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* ����Rx����*/
+	GPIO_InitStructure.GPIO_Pin = CAN1_RX_Pin;
+	GPIO_Init(CAN1_RX_GPIO_PORT, &GPIO_InitStructure);
+	GPIO_PinAFConfig(CAN1_TX_GPIO_PORT, CAN1_TX_PINSOURCE, GPIO_AF_CAN1);
+	GPIO_PinAFConfig(CAN1_RX_GPIO_PORT, CAN1_RX_PINSOURCE, GPIO_AF_CAN1);
+	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
-/************************CAN模式配置*******************************************/
-	CAN_InitStructure.CAN_ABOM      =   ENABLE;          /*自动离线管理*/
-	CAN_InitStructure.CAN_AWUM      =   DISABLE;         /*使用自动唤醒模式*/  
-	CAN_InitStructure.CAN_NART      =   DISABLE;         /*报文自动重传*/
-	CAN_InitStructure.CAN_TTCM      =   DISABLE;				 /*时间触发通信模式*/
-	CAN_InitStructure.CAN_TXFP      =   DISABLE;				 /*优先级取决于标示符*/
-	CAN_InitStructure.CAN_RFLM      =   DISABLE;			   /*溢出覆盖原有报文 */	
-	CAN_InitStructure.CAN_Mode      =   CAN_Mode_Normal; /*工作模式*/
+  /* -------- CAN��ʼ������  --------- */
+	CAN_InitStructure.CAN_ABOM      =   ENABLE;         
+	CAN_InitStructure.CAN_AWUM      =   DISABLE;        
+	CAN_InitStructure.CAN_NART      =   DISABLE;         
+	CAN_InitStructure.CAN_TTCM      =   DISABLE;				 
+	CAN_InitStructure.CAN_TXFP      =   DISABLE;				 
+	CAN_InitStructure.CAN_RFLM      =   DISABLE;			  
+	CAN_InitStructure.CAN_Mode      =   CAN_Mode_Normal;
 	
-  /* ss=1 bs1=3 bs2=5 位时间宽度为(1+3+5) 波特率即为时钟周期tq*(1+3+5)  */	
+ 
 	CAN_InitStructure.CAN_SJW       =   CAN_SJW_1tq;
 	CAN_InitStructure.CAN_BS1       =   CAN_BS1_3tq;     
 	CAN_InitStructure.CAN_BS2       =   CAN_BS2_5tq;   
 	
-  /*波特率分频器  定义了时间单元的时间长度 45/(1+3+5)/5=1 Mbps*/
+ 
 	CAN_InitStructure.CAN_Prescaler =   5;
 	CAN_Init(CAN1, &CAN_InitStructure);
 
 
 	
-/*********************CAN筛选器初始化******************************************/
-	CAN_FilterInitStructure.CAN_FilterNumber        =   0;/*筛选器组0*/
+/*********************CANɸѡ����ʼ��******************************************/
+	CAN_FilterInitStructure.CAN_FilterNumber        =   0;
 	CAN_FilterInitStructure.CAN_FilterMode          =   CAN_FilterMode_IdMask;
 	CAN_FilterInitStructure.CAN_FilterScale         =   CAN_FilterScale_32bit;
 	CAN_FilterInitStructure.CAN_FilterFIFOAssignment=   CAN_Filter_FIFO0;
-	CAN_FilterInitStructure.CAN_FilterActivation    =   ENABLE; /*使能筛选器*/
+	CAN_FilterInitStructure.CAN_FilterActivation    =   ENABLE; 
 	
-	/*不进行过滤*/
 	CAN_FilterInitStructure.CAN_FilterIdHigh        =   0x0000;
 	CAN_FilterInitStructure.CAN_FilterIdLow         =   0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdHigh    =   0x0000;
@@ -60,36 +77,49 @@ void CAN2_Init(void)
 {
 	CAN_InitTypeDef     CAN_InitStructure;
 	CAN_FilterInitTypeDef   CAN_FilterInitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(CAN2_RX_GPIO_CLK | CAN2_TX_GPIO_CLK, ENABLE);
+
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	
-  BSP_CAN2_GPIOInit();
+	GPIO_InitStructure.GPIO_Pin = CAN2_TX_Pin;  
+	GPIO_Init(CAN2_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	GPIO_InitStructure.GPIO_Pin = CAN2_RX_Pin;
+	GPIO_Init(CAN2_RX_GPIO_PORT, &GPIO_InitStructure);
+	
+	GPIO_PinAFConfig(CAN2_TX_GPIO_PORT, CAN2_TX_PINSOURCE, GPIO_AF_CAN2);
+	GPIO_PinAFConfig(CAN2_RX_GPIO_PORT, CAN2_RX_PINSOURCE, GPIO_AF_CAN2);	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN2, ENABLE);
-/************************CAN模式配置*******************************************/	
-	CAN_InitStructure.CAN_ABOM      =   ENABLE;          /*自动离线管理*/
-	CAN_InitStructure.CAN_AWUM      =   DISABLE;         /*使用自动唤醒模式*/  
-	CAN_InitStructure.CAN_NART      =   DISABLE;         /*报文自动重传*/
-	CAN_InitStructure.CAN_TTCM      =   DISABLE;				 /*时间触发通信模式*/
-	CAN_InitStructure.CAN_TXFP      =   DISABLE;				 /*优先级取决于标示符*/
-	CAN_InitStructure.CAN_RFLM      =   DISABLE;			   /*溢出覆盖原有报文 */	
-	CAN_InitStructure.CAN_Mode      =   CAN_Mode_Normal; /*工作模式*/
+/************************CANģʽ����*******************************************/	
+	CAN_InitStructure.CAN_ABOM      =   ENABLE;         
+	CAN_InitStructure.CAN_AWUM      =   DISABLE;        
+	CAN_InitStructure.CAN_NART      =   DISABLE;        
+	CAN_InitStructure.CAN_TTCM      =   DISABLE;				 
+	CAN_InitStructure.CAN_TXFP      =   DISABLE;				 
+	CAN_InitStructure.CAN_RFLM      =   DISABLE;			  
+	CAN_InitStructure.CAN_Mode      =   CAN_Mode_Normal; 
 	
-  /* ss=1 bs1=3 bs2=5 位时间宽度为(1+3+5) 波特率即为时钟周期tq*(1+3+5)  */	
+  
 	CAN_InitStructure.CAN_SJW       =   CAN_SJW_1tq;
 	CAN_InitStructure.CAN_BS1       =   CAN_BS1_3tq;     
 	CAN_InitStructure.CAN_BS2       =   CAN_BS2_5tq;   
 	
-  /*波特率分频器  定义了时间单元的时间长度 45/(1+3+5)/5=1 Mbps*/
+ 
 	CAN_InitStructure.CAN_Prescaler =   5;
 	CAN_Init(CAN2, &CAN_InitStructure);
 
 
-/*********************CAN筛选器初始化******************************************/
-	CAN_FilterInitStructure.CAN_FilterNumber        =   14;/*筛选器组0*/
+/*********************CANɸѡ����ʼ��******************************************/
+	CAN_FilterInitStructure.CAN_FilterNumber        =   14;
 	CAN_FilterInitStructure.CAN_FilterMode          =   CAN_FilterMode_IdMask;
 	CAN_FilterInitStructure.CAN_FilterScale         =   CAN_FilterScale_32bit;
 	CAN_FilterInitStructure.CAN_FilterFIFOAssignment=   CAN_Filter_FIFO0;
-	CAN_FilterInitStructure.CAN_FilterActivation    =   ENABLE; /*使能筛选器*/
-	
-	/*不进行过滤*/
+	CAN_FilterInitStructure.CAN_FilterActivation    =   ENABLE; 
+
 	CAN_FilterInitStructure.CAN_FilterIdHigh        =   0x0000;
 	CAN_FilterInitStructure.CAN_FilterIdLow         =   0x0000;
 	CAN_FilterInitStructure.CAN_FilterMaskIdHigh    =   0x0000;

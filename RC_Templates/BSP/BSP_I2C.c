@@ -5,7 +5,17 @@ void BSP_I2C2_Init(void)
 {
 
   I2C_InitTypeDef   I2C_InitStructure;
-  BSP_I2C2_GPIOInit();
+  GPIO_InitTypeDef  GPIO_InitStructure; 
+	RCC_APB1PeriphClockCmd(I2C2_SDA_GPIO_CLK|I2C2_SCL_GPIO_CLK,ENABLE);
+	GPIO_InitStructure.GPIO_OType=GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF;    /*I2C¡À???????????*/
+	
+	GPIO_InitStructure.GPIO_Pin   =  I2C2_SCL_Pin|I2C2_SDA_Pin ;
+	GPIO_Init(I2C2_SCL_GPIO_PORT, &GPIO_InitStructure);
+	
+//	GPIO_PinAFConfig(I2C2_SDA_GPIO_PORT, I2C2_SDA_PINSOURCE, GPIO_AF_I2C2);
+//	GPIO_PinAFConfig(I2C2_SCL_GPIO_PORT, I2C2_SCL_PINSOURCE, GPIO_AF_I2C2);
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2,ENABLE);
   RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2,ENABLE);
 	RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, DISABLE);

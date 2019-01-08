@@ -1,4 +1,4 @@
-/**
+﻿/**
 |-------------------------------- Copyright -----------------------------------|
 |                                                                              |
 |                        (C) Copyright 2019, Daqo Lee,                         |
@@ -6,7 +6,7 @@
 |                            By:GCU The wold of team                           |
 |                         https://github.com/GCUWildwolfteam                   |
 |------------------------------------------------------------------------------|
-|--FileName    : BSP_TIM.h                                                
+|--FileName    : User_Config.h                                                
 |--Version     : v1.0                                                            
 |--Author      : Daqo Lee                                                       
 |--Date        : 2019-01-08               
@@ -14,13 +14,13 @@
 |--Description :                                                       
 |---------------------------------declaration of end----------------------------|
  **/
-#ifndef __BSP_TIM_H 
-#define __BSP_TIM_H 
+#ifndef __USER_CONFIG_H 
+#define __USER_CONFIG_H 
 
   
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 
-#include "stm32f4xx.h"
+
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
@@ -39,8 +39,12 @@
 
 
 
-#endif	// __BSP_TIM_H
+#endif	// __USER_CONFIG_H
 /*----------------------------------FILE OF END-------------------------------*/
+
+
+
+
 
 
 

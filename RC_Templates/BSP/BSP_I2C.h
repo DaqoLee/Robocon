@@ -26,7 +26,17 @@
 #ifndef __BSP__I2C_H_
 #define __BSP__I2C_H_
 #include "stm32f4xx.h"
-#include "BSP_GPIO.h"
+
+/******************************************************************************/
+#define I2C2_SCL_GPIO_CLK           RCC_AHB1Periph_GPIOF
+#define I2C2_SCL_GPIO_PORT          GPIOF
+#define I2C2_SCL_Pin           	  	GPIO_Pin_1
+#define I2C2_SCL_PINSOURCE			    GPIO_PinSource1
+
+#define I2C2_SDA_GPIO_CLK           RCC_AHB1Periph_GPIOF
+#define I2C2_SDA_GPIO_PORT          GPIOF
+#define I2C2_SDA_Pin           	  	GPIO_Pin_0
+#define I2C2_SDA_PINSOURCE			    GPIO_PinSource0
 
 void BSP_I2C2_Init(void);
 void I2C_WriteByte(uint8_t addr,uint8_t data);

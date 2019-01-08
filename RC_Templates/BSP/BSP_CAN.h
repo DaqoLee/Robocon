@@ -30,16 +30,15 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
-#include "BSP_GPIO.h"
 
 /******************************************************************************/
 typedef struct
 {
   uint8_t     CANx;               /*1：CAN1  2：CAN2*/
-  CanTxMsg    SendCanTxMsg;       /*要发送的数据*/
+  CanTxMsg    SendCanTxMsg;       /*要发送的数据缓存*/
 }CanSend_t;
 
-/******************************************************************************/
+/********CAN1_Pin_define*****************************************************/
 #define CAN1_RX_GPIO_CLK          	RCC_AHB1Periph_GPIOD
 #define CAN1_RX_GPIO_PORT           GPIOD
 #define CAN1_RX_Pin           		  GPIO_Pin_0
@@ -50,7 +49,7 @@ typedef struct
 #define CAN1_TX_Pin          	     	GPIO_Pin_1
 #define CAN1_TX_PINSOURCE		      	GPIO_PinSource1
 
-
+/********CAN1_Pin_define*****************************************************/
 #define CAN2_RX_GPIO_CLK          	RCC_AHB1Periph_GPIOB
 #define CAN2_RX_GPIO_PORT           GPIOB
 #define CAN2_RX_Pin           	  	GPIO_Pin_12
@@ -60,7 +59,6 @@ typedef struct
 #define CAN2_TX_GPIO_PORT           GPIOB
 #define CAN2_TX_Pin          	 	    GPIO_Pin_13
 #define CAN2_TX_PINSOURCE		      	GPIO_PinSource13
-/******************************************************************************/
 
 
 void BSP_CAN1_Init(void);

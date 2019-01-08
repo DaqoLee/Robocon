@@ -1,9 +1,39 @@
-#include "DR16.h"
-/******************************************************************************/
+﻿/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : DR16.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-01-08               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
+#include "DR16.h" 
+	
+/*-------------------------- D E F I N E S -----------------------------------*/
+
 DR16_t DR16;
 
+/*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
+
 static void DR16_getMessage(uint8_t *DR16Buffer);
-/******************************************************************************/
+
+/*------------------G L O B A L - F U N C T I O N S --------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 17:08
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
 void DR16_Init(void)
 {
 	DR16.ch1=0;
@@ -24,12 +54,16 @@ void DR16_Init(void)
 	
 	DR16.p_DR16getMsg=DR16_getMessage;
 }
-/******************************************************************************/
-/**
-  * @brief  DBUSÊý¾Ý½âÂë
-  * @param  void
-  * @retval void
-  */	
+
+/*---------------------L O C A L - F U N C T I O N S--------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-08 17:08
+	* @brief   
+	* @param   *DR16Buffer
+	* @retval  void
+	*/
 static void DR16_getMessage(uint8_t *DR16Buffer)
 {
 	DR16.ch1 = (DR16Buffer[0] | DR16Buffer[1]<<8) & 0x07FF;
@@ -53,5 +87,9 @@ static void DR16_getMessage(uint8_t *DR16Buffer)
 	
 	DR16.keyBoard.key_code 	= DR16Buffer[14] | DR16Buffer[15] << 8; 
 }
-/******************************************************************************/
+
+
+/*-----------------------------------FILE OF END------------------------------*/
+
+
 

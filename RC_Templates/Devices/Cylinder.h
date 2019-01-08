@@ -1,34 +1,45 @@
 /**
-  ************************************* Copyright ******************************   
-  * (C) Copyright 2018,Daqo Lee,China, GCU.
-  *		All Rights Reserved
-  *
-  * By(ZHE WOLF TEAM OF GCU ROBOT)
-  * https://github.com/GCUWildwolfteam
-  *
-  * FileName   : Cylinder.h   
-  * Version    : v1.0		
-  * Author     : Daqo Lee			
-  * Date       : 2018-12-21         
-  * Description:    
-  * Function List:  
-  	1. ....
-  	   <version>: 		
-  <modify staff>:
-  		  <data>:
-   <description>:  
-  	2. ...
-  ******************************************************************************
- */
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                        (C) Copyright 2019, Daqo Lee,                         |
+|                                                                              |
+|                            By:GCU The wold of team                           |
+|                         https://github.com/GCUWildwolfteam                   |
+|------------------------------------------------------------------------------|
+|--FileName    : Cylinder.h                                                
+|--Version     : v1.0                                                            
+|--Author      : Daqo Lee                                                       
+|--Date        : 2019-01-08               
+|--Libsupports : STM32F4xx_DFP ( 2.9.0)
+|--Description :                                                       
+|---------------------------------declaration of end----------------------------|
+ **/
+#ifndef __CYLINDER_H 
+#define __CYLINDER_H 
+
+  
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 
 
 
-#ifndef __CYLINDER_H_
-#define __CYLINDER_H_
+/*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 
-#endif
+
+/*-------------------------G L O B A L - T Y P E S----------------------------*/
 
 
- 
+
+/*------------------------G L O B A L - M A C R O S --------------------------*/
+
+
+
+/*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
+
+
+
+
+#endif	// __CYLINDER_H
+/*----------------------------------FILE OF END-------------------------------*/
+
 

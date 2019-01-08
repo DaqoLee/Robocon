@@ -1,4 +1,4 @@
- /**
+﻿ /**
   ************************************* Copyright ****************************** 
   *
   * (C) Copyright 2018,Daqo Lee,China, GCU.
@@ -42,6 +42,21 @@ void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
 
 
 }
+
+
+/* --------------------------------------------------------------------- */
+/*
+ * @Name    Dynamixel_setMassage
+ * @brief  
+ * @param   ID: [输入/出] 
+**			 Length: [输入/出] 
+**			 Cmd: [输入/出] 
+**			 Data: [输入/出] 
+ * @retval
+ * @author  Daqo Lee 
+ * @Data    2019-01-08
+ */
+
 
 void Dynamixel_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
 {
