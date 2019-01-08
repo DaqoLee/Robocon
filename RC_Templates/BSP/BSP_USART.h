@@ -114,6 +114,7 @@ void BSP_USART1_Init(uint32_t BaudRate);
 void BSP_USART2_Init(uint32_t BaudRate);
 void BSP_USART3_Init(uint32_t BaudRate);
 void USART_sendChar(USART_TypeDef* USARTx, char ch);
+
 #endif
 
 

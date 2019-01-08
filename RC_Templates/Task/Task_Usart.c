@@ -2,8 +2,6 @@
 #include "BSP_USART.h"
 #include "DR16.h"
 #include "LED.h"
-#include "FreeRTOS.h"
-#include "task.h"
 #include "Encoder.h"
 /******************************************************************************/
 static TaskHandle_t xHandleUsart1Receive = NULL;
