@@ -1,30 +1,6 @@
-/**
-  ************************************* Copyright ******************************   
-  * (C) Copyright 2018,Daqo Lee,China, GCU.
-  *		All Rights Reserved
-  *
-  * By(ZHE WOLF TEAM OF GCU ROBOT)
-  * https://github.com/GCUWildwolfteam
-  *
-  * FileName   : pid.h   
-  * Version    : v1.0		
-  * Author     : Daqo Lee			
-  * Date       : 2018-12-27         
-  * Description:    
-  * Function List:  
-  	1. ....
-  	   <version>: 		
-  <modify staff>:
-  		  <data>:
-   <description>:  
-  	2. ...
-  ******************************************************************************
- */
-
-
-
 #ifndef __PID_H_
 #define __PID_H_
+
 #include "stm32f4xx.h"
 
 
@@ -43,28 +19,28 @@ typedef struct __pid_t
 	float I;
 	float D;
 	
-	float set[3];				//ç›?æ ‡å€?,åŒ…å«NOWï¼? LASTï¼? LLASTä¸Šä¸Šæ¬?
-	float get[3];				//æµ‹é‡å€?
-	float err[3];				//è¯?å·?
+	float set[3];				
+	float get[3];				
+	float err[3];			
 	float erc[3];
 	
-	float Pout;							//pè¾“å‡º
-	float Iout;							//iè¾“å‡º
-	float Dout;							//dè¾“å‡º
+	float Pout;						
+	float Iout;						
+	float Dout;						
 	
-	float posOut;						//æœ?æ¬¡ä½ç½?å¼è¾“å‡?
-	float lastPosOut;				  //ä¸Šæ?¡è¾“å‡?
-	float deltaU;						//æœ?æ¬¡å?é‡å€?
-	float deltaOut;					//æœ?æ¬¡å?é‡å¼è¾“å‡? = last_delta_out + delta_u
+	float posOut;						
+	float lastPosOut;				  
+	float deltaU;						
+	float deltaOut;					
 	float lastDeltaOut;
     
 	float maxErr;
-	float deadband;				//err < deadband return
+	float deadband;				
 	uint32_t pidMode;
-	uint32_t maxOutput;				//è¾“å‡ºé™å¹…
-	uint32_t integralLimit;		//ç§?åˆ†é™å¹?
+	uint32_t maxOutput;				
+	uint32_t integralLimit;		
     
-	void (*f_ParamInit)(struct __pid_t *pid,  //PIDå‚æ•°åˆå?‹åŒ–
+	void (*f_ParamInit)(struct __pid_t *pid,  
 									uint32_t pid_mode,
 									uint32_t maxOutput,
 									uint32_t integralLimit,
