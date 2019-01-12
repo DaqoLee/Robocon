@@ -25,7 +25,6 @@
 
 #ifndef __TASK__INIT_H_
 #define __TASK__INIT_H_
-#include "stm32f4xx.h"
 #include "LED.h"
 #include "FreeRTOS.h"
 #include "task.h"

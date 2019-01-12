@@ -4,7 +4,7 @@
   * @author  Hare
   * @version V1.0
   * @date    
-  * @brief   å»¶æ—¶åº”ç”¨å‡½æ•°æ¥å£
+  * @brief   ÑÓÊ±Ó¦ÓÃº¯Êı½Ó¿Ú
   ******************************************************************************
   */
   
@@ -12,8 +12,8 @@
 #include "delay.h"
 
 /**
-  * @brief  æ¯«ç§’çº§å»¶æ—¶
-  * @param  _ms å»¶æ—¶æ¯«ç§’æ•°
+  * @brief  ºÁÃë¼¶ÑÓÊ±
+  * @param  _ms ÑÓÊ±ºÁÃëÊı
   * @retval None
   */
 void delay_ms(uint32_t _ms){
@@ -25,8 +25,8 @@ void delay_ms(uint32_t _ms){
 }
 
 /**
-  * @brief  å¾®ç§’çº§å»¶æ—¶
-  * @param  _us å»¶æ—¶å¾®ç§’æ•°
+  * @brief  Î¢Ãë¼¶ÑÓÊ±
+  * @param  _us ÑÓÊ±Î¢ÃëÊı
   * @retval None
   */
 void delay_us(uint32_t _us){

@@ -6,10 +6,10 @@
 
 #include <stdint.h>
 
-uint16_t Checksum_Sum(uint8_t* buf,uint16_t len);	 //å’Œæ ¡éªŒ æ‰€æœ‰å­—èŠ‚ä¹‹å’Œä¸º0
-uint16_t Checksum_XOR(uint8_t* buf, uint16_t len);	 //å¼‚æˆ–æ ¡éªŒï¼Œæ‰€æœ‰å­—èŠ‚å¼‚æˆ–
-uint16_t Checksum_CRC8(uint8_t *buf,uint16_t len);	 //CRC8 æ ¡éªŒ
-uint16_t Checksum_CRC16(uint8_t *buf,uint16_t len);  //CRC16 æ ¡éªŒ
-
+uint16_t Checksum_Sum(uint8_t* buf,uint16_t len);	 //ºÍĞ£Ñé ËùÓĞ×Ö½ÚÖ®ºÍÎª0
+uint16_t Checksum_XOR(uint8_t* buf, uint16_t len);	 //Òì»òĞ£Ñé£¬ËùÓĞ×Ö½ÚÒì»ò
+uint16_t Checksum_CRC8(uint8_t *buf,uint16_t len);	 //CRC8 Ğ£Ñé
+uint16_t Checksum_CRC16(uint8_t *buf,uint16_t len);  //CRC16 Ğ£Ñé
+uint16_t update_crc(uint16_t crc_accum, uint8_t *data_blk_ptr, uint16_t data_blk_size);
 #endif
 

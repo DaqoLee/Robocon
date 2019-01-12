@@ -1,33 +1,27 @@
 /**
-  ************************************* Copyright ******************************   
-  * (C) Copyright 2018,Daqo Lee,China, GCU.
-  *		All Rights Reserved
-  *
-  * By(ZHE WOLF TEAM OF GCU ROBOT)
-  * https://github.com/GCUWildwolfteam
-  *
-  * FileName   : Encoder.h   
-  * Version    : v1.0		
-  * Author     : Daqo Lee			
-  * Date       : 2018-12-30         
-  * Description:    
-  * Function List:  
-  	1. ....
-  	   <version>: 		
-  <modify staff>:
-  		  <data>:
-   <description>:  
-  	2. ...
-  ******************************************************************************
- */
-
-
-
-#ifndef __ENCODER_H_
-#define __ENCODER_H_
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                        (C) Copyright 2019, Daqo Lee,                         |
+|                                                                              |
+|                            By:GCU The wold of team                           |
+|                         https://github.com/GCUWildwolfteam                   |
+|------------------------------------------------------------------------------|
+|--FileName    : Encoder.h                                                
+|--Version     : v1.0                                                            
+|--Author      : Daqo Lee                                                       
+|--Date        : 2019-01-10               
+|--Libsupports : STM32F4xx_DFP ( 2.9.0)
+|--Description :                                                       
+|---------------------------------declaration of end----------------------------|
+ **/
+#ifndef __ENCODER_H 
+#define __ENCODER_H 
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "stm32f4xx.h"
-
 #pragma anon_unions
+
+/*-------------------------G L O B A L - T Y P E S----------------------------*/
+
 typedef struct
 {																					
 	union
@@ -52,11 +46,20 @@ typedef struct
 	
 }Posture_t;	
 
+/*------------------------G L O B A L - M A C R O S --------------------------*/
+
+
+
+/*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 extern Posture_t Posture;
+
+/*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
+
+
 void Posture_getMessage(uint8_t *EncoderBuf);
-#endif
 
+#endif	// __ENCODER_H
+/*----------------------------------FILE OF END-------------------------------*/
 
- 
 

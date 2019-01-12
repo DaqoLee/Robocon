@@ -1,31 +1,47 @@
 /**
-  ************************************* Copyright ******************************   
-  * (C) Copyright 2018,Daqo Lee,China, GCU.
-  *		All Rights Reserved
-  *
-  * By(ZHE WOLF TEAM OF GCU ROBOT)
-  * https://github.com/GCUWildwolfteam
-  *
-  * FileName   : servo.h   
-  * Version    : v1.0		
-  * Author     : Daqo Lee			
-  * Date       : 2018-12-21         
-  * Description:    
-  * Function List:  
-  	1. ....
-  	   <version>: 		
-  <modify staff>:
-  		  <data>:
-   <description>:  
-  	2. ...
-  ******************************************************************************
- */
-
-
-
-#ifndef __SERVO_H_
-#define __SERVO_H_
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                        (C) Copyright 2019, Daqo Lee,                         |
+|                                                                              |
+|                            By:GCU The wold of team                           |
+|                         https://github.com/GCUWildwolfteam                   |
+|------------------------------------------------------------------------------|
+|--FileName    : servo.h                                                
+|--Version     : v1.0                                                            
+|--Author      : Daqo Lee                                                       
+|--Date        : 2019-01-10               
+|--Libsupports : STM32F4xx_DFP ( 2.9.0)
+|--Description :                                                       
+|---------------------------------declaration of end----------------------------|
+ **/
+#ifndef __SERVO_H 
+#define __SERVO_H 
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "stm32f4xx.h"
+
+
+/*-------------------------G L O B A L - T Y P E S----------------------------*/
+
+typedef struct 
+{
+    uint8_t   ID;
+    uint32_t  StartAddr;
+    uint16_t	Length;
+    uint8_t   Error;
+    uint8_t*  p_ucTable;
+} SyncBulkData_t;
+
+typedef struct 
+{
+    int32_t ID;
+    int32_t ModelNo;
+    int32_t FirmVer;
+} PingData_t;
+
+
+/*------------------------G L O B A L - M A C R O S --------------------------*/
+#define MAX_ID				(252)
+#define BROADCAST_ID		(254)  //BroadCast ID
 
 #define PING          0x01
 #define READ          0x02
@@ -40,9 +56,29 @@
 #define BULK_READ     0x92
 #define BULK_WRITE    0x93 
 
+/*----------------------G L O B A L - D E F I N E S---------------------------*/
+
+
+
+/*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
 void Dynamixel_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
-#endif
+
+
+#endif	// __SERVO_H
+/*----------------------------------FILE OF END-------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  

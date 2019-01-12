@@ -6,40 +6,40 @@
 #include "check.h"
 #include "string.h"
 
-/*å®šä¹‰ä¸€ä¸ªåè®®ç®¡ç†å™¨*/
+/*¶¨ÒåÒ»¸öĞ­Òé¹ÜÀíÆ÷*/
 TransportProtocol_Manager_Typedef  TransportProtocol_Manager;
 
 
 /**
-  *@brief:æ•°æ®è§£åŒ…
+  *@brief:Êı¾İ½â°ü
   */
 static TransportProtocol_Result TransportProtocol_Unpacked()
 {	
-	int check_len = 0;   	    //æ ¡éªŒå­—èŠ‚çš„é•¿åº¦   
-	uint16_t checksum = 0;      //æ¥æ”¶åˆ°çš„æ ¡éªŒå€¼
-	uint16_t checksum_cal = 0;  //è®¡ç®—å¾—åˆ°çš„æ ¡éªŒå€¼
-	uint8_t *checksum_pos = 0;  //æ ¡éªŒå€¼çš„åç§»ä½ç½®
+	int check_len = 0;   	    //Ğ£Ñé×Ö½ÚµÄ³¤¶È   
+	uint16_t checksum = 0;      //½ÓÊÕµ½µÄĞ£ÑéÖµ
+	uint16_t checksum_cal = 0;  //¼ÆËãµÃµ½µÄĞ£ÑéÖµ
+	uint8_t *checksum_pos = 0;  //Ğ£ÑéÖµµÄÆ«ÒÆÎ»ÖÃ
 
-	/*å¸§æ ¼å¼é”™è¯¯ï¼Œéæ³•é•¿åº¦*/
+	/*Ö¡¸ñÊ½´íÎó£¬·Ç·¨³¤¶È*/
 	if( TransportProtocol_Manager.RecieveByteCount > MAX_FRAME_LENGTH 
 	 || TransportProtocol_Manager.RecieveByteCount < MIN_FRAME_LENGTH)
 	{
 		return FRAME_FORMAT_ERR;
 	}
 
-	/*å¾—åˆ°æœ‰æ•ˆæ•°æ®é•¿åº¦*/
+	/*µÃµ½ÓĞĞ§Êı¾İ³¤¶È*/
 	TransportProtocol_Manager.TransportProtocol->Data_Length = \
 	                                             TransportProtocol_Manager.Buf[3];
-	/*æ ¡éªŒå­—èŠ‚çš„é•¿åº¦ = æ¥æ”¶çš„å¸§é•¿åº¦-4ä¸ªå­—èŠ‚çš„å¤´-æœ‰æ•ˆæ•°æ®çš„é•¿åº¦*/
+	/*Ğ£Ñé×Ö½ÚµÄ³¤¶È = ½ÓÊÕµÄÖ¡³¤¶È-4¸ö×Ö½ÚµÄÍ·-ÓĞĞ§Êı¾İµÄ³¤¶È*/
 	check_len = TransportProtocol_Manager.RecieveByteCount - 4 - \
 	                     TransportProtocol_Manager.TransportProtocol->Data_Length;
-	/*æ ¡éªŒå€¼æ ¼å¼é”™è¯¯ æ ¡éªŒå­—èŠ‚ä¸ªæ•°æƒ…å†µ*/
+	/*Ğ£ÑéÖµ¸ñÊ½´íÎó Ğ£Ñé×Ö½Ú¸öÊıÇé¿ö*/
 	if(check_len<1 || check_len>2)
 	{
 		return CHECK_FORMAR_ERR;
 	}
 
-	/*å¾—åˆ°æ ¡éªŒå€¼çš„åç§»åœ°å€*/
+	/*µÃµ½Ğ£ÑéÖµµÄÆ«ÒÆµØÖ·*/
 	checksum_pos = (uint8_t *)(4+TransportProtocol_Manager.TransportProtocol->\
 	                                 Data_Length + TransportProtocol_Manager.Buf);
 	if(check_len==1)
@@ -52,30 +52,30 @@ static TransportProtocol_Result TransportProtocol_Unpacked()
 		checksum <<=8;
 		checksum |= *checksum_pos;
 	}
-	/*è®¡ç®— å¸§å¤´å¤´å’Œæ•°æ®çš„æ ¡éªŒå€¼*/
+	/*¼ÆËã Ö¡Í·Í·ºÍÊı¾İµÄĞ£ÑéÖµ*/
 	checksum_cal = TransportProtocol_Manager.Check(TransportProtocol_Manager.Buf,\
                   	4+TransportProtocol_Manager.TransportProtocol->Data_Length);
-	/*æ ¡éªŒé”™è¯¯*/
+	/*Ğ£Ñé´íÎó*/
 	if(checksum!=checksum_cal)
 	{
 		return CHECK_ERR;
 	}
 	
-	/*è®¾å¤‡åœ°å€*/
+	/*Éè±¸µØÖ·*/
 	TransportProtocol_Manager.TransportProtocol->Device_Address = \
 	                                             TransportProtocol_Manager.Buf[0];
-	/*å¸§åŠŸèƒ½*/
+	/*Ö¡¹¦ÄÜ*/
 	TransportProtocol_Manager.TransportProtocol->Function_Type = \
 	                                             TransportProtocol_Manager.Buf[1];
-	/*å¸§åºåˆ—,å½“å‰ç¬¬å‡ å¸§*/
+	/*Ö¡ĞòÁĞ,µ±Ç°µÚ¼¸Ö¡*/
 	TransportProtocol_Manager.TransportProtocol->Sequence = \
 	                                             TransportProtocol_Manager.Buf[2];
-	/*å¸§æœ‰æ•ˆæ•°æ®é•¿åº¦ (å‰é¢å·²è·å–)*/
+	/*Ö¡ÓĞĞ§Êı¾İ³¤¶È (Ç°ÃæÒÑ»ñÈ¡)*/
 	
-	/*å¸§æ•°æ®*/
+	/*Ö¡Êı¾İ*/
 	TransportProtocol_Manager.TransportProtocol->Data = &\
 	                                             TransportProtocol_Manager.Buf[4];
-	/*å¸§æ ¡éªŒå€¼*/
+	/*Ö¡Ğ£ÑéÖµ*/
 	TransportProtocol_Manager.TransportProtocol->Checksum = checksum_cal;
 	
 	return UPACKED_SUCCESS;  
@@ -83,48 +83,48 @@ static TransportProtocol_Result TransportProtocol_Unpacked()
 
 
 /**
-  *@brief:æ•°æ®å°åŒ…
+  *@brief:Êı¾İ·â°ü
   */
 static void TransportProtocol_Packed()
 {
 	uint16_t checksum=0;
-	uint8_t *check_pos;  //æ ¡éªŒå€¼çš„åç§»ä½ç½®
+	uint8_t *check_pos;  //Ğ£ÑéÖµµÄÆ«ÒÆÎ»ÖÃ
 	
-	/*è®¾å¤‡åœ°å€*/
+	/*Éè±¸µØÖ·*/
 	TransportProtocol_Manager.Buf[0] = TransportProtocol_Manager.\
 	                                            TransportProtocol->Device_Address;
-	/*å¸§åŠŸèƒ½*/
+	/*Ö¡¹¦ÄÜ*/
 	TransportProtocol_Manager.Buf[1] = TransportProtocol_Manager.\
 	                                             TransportProtocol->Function_Type;
-	/*å¸§åºåˆ—*/
+	/*Ö¡ĞòÁĞ*/
 	TransportProtocol_Manager.Buf[2] = TransportProtocol_Manager.\
 	                                                  TransportProtocol->Sequence;
-	/*å¸§æœ‰æ•ˆæ•°æ®å¤§å°*/
+	/*Ö¡ÓĞĞ§Êı¾İ´óĞ¡*/
 	TransportProtocol_Manager.Buf[3] = TransportProtocol_Manager.\
 	                                               TransportProtocol->Data_Length;
-	/*å¸§æ•°æ®*/
+	/*Ö¡Êı¾İ*/
 	memcpy(&TransportProtocol_Manager.Buf[4],TransportProtocol_Manager.\
                              TransportProtocol->Data,TransportProtocol_Manager.\
 	                                              TransportProtocol->Data_Length);
-	/*è®¡ç®—æ ¡éªŒå€¼*/
+	/*¼ÆËãĞ£ÑéÖµ*/
 	checksum = TransportProtocol_Manager.Check(TransportProtocol_Manager.Buf,\
 	                  4+TransportProtocol_Manager.TransportProtocol->Data_Length);
-	/*æ ¡éªŒå€¼*/
+	/*Ğ£ÑéÖµ*/
 	check_pos = TransportProtocol_Manager.Buf+4+\
 	                     TransportProtocol_Manager.TransportProtocol->Data_Length;
 	
 	if(checksum<256)
 	{ 
 		(*check_pos) = checksum&0xff;
-		/*è®°å½•å¸§æ€»é•¿åº¦*/
+		/*¼ÇÂ¼Ö¡×Ü³¤¶È*/
 		TransportProtocol_Manager.FrameTotalLength = 4+\
 		                 TransportProtocol_Manager.TransportProtocol->Data_Length+1;
 	}else  /*CRC16*/
 	{	
-		(*check_pos) = (uint8_t)(checksum>>8)&0xff;  //é«˜å­—èŠ‚
+		(*check_pos) = (uint8_t)(checksum>>8)&0xff;  //¸ß×Ö½Ú
 		check_pos++;
-		(*check_pos) = (uint8_t)(checksum&0xff);	 //ä½å­—èŠ‚
-		/*Iè®°å½•å¸§æ€»é•¿åº¦*/
+		(*check_pos) = (uint8_t)(checksum&0xff);	 //µÍ×Ö½Ú
+		/*I¼ÇÂ¼Ö¡×Ü³¤¶È*/
 		TransportProtocol_Manager.FrameTotalLength = 4+\
 		                 TransportProtocol_Manager.TransportProtocol->Data_Length+2;
 	}	
@@ -132,28 +132,28 @@ static void TransportProtocol_Packed()
 
 
 /**
-  *@brief:åˆå§‹åŒ–ä¼ è¾“åè®®
-  *@param[in]:TransportPortocol,ä¼ è¾“å¸§
-  *@param[in]:*buf,ç¼“å†²åŒºæ•°æ®
-  *@param[in]:uint16_t (*check)(uint8_t *,uint16_t len),æ ¡éªŒæ–¹å¼
-  *           Checksum_Sum:å’Œæ ¡éªŒ
-  *           Checksum_XORï¼šå¼‚æˆ–æ ¡éªŒ
-  *           Checksum_CRC8:CRC8æ ¡éªŒ
-  *           Checksum_CRC16:CRC16æ ¡éªŒ
+  *@brief:³õÊ¼»¯´«ÊäĞ­Òé
+  *@param[in]:TransportPortocol,´«ÊäÖ¡
+  *@param[in]:*buf,»º³åÇøÊı¾İ
+  *@param[in]:uint16_t (*check)(uint8_t *,uint16_t len),Ğ£Ñé·½Ê½
+  *           Checksum_Sum:ºÍĞ£Ñé
+  *           Checksum_XOR£ºÒì»òĞ£Ñé
+  *           Checksum_CRC8:CRC8Ğ£Ñé
+  *           Checksum_CRC16:CRC16Ğ£Ñé
   */
 void  TransportProtocol_Init(TransportProtocol_Typedef *TransportProtocol,
                              uint8_t *buf,
 							 uint16_t (*check)(uint8_t *,uint16_t len))
 {	
-	/*åè®®åŒ…*/
+	/*Ğ­Òé°ü*/
 	TransportProtocol_Manager.TransportProtocol = TransportProtocol;
-	/*ä¼ è¾“åè®®ç¼“å­˜*/ 
+	/*´«ÊäĞ­Òé»º´æ*/ 
 	TransportProtocol_Manager.Buf = buf;
-	/*é€‰æ‹©æ ¡éªŒæ–¹å¼*/ 
+	/*Ñ¡ÔñĞ£Ñé·½Ê½*/ 
 	TransportProtocol_Manager.Check = check;
-	/*æ‰“åŒ…å‡½æ•°*/
+	/*´ò°üº¯Êı*/
 	TransportProtocol_Manager.Packed = TransportProtocol_Packed;
-	/*è§£åŒ…å‡½æ•°*/
+	/*½â°üº¯Êı*/
 	TransportProtocol_Manager.Unpacked = TransportProtocol_Unpacked;	
 }
 

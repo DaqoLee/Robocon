@@ -25,7 +25,6 @@
 
 #ifndef __TASK__USART_H_
 #define __TASK__USART_H_
-#include "stm32f4xx.h"
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"

@@ -91,7 +91,6 @@ void Thigh_M6020Ctrl(void)
 //		Dynamixel_setMassage(7,7,8,'sdijgslkg');
 //		Dynamixel_setMassage(8,7,8,'sdijgslkg');
 
-		
 	}
 
 

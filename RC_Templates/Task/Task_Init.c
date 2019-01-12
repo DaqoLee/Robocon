@@ -11,7 +11,7 @@
 /******************************************************************************/
 static void vTaskLED0(void *pvParameters);
 static void vTaskLED6(void *pvParameters);
-static void LEDTaskcreate(void);
+static void LEDTaskCreate(void);
 /******************************************************************************/
 TaskHandle_t StartTaskHandler=NULL;
 static TaskHandle_t TaskLED0Handler=NULL;
@@ -36,7 +36,7 @@ void vTaskStart(void *pvParameters)
 
 	CanTaskCreate();  /* 创建CAN任务 */
 	UsartTaskCreate();/* 创建USART任务 */
-  LEDTaskcreate();  /* 创建LED任务 */
+  LEDTaskCreate();  /* 创建LED任务 */
 	
 	vTaskDelay(1000);/*延时等待模块稳定*/
 	
@@ -51,7 +51,7 @@ void vTaskStart(void *pvParameters)
 
 
 
-static void LEDTaskcreate(void)
+static void LEDTaskCreate(void)
 {
 	xTaskCreate(vTaskLED0,         /* 任务函数  */   
 						"vTaskLED0",         /* 任务名    */ 
@@ -89,7 +89,6 @@ static void vTaskLED0(void *pvParameters)
 
 static void vTaskLED6(void *pvParameters)
 {
-//	CanSend_t CANSendData;
 	
 	while(1)
 	{

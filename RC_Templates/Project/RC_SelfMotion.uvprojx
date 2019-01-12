@@ -337,7 +337,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F427_437xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\Libraries\CMSIS\Include;..\User;..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\FreeRTOS\include;..\Libraries\FreeRTOS\portable\RVDS\ARM_CM4F;..\BSP;..\Apps;..\Devices;..\Task</IncludePath>
+              <IncludePath>..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\Libraries\CMSIS\Include;..\User;..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\FreeRTOS\include;..\Libraries\FreeRTOS\portable\RVDS\ARM_CM4F;..\BSP;..\Apps;..\Devices;..\Task;C:\Keil_v5\ARM\ARMCC\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

@@ -4,53 +4,53 @@
 #include <stdint.h>
 
 /**
-  *@brief:ä¼ è¾“å¸§æ•°æ®åŒ…
+  *@brief:´«ÊäÖ¡Êı¾İ°ü
   */
 typedef struct
 {
-	#define MAX_FRAME_LENGTH (256+6)		//æœ€å¤§æ¡¢é•¿åº¦
-	#define MIN_FRAME_LENGTH  5			//æœ€å°å¸§é•¿åº¦
-	uint8_t Device_Address;				//è®¾å¤‡åœ°å€
-	uint8_t Function_Type;				//å¸§åŠŸèƒ½
-	uint8_t Sequence;                   //å¸§åºåˆ—
-	uint8_t Data_Length;				    //æœ‰æ•ˆæ•°æ®é•¿åº¦
-	uint8_t *Data;						//æ•°æ®
-	uint16_t Checksum;					//æ ¡éªŒå€¼
+	#define MAX_FRAME_LENGTH (256+6)		//×î´óèå³¤¶È
+	#define MIN_FRAME_LENGTH  5			//×îĞ¡Ö¡³¤¶È
+	uint8_t Device_Address;				//Éè±¸µØÖ·
+	uint8_t Function_Type;				//Ö¡¹¦ÄÜ
+	uint8_t Sequence;                   //Ö¡ĞòÁĞ
+	uint8_t Data_Length;				    //ÓĞĞ§Êı¾İ³¤¶È
+	uint8_t *Data;						//Êı¾İ
+	uint16_t Checksum;					//Ğ£ÑéÖµ
 }TransportProtocol_Typedef;
 
 
 /**
-  *@brief:ä¼ è¾“ç»“æœ 
+  *@brief:´«Êä½á¹û 
   */
 typedef enum
 {
-	FRAME_FORMAT_ERR = 1,			//å¸§æ ¼å¼é”™è¯¯
-	CHECK_FORMAR_ERR = 2,			//æ ¡éªŒå€¼æ ¼å¼é”™è¯¯
-    CHECK_ERR = 3,					//æ ¡éªŒå€¼é”™ä½
-	UPACKED_SUCCESS = 4             //è§£åŒ…æˆåŠŸ
+	FRAME_FORMAT_ERR = 1,			//Ö¡¸ñÊ½´íÎó
+	CHECK_FORMAR_ERR = 2,			//Ğ£ÑéÖµ¸ñÊ½´íÎó
+    CHECK_ERR = 3,					//Ğ£ÑéÖµ´íÎ»
+	UPACKED_SUCCESS = 4             //½â°ü³É¹¦
 }TransportProtocol_Result;
 
 
 /**
-  *@brief:åè®®ç®¡ç†å™¨
+  *@brief:Ğ­Òé¹ÜÀíÆ÷
   */
 typedef struct
 {	
-	TransportProtocol_Typedef * TransportProtocol;  	//ä¼ è¾“å¸§
-	uint32_t  RecieveByteCount;						//æ¥æ”¶çš„å­—èŠ‚æ•°
-	uint8_t* Buf; 									//ä¼ è¾“æ¡¢ç¼“å­˜
-	uint16_t FrameTotalLength;						//å¸§æ€»é•¿åº¦
-	TransportProtocol_Result (*Unpacked)(void);     //è§£åŒ…å‡½æ•°
-	void (*Packed)(void);							//æ‰“åŒ…å‡½æ•°
-	uint16_t (*Check)(uint8_t *,uint16_t len);      //æ ¡éªŒå‡½æ•°
+	TransportProtocol_Typedef * TransportProtocol;  	//´«ÊäÖ¡
+	uint32_t  RecieveByteCount;						//½ÓÊÕµÄ×Ö½ÚÊı
+	uint8_t* Buf; 									//´«Êäèå»º´æ
+	uint16_t FrameTotalLength;						//Ö¡×Ü³¤¶È
+	TransportProtocol_Result (*Unpacked)(void);     //½â°üº¯Êı
+	void (*Packed)(void);							//´ò°üº¯Êı
+	uint16_t (*Check)(uint8_t *,uint16_t len);      //Ğ£Ñéº¯Êı
 }TransportProtocol_Manager_Typedef;
 
 
-/*åˆå§‹åŒ–ä¼ è¾“åè®®*/
+/*³õÊ¼»¯´«ÊäĞ­Òé*/
 void  TransportProtocol_Init(TransportProtocol_Typedef *TransportProtocol,\
 	                      uint8_t *buf,uint16_t (*check)(uint8_t *,uint16_t len));
 
-/*å¤–éƒ¨å£°æ˜åè®®ç®¡ç†å™¨*/
+/*Íâ²¿ÉùÃ÷Ğ­Òé¹ÜÀíÆ÷*/
 extern TransportProtocol_Manager_Typedef TransportProtocol_Manager;
 
 #endif
