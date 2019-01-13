@@ -134,7 +134,7 @@ typedef struct
 }Motor_t;
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
-
+#define MOTOR_MAX_ANGLE 8191
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 

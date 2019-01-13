@@ -22,6 +22,9 @@
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 Motor_t Motor;
+
+const uint16_t M6020MiniAng=(M6020_RANGE/2);
+const	uint16_t M6020MaxAng=(MOTOR_MAX_ANGLE-M6020MiniAng);
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
 static void M3508_getMessage(CanRxMsg RxMessage);
@@ -50,6 +53,11 @@ void MotorParamInit(void)
 	Motor.M6020[1].medianAngle = 4000;
 	Motor.M6020[2].medianAngle = 4000;
 	Motor.M6020[3].medianAngle = 4000;
+
+  Motor.M6020[0].OutPID.maxInput = MOTOR_MAX_ANGLE;
+	Motor.M6020[1].OutPID.maxInput = MOTOR_MAX_ANGLE;
+	Motor.M6020[2].OutPID.maxInput = MOTOR_MAX_ANGLE;
+	Motor.M6020[3].OutPID.maxInput = MOTOR_MAX_ANGLE;
 	
 	Motor.p_M6020setCur = M6020_setCurrent;
 	Motor.p_M3508setCur = M3508_setCurrent;
@@ -281,36 +289,34 @@ static void M6020_setTargetAngle(uint8_t M6020_ID, int16_t DR16_chx)
 	*/
 static void M6020_setLimitAngle(uint8_t M6020_ID, int16_t *TargetAngle)
 {
-  const uint16_t m6020Mini=(M6020_RANGE/2);
-  const	uint16_t m6020Max=(8191-m6020Mini);
-	
-  if(M6020_MEDIAN(M6020_ID) > m6020Mini && M6020_MEDIAN(M6020_ID) < m6020Max)
-	{
-    *TargetAngle = *TargetAngle > M6020_MEDIAN(M6020_ID) + m6020Mini\
-		? M6020_MEDIAN(M6020_ID) + m6020Mini : *TargetAngle;
 
-		*TargetAngle = *TargetAngle < M6020_MEDIAN(M6020_ID) - m6020Mini 
-		? M6020_MEDIAN(M6020_ID) - m6020Mini : *TargetAngle;
-	}
-	else if(M6020_MEDIAN(M6020_ID) < m6020Mini)
+  if(M6020_MEDIAN(M6020_ID)>M6020MiniAng && M6020_MEDIAN(M6020_ID)<M6020MaxAng)
 	{
-		*TargetAngle = (*TargetAngle > (M6020_MEDIAN(M6020_ID) + m6020Mini))\
+    *TargetAngle = *TargetAngle > M6020_MEDIAN(M6020_ID) + M6020MiniAng\
+		? M6020_MEDIAN(M6020_ID) + M6020MiniAng : *TargetAngle;
+
+		*TargetAngle = *TargetAngle < M6020_MEDIAN(M6020_ID) - M6020MiniAng 
+		? M6020_MEDIAN(M6020_ID) - M6020MiniAng : *TargetAngle;
+	}
+	else if(M6020_MEDIAN(M6020_ID) < M6020MiniAng)
+	{
+		*TargetAngle = (*TargetAngle > (M6020_MEDIAN(M6020_ID) + M6020MiniAng))\
 		&&(*TargetAngle < (M6020_MEDIAN(M6020_ID) + 4096)) ? M6020_MEDIAN(M6020_ID)\
-		+ m6020Mini : *TargetAngle;
+		+ M6020MiniAng : *TargetAngle;
 
 		*TargetAngle = (*TargetAngle > (M6020_MEDIAN(M6020_ID) + 4096))\
-		&& (*TargetAngle < (M6020_MEDIAN(M6020_ID) + m6020Max))\
-		? M6020_MEDIAN(M6020_ID) + m6020Max : *TargetAngle;
+		&& (*TargetAngle < (M6020_MEDIAN(M6020_ID) + M6020MaxAng))\
+		? M6020_MEDIAN(M6020_ID) + M6020MaxAng : *TargetAngle;
 	}
 	else 
 	{
 		*TargetAngle = (*TargetAngle	> (M6020_MEDIAN(M6020_ID) - 4096))\
-		&& (*TargetAngle < (M6020_MEDIAN(M6020_ID) - m6020Mini))\
-		? M6020_MEDIAN(M6020_ID) - m6020Mini : *TargetAngle;
+		&& (*TargetAngle < (M6020_MEDIAN(M6020_ID) - M6020MiniAng))\
+		? M6020_MEDIAN(M6020_ID) - M6020MiniAng : *TargetAngle;
 
-		*TargetAngle = (*TargetAngle > (M6020_MEDIAN(M6020_ID) - m6020Max))\
+		*TargetAngle = (*TargetAngle > (M6020_MEDIAN(M6020_ID) - M6020MaxAng))\
 		&& (*TargetAngle < (M6020_MEDIAN(M6020_ID) - 4096))\
-		? M6020_MEDIAN(M6020_ID) - m6020Max : *TargetAngle;	
+		? M6020_MEDIAN(M6020_ID) - M6020MaxAng : *TargetAngle;	
 
 	}
 	

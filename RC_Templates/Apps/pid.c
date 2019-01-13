@@ -38,6 +38,37 @@ static void pidReset(pid_t	*pid, float kp, float ki, float kd)
     pid->D = kd;
 }
 
+/*------------------------------80 Chars Limit--------------------------------*/
+  /**
+  * @Data    2019-01-13 19:13
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
+static void LinearQuantization(pid_t* pid, float get, float set ,float *p_Value)
+{
+  pid->err[NOW] = set - get;	//set - measure
+  pid->erc[NOW] = pid->err[NOW] - pid->err[LAST];
+
+
+  p_Value[0]=6.0f*pid->err[NOW]/pid->errRange;
+  p_Value[1]=3.0f*pid->erc[NOW]/pid->errRange;
+
+  pid->err[LAST] = pid-> err[NOW];
+  pid->erc[LAST] = pid-> err[NOW];
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+  /**
+  * @Data    2019-01-13 19:13
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
+static void CalcMembership(pid_t* pid, float get, float set ,float *p_Value)
+{
+  
+}
 /******************************************************************************/
 float PID_Calc(pid_t* pid, float get, float set)
 {
@@ -53,11 +84,11 @@ float PID_Calc(pid_t* pid, float get, float set)
     if(pid->pidMode == POSITION_PID) //Î»ÖÃÊ½P
     {	
       if(pid->err[NOW] < 0)
-        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(8191 - ABS(pid->err[NOW])) \
-        ? 8191 - ABS(pid->err[NOW]):pid->err[NOW];
+        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(pid->maxInput - ABS(pid->err[NOW])) \
+        ? pid->maxInput - ABS(pid->err[NOW]):pid->err[NOW];
       else if(pid->err[NOW]>0)
-        pid->err[NOW] = ABS(pid->err[NOW])>ABS(8191 - ABS(pid->err[NOW])) \
-        ? ABS(pid->err[NOW]) - 8191:pid->err[NOW];
+        pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
+        ? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
       
       pid->Pout = pid->P * pid->err[NOW];
       pid->Iout += pid->I * pid->err[NOW];

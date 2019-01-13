@@ -1,3 +1,20 @@
+/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : Task_Init.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-01-12               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Task_Init.h"
 #include "Task_Usart.h"
 #include "Task_Can.h"
@@ -8,17 +25,27 @@
 #include "Task_Ctrl.h"
 #include "BSP_NVIC.h"
 #include "DR16.h"
-/******************************************************************************/
-static void vTaskLED0(void *pvParameters);
-static void vTaskLED6(void *pvParameters);
-static void LEDTaskCreate(void);
-/******************************************************************************/
+/*-------------------------- D E F I N E S -----------------------------------*/
+
 TaskHandle_t StartTaskHandler=NULL;
 static TaskHandle_t TaskLED0Handler=NULL;
 static TaskHandle_t TaskLED6Handler=NULL;
 
-/******************************************************************************/
+/*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
+static void vTaskLED0(void *pvParameters);
+static void vTaskLED6(void *pvParameters);
+static void LEDTaskCreate(void);
+
+/*------------------G L O B A L - F U N C T I O N S --------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-12 17:22
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
 void vTaskStart(void *pvParameters)
 {		
 	taskENTER_CRITICAL();/*进入临界区*/
@@ -47,10 +74,16 @@ void vTaskStart(void *pvParameters)
   taskEXIT_CRITICAL(); /*退出临界区*/
 }
 
-/******************************************************************************/
 
+/*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-12 17:22
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
 static void LEDTaskCreate(void)
 {
 	xTaskCreate(vTaskLED0,         /* 任务函数  */   
@@ -67,7 +100,13 @@ static void LEDTaskCreate(void)
 						1,       			   
 						&TaskLED6Handler); 
 }
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-12 17:22
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskLED0(void *pvParameters)
 {
 	while(1)
@@ -86,7 +125,13 @@ static void vTaskLED0(void *pvParameters)
 	
 	}
 }
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-12 17:22
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskLED6(void *pvParameters)
 {
 	
@@ -104,4 +149,5 @@ static void vTaskLED6(void *pvParameters)
 
 	}
 }
-/******************************************************************************/
+
+/*-----------------------------------FILE OF END------------------------------*/

@@ -36,6 +36,9 @@ typedef struct __pid_t
     
 	float maxErr;
 	float deadband;				
+
+	uint16_t maxInput;
+	uint16_t errRange;
 	uint32_t pidMode;
 	uint32_t maxOutput;				
 	uint32_t integralLimit;		
