@@ -72,18 +72,50 @@ void Dynamixel_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Dat
 	usartSend.pUSARTSendBuff[4]=ID;
 	usartSend.pUSARTSendBuff[5]=Length;
 	usartSend.pUSARTSendBuff[6]=Length>>8;
+	
 	usartSend.pUSARTSendBuff[7]=Cmd;
 
-	memcpy(&usartSend.pUSARTSendBuff[8],Data,Length);
+	memcpy(&usartSend.pUSARTSendBuff[8],Data,Length-3);
 
-	usartSend.crc=update_crc(0,usartSend.pUSARTSendBuff,5+Length);
-	usartSend.pUSARTSendBuff[8+Length]=usartSend.crc;
-	usartSend.pUSARTSendBuff[9+Length]=usartSend.crc>>8;
+	usartSend.crc=update_crc(0,usartSend.pUSARTSendBuff,Length+5);
+	usartSend.pUSARTSendBuff[8+Length-3]=usartSend.crc;
+	usartSend.pUSARTSendBuff[9+Length-3]=usartSend.crc>>8;
 	
 	xQueueSend(xusartTxQueue, &usartSend, 20);
    
 }
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
+void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
+{
+	USARTSend_t usartSend;
+	
+	usartSend.USART_x=USART_2;
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=ID;
+	usartSend.pUSARTSendBuff[3]=Length;
+	
+	usartSend.pUSARTSendBuff[4]=Cmd;
+
+	memcpy(&usartSend.pUSARTSendBuff[5],Data,Length-2 );
+	
+	for(int i=0;i<Length+1;i++)
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+
+	usartSend.pUSARTSendBuff[5+Length-2]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);
+   
+}
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 

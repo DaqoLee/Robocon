@@ -382,11 +382,6 @@
           <GroupName>User</GroupName>
           <Files>
             <File>
-              <FileName>User_Config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\User\User_Config.h</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\main.c</FilePath>
@@ -395,6 +390,11 @@
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\stm32f4xx_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>User_Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\User\User_Config.h</FilePath>
             </File>
             <File>
               <FileName>FreeRTOSConfig.h</FileName>
@@ -452,19 +452,9 @@
               <FilePath>..\Apps\Joint.c</FilePath>
             </File>
             <File>
-              <FileName>check.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Apps\check.c</FilePath>
-            </File>
-            <File>
               <FileName>Curve.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Apps\Curve.c</FilePath>
-            </File>
-            <File>
-              <FileName>delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Apps\delay.c</FilePath>
             </File>
             <File>
               <FileName>pid.c</FileName>
@@ -472,9 +462,19 @@
               <FilePath>..\Apps\pid.c</FilePath>
             </File>
             <File>
+              <FileName>check.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Apps\check.c</FilePath>
+            </File>
+            <File>
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Apps\protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Apps\delay.c</FilePath>
             </File>
           </Files>
         </Group>

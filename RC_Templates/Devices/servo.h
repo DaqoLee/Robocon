@@ -63,7 +63,7 @@ typedef struct
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
 void Dynamixel_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
-
+void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
 
 #endif	// __SERVO_H
 /*----------------------------------FILE OF END-------------------------------*/

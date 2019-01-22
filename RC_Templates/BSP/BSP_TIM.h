@@ -32,7 +32,25 @@
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
+#define TIM1_CH1_GPIO_CLK          	RCC_AHB1Periph_GPIOA
+#define TIM1_CH1_GPIO_PORT         	GPIOA
+#define TIM1_CH1_Pin          	 	GPIO_Pin_8
+#define TIM1_CH1_PINSOURCE			GPIO_PinSource8
 
+#define TIM1_CH2_GPIO_CLK          	RCC_AHB1Periph_GPIOA
+#define TIM1_CH2_GPIO_PORT         	GPIOA
+#define TIM1_CH2_Pin          	 	GPIO_Pin_9
+#define TIM1_CH2_PINSOURCE			GPIO_PinSource9
+
+#define TIM1_CH3_GPIO_CLK          	RCC_AHB1Periph_GPIOE
+#define TIM1_CH3_GPIO_PORT         	GPIOE
+#define TIM1_CH3_Pin          	 	GPIO_Pin_13
+#define TIM1_CH3_PINSOURCE			GPIO_PinSource13
+
+#define TIM1_CH4_GPIO_CLK          	RCC_AHB1Periph_GPIOE
+#define TIM1_CH4_GPIO_PORT         	GPIOE
+#define TIM1_CH4_Pin          	 	GPIO_Pin_14
+#define TIM1_CH4_PINSOURCE			GPIO_PinSource14
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 

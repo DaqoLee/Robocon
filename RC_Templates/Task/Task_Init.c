@@ -51,7 +51,7 @@ void vTaskStart(void *pvParameters)
 	taskENTER_CRITICAL();/*进入临界区*/
 	
   BSP_USART1_Init(100000);
-  BSP_USART2_Init(115200);
+  BSP_USART2_Init(57600);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
@@ -70,7 +70,6 @@ void vTaskStart(void *pvParameters)
 	ControlTaskCreate();/* 创建控制任务 */
 	
 	vTaskDelete(StartTaskHandler);/*删除开始任务*/ 
-	
   taskEXIT_CRITICAL(); /*退出临界区*/
 }
 
@@ -144,7 +143,9 @@ static void vTaskLED6(void *pvParameters)
 //		    CANSendData.SendCanTxMsg.DLC   =   8;
 //      M6020_setCurrent(CAN_1);
 //      printf("M6020[1].realAngle = %d\r\n",M6020[1].realAngle);
-			vTaskDelay(10);
+//		  vPrintString("Test\r\n");
+		//printf("%d",2);
+			vTaskDelay(100);
 //		}
 
 	}

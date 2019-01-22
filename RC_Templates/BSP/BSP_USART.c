@@ -1,10 +1,40 @@
-#include "BSP_USART.h"
+/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : BSP_USART.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-01-18               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
+#include "BSP_USART.h" 
+	
+/*-------------------------- D E F I N E S -----------------------------------*/
 
-/******************************************************************************/
 uint8_t Usart1Buffer[20];
 uint8_t Usart2Buffer[26];
 uint8_t Usart3Buffer[26];
-/******************************************************************************/
+
+/*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
+
+
+
+/*------------------G L O B A L - F U N C T I O N S --------------------------*/
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART1初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
 void BSP_USART1_Init(uint32_t BaudRate)
 {
 	USART_InitTypeDef   USART_InitStructure;
@@ -39,15 +69,21 @@ void BSP_USART1_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
 	
-	USART1_RXDMA_Config((uint32_t)Usart1Buffer,20);
+	DMA_USART1RxConfig((uint32_t)Usart1Buffer,20);
 	
 	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART1, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART1, ENABLE);
 }
-/******************************************************************************/
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART2初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
 void BSP_USART2_Init(uint32_t BaudRate)
 {
 	USART_InitTypeDef   USART_InitStructure;
@@ -56,7 +92,7 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_AHB1PeriphClockCmd(USART2_TX_GPIO_CLK | USART2_RX_GPIO_CLK,ENABLE);
 			/* GPIO初始化 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
@@ -81,15 +117,24 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART2, &USART_InitStructure);
 
-	USART2_RXDMA_Config((uint32_t)Usart2Buffer,26);
+	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
 
+ 
+	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART2, ENABLE);
+	USART_ClearFlag(USART2, USART_FLAG_TC);  
+	USART_HalfDuplexCmd(USART2, ENABLE);
 }
-/******************************************************************************/
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART3初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
 void BSP_USART3_Init(uint32_t BaudRate)
 {
 	USART_InitTypeDef   USART_InitStructure;
@@ -123,16 +168,21 @@ void BSP_USART3_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART3, &USART_InitStructure);
-
-	USART3_RXDMA_Config((uint32_t)Usart3Buffer,26);
+	
+	DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
 
 	USART_DMACmd(USART3, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART3, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART3, ENABLE);
 }
-/******************************************************************************/
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   串口发送一个字符
+	* @param   USARTx 串口号，ch:要发送的字符
+	* @retval  void
+	*/
 void USART_sendChar(USART_TypeDef* USARTx, char ch)
 {
 	/* 发送一个字节数据到串口 */
@@ -165,5 +215,14 @@ int fputc(int ch, FILE *f)
 	return ch;
 }
 #endif 
+
+/*---------------------L O C A L - F U N C T I O N S--------------------------*/
+
+
+
+/*-----------------------------------FILE OF END------------------------------*/
+
+
+
 
 

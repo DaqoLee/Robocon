@@ -36,6 +36,7 @@ extern QueueHandle_t xUsart3RxQueue;
 extern QueueHandle_t xusartTxQueue ;
 
 void UsartTaskCreate(void);
+void vPrintString(const char *pcString);
 /******************************************************************************/
 #endif
 

@@ -1,21 +1,28 @@
+/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : BSP_NVIC.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-01-18               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
 #include "BSP_NVIC.h"
 
-/* -------------------------------- begin  -------------------------------- */
-/**
-  * @Name    BSP_NVIC_Init
-  * @brief  
-  * @param   None
-  * @retval
-  * @author  Daqo Lee 
-  * @Data    2018-12-12
-  * 1. ...
-  * <modify staff>:
-  * <data>        :
-  * <description> :
-  * 2. ...
- **/
-/* -------------------------------- end -------------------------------- */
-/******************************************************************************/
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 13:47
+	* @brief   中断优先级配置
+	* @param   void
+	* @retval  void
+	*/
 void BSP_NVIC_Init(void)
 {
 	NVIC_InitTypeDef	NVIC_InitStructure;
@@ -78,5 +85,4 @@ void BSP_NVIC_Init(void)
 	NVIC_Init(&NVIC_InitStructure);
 	USART_ITConfig(UART5, USART_IT_IDLE, ENABLE);
 }
-/******************************************************************************/
-
+/*-----------------------------------FILE OF END------------------------------*/

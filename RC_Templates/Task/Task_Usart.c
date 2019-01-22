@@ -112,20 +112,31 @@ static void vTaskUsartSend(void *pvParameters)
 		}
 		else if(usartSend.USART_x==USART_2)
 		{
-			for(uint8_t i=0;i<20;i++)
+			for(uint8_t i=0;i<9;i++)
 			{
 				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
 			}			
 		}
 		else if(usartSend.USART_x==USART_3)
 		{
-			for(uint8_t i=0;i<20;i++)
+			for(uint8_t i=0;i<13;i++)
 			{
 				USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
 			}			
 		}
 	}
 
+}
+
+
+void vPrintString(const char *pcString)
+{
+    taskENTER_CRITICAL();
+    {
+        printf("%s", pcString);
+        fflush(stdout);
+    }
+    taskEXIT_CRITICAL();
 }
 /******************************************************************************/
 
