@@ -106,20 +106,17 @@ static void vTaskUsartSend(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xusartTxQueue, &usartSend,portMAX_DELAY);
-		if(usartSend.USART_x==USART_1)
+		
+    if(usartSend.USART_x==USART_2)
 		{
-
-		}
-		else if(usartSend.USART_x==USART_2)
-		{
-			for(uint8_t i=0;i<9;i++)
+			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
 			{
 				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
 			}			
 		}
 		else if(usartSend.USART_x==USART_3)
 		{
-			for(uint8_t i=0;i<13;i++)
+			for(uint8_t i=0;i<9;i++)
 			{
 				USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
 			}			

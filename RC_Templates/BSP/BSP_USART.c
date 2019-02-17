@@ -22,6 +22,7 @@
 uint8_t Usart1Buffer[20];
 uint8_t Usart2Buffer[26];
 uint8_t Usart3Buffer[26];
+uint8_t Usart2SendBuffer[9];
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -87,12 +88,13 @@ void BSP_USART1_Init(uint32_t BaudRate)
 void BSP_USART2_Init(uint32_t BaudRate)
 {
 	USART_InitTypeDef   USART_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
 
-	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_AHB1PeriphClockCmd(USART2_TX_GPIO_CLK | USART2_RX_GPIO_CLK,ENABLE);
 			/* GPIO初始化 */
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
@@ -118,15 +120,12 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_Init(USART2, &USART_InitStructure);
 
 	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
-
- 
+	//DMA_USART2TxConfig((uint32_t)Usart2SendBuffer,9);
 	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART2, ENABLE);
-	USART_ClearFlag(USART2, USART_FLAG_TC);  
-	USART_HalfDuplexCmd(USART2, ENABLE);
 }
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**

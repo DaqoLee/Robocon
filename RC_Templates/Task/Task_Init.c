@@ -52,6 +52,7 @@ void vTaskStart(void *pvParameters)
 	
   BSP_USART1_Init(100000);
   BSP_USART2_Init(57600);
+	BSP_USART3_Init(57600);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();

@@ -64,21 +64,19 @@ static void vTaskCtrlGimbal(void *pvParameters)
 	
 static void vTaskCtrlJoint(void *pvParameters)
 {
-uint8_t Txt1[3]={0x1E,0x0C,0x0A};
-uint8_t Txt2[3]={0x1E,0x0C,0x0F };
-	//uint8_t Txt[8]={0x19,0x00,0x01};
 	portTickType CurrentControlTick = 0;
   while(1)
 	{
 		Thigh_M6020Ctrl();
-	  Dynamixel1_setMassage(0x01, 5, 0x03, Txt1);
+	  Dynamixel1_setSyncTarAng(4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+		vTaskDelay(80);
+		Dynamixel1_setSyncTarAng(4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+		vTaskDelay(220);
+		
+	  Dynamixel1_setSyncTarAng(4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
 		vTaskDelay(5);
-		 Dynamixel1_setMassage(0x02, 5, 0x03, Txt1);
-		vTaskDelay(300);
-		Dynamixel1_setMassage(0x01, 5, 0x03, Txt2);
-		vTaskDelay(5);
-		 Dynamixel1_setMassage(0x02, 5, 0x03, Txt2);
-		vTaskDelay(300);
+		Dynamixel1_setSyncTarAng(4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);  
+		vTaskDelay(220);
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
