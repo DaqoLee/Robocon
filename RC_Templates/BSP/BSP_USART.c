@@ -101,7 +101,7 @@ void BSP_USART2_Init(uint32_t BaudRate)
 		/* 配置Tx引脚  */
 	GPIO_InitStructure.GPIO_Pin = USART2_TX_Pin;  
 	GPIO_Init(USART2_TX_GPIO_PORT, &GPIO_InitStructure);
-
+	
 	/* 配置Rx引脚 */
 	GPIO_InitStructure.GPIO_Pin = USART2_RX_Pin;
 	GPIO_Init(USART2_RX_GPIO_PORT, &GPIO_InitStructure);
@@ -125,7 +125,38 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
+//	USART_HalfDuplexCmd(USART2,ENABLE);
 	USART_Cmd(USART2, ENABLE);
+  USART_ClearFlag(USART2, USART_FLAG_TC);  
+}
+
+void USART_Half_Configuration(void)  
+{  
+    GPIO_InitTypeDef GPIO_InitStructure;  
+    USART_InitTypeDef USART_InitStructure;   
+
+    GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_USART1);  
+
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;  
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;  
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;  
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;  
+    GPIO_Init(GPIOB, &GPIO_InitStructure);  
+
+
+    USART_InitStructure.USART_BaudRate = 115200;  
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;  
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;  
+    USART_InitStructure.USART_Parity = USART_Parity_No;  
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;  
+    USART_Init(USART1,&USART_InitStructure);  
+
+    USART_HalfDuplexCmd(USART1, ENABLE);  
+
+    USART_Cmd(USART1,ENABLE);  
+    USART_ClearFlag(USART1, USART_FLAG_TC);  
 }
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**

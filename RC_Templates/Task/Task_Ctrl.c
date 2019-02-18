@@ -2,7 +2,7 @@
 #include "Joint.h"
 #include "FreeRTOS.h"
 #include "task.h"
-
+#include "DR16.h"
 #include "Servo.h"
 /******************************************************************************/
 static void vTaskCtrlChassis(void *pvParameters);
@@ -65,18 +65,32 @@ static void vTaskCtrlGimbal(void *pvParameters)
 static void vTaskCtrlJoint(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
+	vTaskDelay(500);
+	Dynamixel1_setSyncMsg(SPEED,2,0x01,600,0x02,600);
+	vTaskDelay(5);
+	Dynamixel1_setSyncMsg(ACC,2,0x01,50,0x02,50);
   while(1)
 	{
-		Thigh_M6020Ctrl();
-	  Dynamixel1_setSyncTarAng(4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+//		Thigh_M6020Ctrl();
+//		Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
+	  // Dynamixel1_setSyncTarAng(4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+		// vTaskDelay(80);
+		// Dynamixel1_setSyncTarAng(4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+		// vTaskDelay(220);
+		
+	  // Dynamixel1_setSyncTarAng(4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
+		// vTaskDelay(5);
+		// Dynamixel1_setSyncTarAng(4,0x02,2700,0x04,2648,0x06,2648,0x08,2648);  
+		// vTaskDelay(220);
+	  Dynamixel1_setSyncMsg(POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
 		vTaskDelay(80);
-		Dynamixel1_setSyncTarAng(4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+		Dynamixel1_setSyncMsg(POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
 		vTaskDelay(220);
 		
-	  Dynamixel1_setSyncTarAng(4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
+	  Dynamixel1_setSyncMsg(POSITION,4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
 		vTaskDelay(5);
-		Dynamixel1_setSyncTarAng(4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);  
-		vTaskDelay(220);
+		Dynamixel1_setSyncMsg(POSITION,4,0x02,2700,0x04,2648,0x06,2648,0x08,2648);  
+		vTaskDelay(220);		
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }

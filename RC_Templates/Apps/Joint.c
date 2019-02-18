@@ -19,6 +19,8 @@
 #include "Motor.h"
 #include "Servo.h"
 #include "DR16.h"
+#include "FreeRTOS.h"
+#include "task.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 
@@ -60,10 +62,31 @@ void Thigh_M6020Ctrl(void)
 	* @param   void
 	* @retval  void
 	*/
-	void Thigh_MotionModel(void)
-	{
-		
-	}
+void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
+{
+	Dynamixel1_setSyncMsg(POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+	vTaskDelay(5);
+	Dynamixel1_setSyncMsg(POSITION,4,0x09,2548,0x0A,2548,0x0B,2548,0x0C,2548);
+	vTaskDelay(80);
+	Dynamixel1_setSyncMsg(POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+	vTaskDelay(220);
+	
+	Dynamixel1_setSyncMsg(POSITION,4,0x01,2548 + Vy,
+	                                 0x03,2548 + Vy,
+																	 0x05,2548 - Vy,
+																	 0x07,2548 - Vy);
+  vTaskDelay(5);
+	Dynamixel1_setSyncMsg(POSITION,4,0x09,2548 + Vx + Omega,
+	                                 0x0A,2548 + Vx + Omega,
+																	 0x0B,2548 - Vx + Omega,
+																	 0x0C,2548 - Vx + Omega);																 
+	vTaskDelay(5);
+	Dynamixel1_setSyncMsg(POSITION,4,0x02,2548 + Vy + Vx + Omega,
+	                                 0x04,2548 + Vy + Vx + Omega,
+																	 0x06,2548 + Vy + Vx + Omega,
+																	 0x08,2548 + Vy + Vx + Omega);   
+	vTaskDelay(220);		
+}
 
 
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -73,25 +96,15 @@ void Thigh_M6020Ctrl(void)
 	* @param   void
 	* @retval  void
 	*/
-	void Thigh_Forward(void)
-	{
-		Motor.M6020[0].targetAngle=M6020_MEDIAN(0)+1024;
-		Motor.M6020[1].targetAngle=M6020_MEDIAN(1)-1024;
-		Motor.M6020[2].targetAngle=M6020_MEDIAN(2)+1024;
-		Motor.M6020[3].targetAngle=M6020_MEDIAN(3)-1024;
-    Motor.p_M6020setCur(CAN_1);
+void Thigh_Forward(void)
+{
+	Motor.M6020[0].targetAngle=M6020_MEDIAN(0)+1024;
+	Motor.M6020[1].targetAngle=M6020_MEDIAN(1)-1024;
+	Motor.M6020[2].targetAngle=M6020_MEDIAN(2)+1024;
+	Motor.M6020[3].targetAngle=M6020_MEDIAN(3)-1024;
+	Motor.p_M6020setCur(CAN_1);
 
-//    Dynamixel_setMassage(1,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(2,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(3,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(4,7,8,'sdijgslkg');
-
-//		Dynamixel_setMassage(5,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(6,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(7,7,8,'sdijgslkg');
-//		Dynamixel_setMassage(8,7,8,'sdijgslkg');
-
-	}
+}
 
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/

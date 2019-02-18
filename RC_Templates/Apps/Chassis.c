@@ -19,7 +19,7 @@ const float Radian=PI/6;
  *         [in] *Speed 速度分解缓存 
  * @retval None
  */
-void ChassisMotionModel(float Vx, float Vy, float Omega, int16_t *Speed)								
+void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)								
 {
 #if   MECANUM == 1
   Speed[0] = -Vx - Vy + Omega;

@@ -56,17 +56,23 @@ typedef struct
 #define BULK_READ     0x92
 #define BULK_WRITE    0x93 
 
+#define SPEED         0x20
+#define POSITION      0x1E
+#define ACC           0x49
+
+#define CW_ANGLE_LIMIT   0x06
+#define CCW_ANGLE_LIMIT  0x08
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-void Dynamixel_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
+void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
 void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
 void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd,  uint16_t Data);
 void Dynamixel1_setSyncTarAng(uint8_t Num,...);
-
+void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...);
 #endif	// __SERVO_H
 /*----------------------------------FILE OF END-------------------------------*/
 
