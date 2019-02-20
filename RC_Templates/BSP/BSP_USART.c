@@ -119,17 +119,68 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART2, &USART_InitStructure);
 
+
+	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
+	//DMA_USART2TxConfig((uint32_t)Usart2SendBuffer,9);
+	
+	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
+	/* 使能串口空闲中断 */
+//	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
+	USART_Cmd(USART2, ENABLE);
+  USART_ClearFlag(USART2, USART_FLAG_TC);  
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART2初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
+void BSP_USART2_Half_Init(uint32_t BaudRate)
+{
+	USART_InitTypeDef   USART_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+
+	RCC_AHB1PeriphClockCmd(USART2_TX_GPIO_CLK | USART2_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = USART2_TX_Pin;  
+	GPIO_Init(USART2_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(USART2_TX_GPIO_PORT, USART2_TX_PINSOURCE, GPIO_AF_USART2);
+
+	USART_InitStructure.USART_BaudRate           = BaudRate;
+	USART_InitStructure.USART_HardwareFlowControl= USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode               = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStructure.USART_Parity             = USART_Parity_No;
+	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
+	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
+	USART_Init(USART2, &USART_InitStructure);
+
+//	USART2->CR3&=0<<5;//清SCEN
+//	USART2->CR3&=0<<1; //清IREN
+//	USART2->CR2&=0<<11;//清CLKEN
+//	USART2->CR2&=0<<14; //清LINEN
+  
+
 	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
 	//DMA_USART2TxConfig((uint32_t)Usart2SendBuffer,9);
 	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
-//	USART_HalfDuplexCmd(USART2,ENABLE);
 	USART_Cmd(USART2, ENABLE);
+	USART_HalfDuplexCmd( USART2, ENABLE);
   USART_ClearFlag(USART2, USART_FLAG_TC);  
 }
-
 void USART_Half_Configuration(void)  
 {  
     GPIO_InitTypeDef GPIO_InitStructure;  

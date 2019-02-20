@@ -25,7 +25,7 @@
  #include <stdarg.h>
 /*-------------------------- D E F I N E S -----------------------------------*/
 
-
+DigitalServo_t Dynamixel[8];
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -56,15 +56,23 @@ void ServoParamInit()
 	*/
 void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
 {
+	 uint16_t crc=0;
+	
    for(uint8_t i=0;i<20;i++)
    {
-      if(DynamixelBuffer[i] == 0xFF && DynamixelBuffer[i+1]==0xFF && \
-                                 DynamixelBuffer[i+2] == 0xFD)
+      if(DynamixelBuffer[i] == 0xFF && DynamixelBuffer[i+1]==0xFF)
       {
+					for(int j=i;j<(DynamixelBuffer[i+3]+1);j++)/*校验和*/
+					{
+						crc+=DynamixelBuffer[j+2];
+					}
+					crc=~crc;
 
+					if(DynamixelBuffer[i+7]==crc)
+				    Dynamixel[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
+						                                    |(DynamixelBuffer[i+6]<<8);
       }
    }
-
 
 }
 
@@ -178,6 +186,7 @@ void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
 	* @Data    2019-01-10 14:07
 	* @brief   同步写入舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
 	* @param   Num : 舵机的数量，后面是舵机的ID和目标角度
+	*          ... :舵机的ID和目标角度
 	* @retval  void
 	*/
 void Dynamixel1_setSyncTarAng(uint8_t Num,...)
@@ -231,7 +240,8 @@ void Dynamixel1_setSyncTarAng(uint8_t Num,...)
 	* @Data    2019-01-10 14:07
 	* @brief   同步写入舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
   * @param   Addr:位址，位置:0x1E、限幅:CW 0x06/CCW 0x08、速度:0x20、加速度:0x49。
-	*          Num :舵机的数量，后面是舵机的ID和目标角度/速度/加速度，取决于位址。
+	*          Num :舵机的数量
+	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
 	* @retval  void
 	*/
 void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
@@ -240,7 +250,7 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
 	加速度L=1，速度和位置L=2*/
 	uint8_t Length = Addr==ACC ? 2*Num + 4 : 3*Num + 4;
-	uint8_t sendBuff[Length+4];
+	uint8_t sendBuff[Length+4];/*申请内存，存放发送的数据*/
 	uint16_t dataBuff[2*Num];/*申请内存，存放舵机目标数据*/
 	
 	va_list args;
@@ -252,7 +262,7 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	}
 
 	usartSend.USART_x=USART_2;
-	usartSend.pUSARTSendBuff=sendBuff;
+	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
 	usartSend.pUSARTSendBuff[1]=0xFF;
@@ -292,6 +302,57 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
    
 }
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   同步舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
+  * @param   Addr:位址，位置:0x1E、限幅:CW 0x06/CCW 0x08、速度:0x20、加速度:0x49。
+	*          Num :舵机的数量，后面是舵机的ID和目标位址。
+	* @retval  void
+	*/
+void Dynamixel1_setBulkReadMsg(uint8_t Num,...)
+{
+	USARTSend_t usartSend;
+	/***Length = 3 * N + 3,	N:Number of Dynamixel*/
+	uint8_t Length = 3*Num+3;
+	uint8_t sendBuff[Length+4];/*申请内存，存放发送的数据*/
+	uint8_t dataBuff[2*Num];/*申请内存，存放舵机目标数据*/
+	
+	va_list args;
+	va_start(args, Num);/*args指向函数参数列表中的第一个可选参数Num*/
+	
+	for(int i=0;i<2*Num;i++)/*获取ID与目标数据*/
+	{
+		dataBuff[i]=va_arg(args,int);
+	}
+
+	usartSend.USART_x=USART_2;
+	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=0xFE;/*所有舵机*/
+	usartSend.pUSARTSendBuff[3]=Length;
+	usartSend.pUSARTSendBuff[4]=BULK_READ;/*同步写入命令*/
+  usartSend.pUSARTSendBuff[5]=0x00;
+	usartSend.pUSARTSendBuff[6]=0x02;
+
+	for(int i=0;i<Num;i++)/*打包ID与目标加速度*/
+	{
+		usartSend.pUSARTSendBuff[7+2*i]=dataBuff[2*i];
+		usartSend.pUSARTSendBuff[8+2*i]=dataBuff[2*i+1];
+	}
+
+	for(int i=0;i<Length+1;i++)/*校验和*/
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+
+	usartSend.pUSARTSendBuff[Length+3]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);/*将数据发送到队列*/
+   
+}
 
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/

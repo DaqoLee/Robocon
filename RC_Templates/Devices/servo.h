@@ -26,7 +26,7 @@ typedef struct
 {
     uint8_t   ID;
     uint32_t  StartAddr;
-    uint16_t	Length;
+    uint16_t  Length;
     uint8_t   Error;
     uint8_t*  p_ucTable;
 } SyncBulkData_t;
@@ -38,7 +38,23 @@ typedef struct
     int32_t FirmVer;
 } PingData_t;
 
+typedef struct
+{
+    uint8_t ID;
+    uint8_t Error;
 
+    uint16_t targetAngle;
+    uint16_t targetSpeed;
+    uint16_t targetAcc;
+
+    uint16_t tarMaxAngLimit;
+    uint16_t tarMiniAngLimit;
+
+    uint16_t realAngle;
+    uint16_t realSpeed;
+    uint16_t realAcc;
+
+}DigitalServo_t;
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 #define MAX_ID				(252)
 #define BROADCAST_ID		(254)  //BroadCast ID
@@ -71,8 +87,9 @@ typedef struct
 void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
 void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
 void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd,  uint16_t Data);
+void Dynamixel_getMassage(uint8_t *DynamixelBuffer);
 void Dynamixel1_setSyncTarAng(uint8_t Num,...);
-void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...);
+void Dynamixel1_SyncWriteMsg(uint8_t Addr,uint8_t Num,...);
 #endif	// __SERVO_H
 /*----------------------------------FILE OF END-------------------------------*/
 

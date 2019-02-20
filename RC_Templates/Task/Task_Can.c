@@ -26,8 +26,8 @@ QueueHandle_t xCan2RxQueue = NULL;
 static TaskHandle_t xHandleCan1Receive = NULL;
 static TaskHandle_t xHandleCan2Receive = NULL;
 static TaskHandle_t xHandleCanSend = NULL;
-float ZGyroModuleAngle=0.0f;
 
+float ZGyroModuleAngle=0.0f;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -82,14 +82,11 @@ static void vTaskCanSend(void *Parameters)
 		xQueueReceive(xCanSendQueue, &canSendData, portMAX_DELAY);
 			
 		if(canSendData.CANx == 1)
-		{     
-			
+		{     	
 			CAN_Transmit(CAN1, &(canSendData.SendCanTxMsg));
 		}
-
 		else
 		{
-			
 			CAN_Transmit(CAN2, &(canSendData.SendCanTxMsg));
 		} 
 	}

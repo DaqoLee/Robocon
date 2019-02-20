@@ -28,6 +28,7 @@
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
+
 static TaskHandle_t TaskLED0Handler=NULL;
 static TaskHandle_t TaskLED6Handler=NULL;
 
@@ -52,6 +53,7 @@ void vTaskStart(void *pvParameters)
 	
   BSP_USART1_Init(100000);
   BSP_USART2_Init(57600);
+//	BSP_USART2_Half_Init(57600);
 	BSP_USART3_Init(57600);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();

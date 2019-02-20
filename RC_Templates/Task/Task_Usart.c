@@ -1,25 +1,54 @@
+/**
+|-------------------------------- Copyright -----------------------------------|
+|                                                                              |
+|                     (C) Copyright 2019, Daqo Lee                             |
+|                                                                              |
+|                          By:GCU The wold of team                             |
+|                     https://github.com/GCUWildwolfteam                       |
+|------------------------------------------------------------------------------|
+|  FileName    : Task_Usart.c                                                
+|  Version     : v1.0                                                            
+|  Author      : Daqo Lee                                                       
+|  Date        : 2019-02-20               
+|  Libsupports : STM32F4xx_DFP ( 2.9.0)
+|  Description :                                                       
+|------------------------------declaration of end------------------------------|
+ **/
+/*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Task_Usart.h"
 #include "BSP_USART.h"
 #include "DR16.h"
 #include "LED.h"
 #include "Encoder.h"
-/******************************************************************************/
-static TaskHandle_t xHandleUsart1Receive = NULL;
-static TaskHandle_t xHandleUsart2Receive = NULL;
-static TaskHandle_t xHandleUsart3Receive = NULL;
-static TaskHandle_t xHandleUsartsend     = NULL;
+#include "Servo.h"
+/*-------------------------- D E F I N E S -----------------------------------*/
 
 QueueHandle_t xUsart1RxQueue = NULL;
 QueueHandle_t xUsart2RxQueue = NULL;
 QueueHandle_t xUsart3RxQueue = NULL;
 QueueHandle_t xusartTxQueue = NULL;
-/******************************************************************************/
+
+static TaskHandle_t xHandleUsart1Receive = NULL;
+static TaskHandle_t xHandleUsart2Receive = NULL;
+static TaskHandle_t xHandleUsart3Receive = NULL;
+static TaskHandle_t xHandleUsartsend     = NULL;
+
+/*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
+
 static void vTaskUsart1Receive(void *pvParameters);
 static void vTaskUsart2Receive(void *pvParameters);
 static void vTaskUsart3Receive(void *pvParameters);
 static void vTaskUsartSend(void *pvParameters);
-/******************************************************************************/
 
+/*------------------G L O B A L - F U N C T I O N S --------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   USART任务创建函数
+	* @param   void
+	* @retval  void
+	*/
 void UsartTaskCreate(void)
 {
 	xUsart1RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
@@ -58,8 +87,15 @@ void UsartTaskCreate(void)
 }
 
 
+/*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
-/******************************************************************************/
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   USART1解析任务
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskUsart1Receive(void *pvParameters)
 {
   uint8_t usart1RxBuffer[20];
@@ -72,22 +108,32 @@ static void vTaskUsart1Receive(void *pvParameters)
 
 }
 
-
-/******************************************************************************/
-
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   USART2解析任务
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskUsart2Receive(void *pvParameters)
 {
-  uint8_t usart2RxBuffer[24];
+  uint8_t usart2RxBuffer[26];
   while(1)
 	{
 	  xQueueReceive(xUsart2RxQueue, &usart2RxBuffer,portMAX_DELAY);
-		Posture_getMessage(usart2RxBuffer);
+		//Posture_getMessage(usart2RxBuffer);
+		Dynamixel_getMassage(usart2RxBuffer);
 	}
 
 }
-/******************************************************************************/
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   USART3解析任务
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskUsart3Receive(void *pvParameters)
 {
   uint8_t usart3RxBuffer[20];
@@ -98,8 +144,14 @@ static void vTaskUsart3Receive(void *pvParameters)
 	}
 
 }
-/******************************************************************************/
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   USART发送任务
+	* @param   void
+	* @retval  void
+	*/
 static void vTaskUsartSend(void *pvParameters)
 {
 	USARTSend_t usartSend;
@@ -109,10 +161,13 @@ static void vTaskUsartSend(void *pvParameters)
 		
     if(usartSend.USART_x==USART_2)
 		{
+
 			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
 			{
 				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
-			}			
+			}
+			USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
+      USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);			
 		}
 		else if(usartSend.USART_x==USART_3)
 		{
@@ -125,7 +180,13 @@ static void vTaskUsartSend(void *pvParameters)
 
 }
 
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-02-20 15:59
+	* @brief   print优化
+	* @param   void
+	* @retval  void
+	*/
 void vPrintString(const char *pcString)
 {
     taskENTER_CRITICAL();
@@ -135,5 +196,7 @@ void vPrintString(const char *pcString)
     }
     taskEXIT_CRITICAL();
 }
-/******************************************************************************/
+/*-----------------------------------FILE OF END------------------------------*/
+
+
 
