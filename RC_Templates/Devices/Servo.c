@@ -156,6 +156,7 @@ void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
 	USARTSend_t usartSend;
 	uint8_t sendBuff[9];
 	
+	usartSend.crc=0;
 	usartSend.USART_x=USART_2;
 	usartSend.pUSARTSendBuff=sendBuff;
 	
@@ -176,6 +177,50 @@ void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
 		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
 	}
 	usartSend.pUSARTSendBuff[8]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);
+   
+}
+
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   单个舵机写入目标角度
+	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
+	* @retval  void
+	*/
+void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position,
+	                      uint16_t Time, uint16_t Speed)
+{
+	USARTSend_t usartSend;
+	uint8_t sendBuff[13];
+	
+	usartSend.crc=0;
+	usartSend.USART_x=USART_2;
+	usartSend.pUSARTSendBuff=sendBuff;
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=ID;
+	usartSend.pUSARTSendBuff[3]=0x09;
+	
+	usartSend.pUSARTSendBuff[4]=Cmd;
+
+  usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
+	
+	usartSend.pUSARTSendBuff[6]=Position;
+	usartSend.pUSARTSendBuff[7]=Position>>8;
+	
+	usartSend.pUSARTSendBuff[8]=Time;
+	usartSend.pUSARTSendBuff[9]=Time>>8;
+	
+	usartSend.pUSARTSendBuff[10]=Speed;
+	usartSend.pUSARTSendBuff[11]=Speed>>8;
+	
+	for(int i=0;i<10;i++)
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+	usartSend.pUSARTSendBuff[12]=~usartSend.crc;
 	
 	xQueueSend(xusartTxQueue, &usartSend, 20);
    

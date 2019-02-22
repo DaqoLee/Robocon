@@ -125,9 +125,8 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
-//	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
+	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART2, ENABLE);
-  USART_ClearFlag(USART2, USART_FLAG_TC);  
 }
 
 /*------------------------------80 Chars Limit--------------------------------*/

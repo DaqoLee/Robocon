@@ -165,9 +165,7 @@ static void vTaskUsartSend(void *pvParameters)
 			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
 			{
 				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
-			}
-			USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
-      USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);			
+			}			
 		}
 		else if(usartSend.USART_x==USART_3)
 		{
