@@ -26,9 +26,31 @@ uint8_t Usart2SendBuffer[9];
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
-
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART1初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
+//void BSP_USART_Init(uint8_t USART_X, uint32_t BaudRate)
+//{
+//	USART_InitTypeDef   USART_InitStructure;
+//  GPIO_InitTypeDef GPIO_InitStructure;
+//	if(USART_X == 1)\
+//  {
+//    RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);\
+//  }
+//  else
+//  {
+//   // RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART##X##, ENABLE);
+//  }
+//	
+////	USART_INIT(USART1,BaudRate);
+//}
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
+
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-18 16:32
@@ -182,31 +204,31 @@ void BSP_USART2_Half_Init(uint32_t BaudRate)
 }
 void USART_Half_Configuration(void)  
 {  
-    GPIO_InitTypeDef GPIO_InitStructure;  
-    USART_InitTypeDef USART_InitStructure;   
+	GPIO_InitTypeDef GPIO_InitStructure;  
+	USART_InitTypeDef USART_InitStructure;   
 
-    GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_USART1);  
+	GPIO_PinAFConfig(GPIOB,GPIO_PinSource6,GPIO_AF_USART1);  
 
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;  
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;  
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;  
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;  
-    GPIO_Init(GPIOB, &GPIO_InitStructure);  
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;  
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;  
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;  
+	GPIO_Init(GPIOB, &GPIO_InitStructure);  
 
 
-    USART_InitStructure.USART_BaudRate = 115200;  
-    USART_InitStructure.USART_WordLength = USART_WordLength_8b;  
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;  
-    USART_InitStructure.USART_Parity = USART_Parity_No;  
-    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
-    USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;  
-    USART_Init(USART1,&USART_InitStructure);  
+	USART_InitStructure.USART_BaudRate = 115200;  
+	USART_InitStructure.USART_WordLength = USART_WordLength_8b;  
+	USART_InitStructure.USART_StopBits = USART_StopBits_1;  
+	USART_InitStructure.USART_Parity = USART_Parity_No;  
+	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;  
+	USART_Init(USART1,&USART_InitStructure);  
 
-    USART_HalfDuplexCmd(USART1, ENABLE);  
+	USART_HalfDuplexCmd(USART1, ENABLE);  
 
-    USART_Cmd(USART1,ENABLE);  
-    USART_ClearFlag(USART1, USART_FLAG_TC);  
+	USART_Cmd(USART1,ENABLE);  
+	USART_ClearFlag(USART1, USART_FLAG_TC);  
 }
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
@@ -256,6 +278,155 @@ void BSP_USART3_Init(uint32_t BaudRate)
 	USART_ITConfig(USART3, USART_IT_IDLE, ENABLE);
 	USART_Cmd(USART3, ENABLE);
 }
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART3初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
+void BSP_USART6_Init(uint32_t BaudRate)
+{
+	USART_InitTypeDef   USART_InitStructure;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);
+
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(USART6_TX_GPIO_CLK | USART6_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = USART6_TX_Pin;  
+	GPIO_Init(USART6_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 配置Rx引脚 */
+	GPIO_InitStructure.GPIO_Pin = USART6_RX_Pin;
+	GPIO_Init(USART6_RX_GPIO_PORT, &GPIO_InitStructure);
+	
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(USART6_TX_GPIO_PORT, USART6_TX_PINSOURCE, GPIO_AF_USART6);
+
+	/*  连接 PXx 到 USARTx_Rx*/
+	GPIO_PinAFConfig(USART6_RX_GPIO_PORT, USART6_RX_PINSOURCE, GPIO_AF_USART6);
+	
+	USART_InitStructure.USART_BaudRate           = BaudRate;
+	USART_InitStructure.USART_HardwareFlowControl= USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode               = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStructure.USART_Parity             = USART_Parity_No;
+	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
+	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
+	USART_Init(USART6, &USART_InitStructure);
+	
+	//DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
+
+	USART_DMACmd(USART6, USART_DMAReq_Tx, ENABLE);
+	/* 使能串口空闲中断 */
+	USART_ITConfig(USART6, USART_IT_IDLE, ENABLE);
+	USART_Cmd(USART6, ENABLE);
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART3初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
+void BSP_UART7_Init(uint32_t BaudRate)
+{
+	USART_InitTypeDef   USART_InitStructure;
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART7, ENABLE);
+
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(UART7_TX_GPIO_CLK | UART7_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = UART7_TX_Pin;  
+	GPIO_Init(UART7_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 配置Rx引脚 */
+	GPIO_InitStructure.GPIO_Pin = UART7_RX_Pin;
+	GPIO_Init(UART7_RX_GPIO_PORT, &GPIO_InitStructure);
+	
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(UART7_TX_GPIO_PORT, UART7_TX_PINSOURCE, GPIO_AF_UART7);
+
+	/*  连接 PXx 到 USARTx_Rx*/
+	GPIO_PinAFConfig(UART7_RX_GPIO_PORT, UART7_RX_PINSOURCE, GPIO_AF_UART7);
+	
+	USART_InitStructure.USART_BaudRate           = BaudRate;
+	USART_InitStructure.USART_HardwareFlowControl= USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode               = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStructure.USART_Parity             = USART_Parity_No;
+	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
+	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
+	USART_Init(UART7, &USART_InitStructure);
+	
+//	DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
+
+	USART_DMACmd(UART7, USART_DMAReq_Tx, ENABLE);
+	/* 使能串口空闲中断 */
+	USART_ITConfig(UART7, USART_IT_IDLE, ENABLE);
+	USART_Cmd(UART7, ENABLE);
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-18 16:32
+	* @brief   USART3初始化
+	* @param   BaudRate 波特率
+	* @retval  void
+	*/
+void BSP_UART8_Init(uint32_t BaudRate)
+{
+	USART_InitTypeDef   USART_InitStructure;
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART8, ENABLE);
+
+	GPIO_InitTypeDef GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(UART8_TX_GPIO_CLK | UART8_RX_GPIO_CLK,ENABLE);
+			/* GPIO初始化 */
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+		/* 配置Tx引脚  */
+	GPIO_InitStructure.GPIO_Pin = UART8_TX_Pin;  
+	GPIO_Init(UART8_TX_GPIO_PORT, &GPIO_InitStructure);
+
+	/* 配置Rx引脚 */
+	GPIO_InitStructure.GPIO_Pin = UART8_RX_Pin;
+	GPIO_Init(UART8_RX_GPIO_PORT, &GPIO_InitStructure);
+	
+	/* 连接 PXx 到 USARTx_Tx*/
+	GPIO_PinAFConfig(UART8_TX_GPIO_PORT, UART8_TX_PINSOURCE, GPIO_AF_UART8);
+
+	/*  连接 PXx 到 USARTx_Rx*/
+	GPIO_PinAFConfig(UART8_RX_GPIO_PORT, UART8_RX_PINSOURCE, GPIO_AF_UART8);
+	
+	USART_InitStructure.USART_BaudRate           = BaudRate;
+	USART_InitStructure.USART_HardwareFlowControl= USART_HardwareFlowControl_None;
+	USART_InitStructure.USART_Mode               = USART_Mode_Rx | USART_Mode_Tx;
+	USART_InitStructure.USART_Parity             = USART_Parity_No;
+	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
+	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
+	USART_Init(UART8, &USART_InitStructure);
+	
+	//DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
+
+	USART_DMACmd(UART8, USART_DMAReq_Tx, ENABLE);
+	/* 使能串口空闲中断 */
+	USART_ITConfig(UART8, USART_IT_IDLE, ENABLE);
+	USART_Cmd(UART8, ENABLE);
+}
+
+
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-18 16:32

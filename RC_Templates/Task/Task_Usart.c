@@ -102,7 +102,7 @@ static void vTaskUsart1Receive(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xUsart1RxQueue, &usart1RxBuffer,portMAX_DELAY);
-		DR16.p_DR16getMsg(usart1RxBuffer);
+		DR16.pDR16getMsg(usart1RxBuffer);
 		LED_TOGGLE(LED_G);
 	}
 
@@ -169,10 +169,32 @@ static void vTaskUsartSend(void *pvParameters)
 		}
 		else if(usartSend.USART_x==USART_3)
 		{
-			for(uint8_t i=0;i<9;i++)
+			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
 			{
 				USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
-			}			
+			}	
+		}
+		else if(usartSend.USART_x==USART_6)
+		{
+			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+			{
+				USART_sendChar(USART6,usartSend.pUSARTSendBuff[i]);
+			}	
+		}
+		else if(usartSend.USART_x==UART_7)
+		{
+			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+			{
+				USART_sendChar(UART7,usartSend.pUSARTSendBuff[i]);
+			}	
+		}
+		 else if(usartSend.USART_x==UART_8)
+		{
+			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+			{
+				
+				USART_sendChar(UART8,usartSend.pUSARTSendBuff[i]);
+			}	
 		}
 	}
 

@@ -52,9 +52,12 @@ void vTaskStart(void *pvParameters)
 	taskENTER_CRITICAL();/*进入临界区*/
 	
   BSP_USART1_Init(100000);
-  BSP_USART2_Init(57600);
+  BSP_USART2_Init(115200);
 //	BSP_USART2_Half_Init(57600);
 	BSP_USART3_Init(57600);
+	BSP_USART6_Init(115200);
+	BSP_UART7_Init(57600);
+	BSP_UART8_Init(57600);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
