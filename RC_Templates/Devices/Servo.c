@@ -54,7 +54,7 @@ void ServoParamInit()
 	* @param   void
 	* @retval  void
 	*/
-void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
+void DXL1_getMassage(uint8_t *DynamixelBuffer)
 {
 	 uint16_t crc=0;
 	
@@ -82,7 +82,7 @@ void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
 	* @param   void
 	* @retval  void
 	*/
-void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
+void DXL2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
 {
 	USARTSend_t usartSend;
 	
@@ -115,7 +115,7 @@ void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Da
   * @param   ID：舵机的ID，Length：数据长度，Cmd 命令，*Data：要发送的数据
 	* @retval  void
 	*/
-void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
+void DXL1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
 {
 	USARTSend_t usartSend;
 	uint8_t sendBuff[Length+4];/*申请内存*/
@@ -150,7 +150,7 @@ void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Da
 	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
 	* @retval  void
 	*/
-void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
+void DXL1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
 {
 	USARTSend_t usartSend;
 	uint8_t sendBuff[9];
@@ -181,52 +181,15 @@ void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
    
 }
 
+/*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:07
 	* @brief   单个舵机写入目标角度
 	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
 	* @retval  void
 	*/
-// void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position,
-// 	                      uint16_t Time, uint16_t Speed)
-// {
-// 	USARTSend_t usartSend;
-// 	uint8_t sendBuff[13];
-	
-// 	usartSend.crc=0;
-// 	usartSend.USART_x=USART_2;
-// 	usartSend.pUSARTSendBuff=sendBuff;
-	
-// 	usartSend.pUSARTSendBuff[0]=0xFF;
-// 	usartSend.pUSARTSendBuff[1]=0xFF;
-// 	usartSend.pUSARTSendBuff[2]=ID;
-// 	usartSend.pUSARTSendBuff[3]=0x09;
-	
-// 	usartSend.pUSARTSendBuff[4]=Cmd;
 
-//   usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
-	
-// 	usartSend.pUSARTSendBuff[6]=Position;
-// 	usartSend.pUSARTSendBuff[7]=Position>>8;
-	
-// 	usartSend.pUSARTSendBuff[8]=Time;
-// 	usartSend.pUSARTSendBuff[9]=Time>>8;
-	
-// 	usartSend.pUSARTSendBuff[10]=Speed;
-// 	usartSend.pUSARTSendBuff[11]=Speed>>8;
-	
-// 	for(int i=0;i<10;i++)
-// 	{
-// 		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
-// 	}
-// 	usartSend.pUSARTSendBuff[12]=~usartSend.crc;
-	
-// 	xQueueSend(xusartTxQueue, &usartSend, 20);
-   
-// }
-
-
-void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position)
+void SMS1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position)
 {
 	USARTSend_t usartSend;
 	uint8_t sendBuff[9];
@@ -264,7 +227,7 @@ void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position)
 	*          ... :舵机的ID和目标角度
 	* @retval  void
 	*/
-void Dynamixel1_setSyncTarAng(uint8_t Num,...)
+void DXL1_setSyncTarAng(uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel***/
@@ -319,7 +282,7 @@ void Dynamixel1_setSyncTarAng(uint8_t Num,...)
 	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
 	* @retval  void
 	*/
-void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
+void DXL1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
@@ -386,12 +349,12 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
 	* @retval  void
 	*/
-void SMS_setSyncMsg(uint8_t Addr,uint8_t Num,...)
+void SMS1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
 	加速度L=1，速度和位置L=2*/
-	uint8_t Length = Addr==ACC ? 2*Num + 4 : 3*Num + 4;
+	uint8_t Length = 3*Num + 4;
 	uint8_t sendBuff[Length+4];/*申请内存，存放发送的数据*/
 	uint16_t dataBuff[2*Num];/*申请内存，存放舵机目标数据*/
 	
@@ -413,26 +376,13 @@ void SMS_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	usartSend.pUSARTSendBuff[4]=SYNC_WRITE;/*同步写入命令*/
   usartSend.pUSARTSendBuff[5]=Addr;/*位址*/
 	
-	if(Addr == ACC)
+	usartSend.pUSARTSendBuff[6]=0x02;/*单个数据长度，目标角度/速度长度为 2 Byte*/
+	for(int i=0;i<Num;i++)/*打包ID与目标角度/速度*/
 	{
-		usartSend.pUSARTSendBuff[6]=0x01;/*单个数据长度，目标加速度长度为 1 Byte*/
-		for(int i=0;i<Num;i++)/*打包ID与目标加速度*/
-		{
-			usartSend.pUSARTSendBuff[7+2*i]=dataBuff[2*i];
-			usartSend.pUSARTSendBuff[8+2*i]=dataBuff[2*i+1];
-		}
+		usartSend.pUSARTSendBuff[7+3*i]=dataBuff[2*i];
+		usartSend.pUSARTSendBuff[8+3*i]=dataBuff[2*i+1];
+		usartSend.pUSARTSendBuff[9+3*i]=dataBuff[2*i+1]>>8;
 	}
-	else
-	{
-		usartSend.pUSARTSendBuff[6]=0x02;/*单个数据长度，目标角度/速度长度为 2 Byte*/
-	  for(int i=0;i<Num;i++)/*打包ID与目标角度/速度*/
-		{
-			usartSend.pUSARTSendBuff[7+3*i]=dataBuff[2*i];
-			usartSend.pUSARTSendBuff[8+3*i]=dataBuff[2*i+1];
-			usartSend.pUSARTSendBuff[9+3*i]=dataBuff[2*i+1]>>8;
-		}
-	}
-
 	for(int i=0;i<Length+1;i++)/*校验和*/
 	{
 		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
@@ -451,7 +401,7 @@ void SMS_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	*          Num :舵机的数量，后面是舵机的ID和目标位址。
 	* @retval  void
 	*/
-void Dynamixel1_setBulkReadMsg(uint8_t Num,...)
+void DXL1_setBulkReadMsg(uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = 3 * N + 3,	N:Number of Dynamixel*/

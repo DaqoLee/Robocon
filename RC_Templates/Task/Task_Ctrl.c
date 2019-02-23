@@ -110,18 +110,18 @@ static void vTaskCtrlJoint(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
 //	vTaskDelay(500);
-//	Dynamixel1_setSyncMsg(SPEED,2,0x01,600,0x02,0);
+//	DXL1_setSyncMsg(SPEED,2,0x01,600,0x02,0);
 ////	vTaskDelay(5);
-//	Dynamixel1_setSyncMsg(ACC,2,0x01,100,0x02,0);
+//	DXL1_setSyncMsg(ACC,2,0x01,100,0x02,0);
   while(1)
 	{
 //		Thigh_M6020Ctrl();
 //		Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
-		Dynamixel1_setTargetAngle(0x02,WRITE,2048);
-		SMS_setTargetAngle(0x01,WRITE,2048);
+		DXL1_setTargetAngle(0x02,WRITE,2048);
+		SMS1_setTargetAngle(0x01,WRITE,2048);
 		vTaskDelay(200);
-		Dynamixel1_setTargetAngle(0x02,WRITE,2500);
-		SMS_setTargetAngle(0x01,WRITE,2500);
+		DXL1_setTargetAngle(0x02,WRITE,2500);
+		SMS1_setTargetAngle(0x01,WRITE,2500);
 		vTaskDelay(200);
 //    Joint_MotionTest();
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/

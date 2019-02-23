@@ -50,10 +50,10 @@ static void LEDTaskCreate(void);
 void vTaskStart(void *pvParameters)
 {		
 	taskENTER_CRITICAL();/*进入临界区*/
+	/*------------------BSP初始化------------------*/
 	
   BSP_USART1_Init(100000);
   BSP_USART2_Init(115200);
-//	BSP_USART2_Half_Init(57600);
 	BSP_USART3_Init(57600);
 	BSP_USART6_Init(115200);
 	BSP_UART7_Init(57600);
@@ -61,19 +61,20 @@ void vTaskStart(void *pvParameters)
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
+	/*---------------Devices初始化----------------*/
 	
   LED_Init();
 	KEY_Init();
 	DR16_Init();
 	MotorParamInit();
-
+	/*-----------------Task创建-------------------*/
+	
 	CanTaskCreate();  /* 创建CAN任务 */
 	UsartTaskCreate();/* 创建USART任务 */
   LEDTaskCreate();  /* 创建LED任务 */
-	
 	vTaskDelay(1000);/*延时等待模块稳定*/
-	
 	ControlTaskCreate();/* 创建控制任务 */
+	/*-------------------------------------------*/
 	
 	vTaskDelete(StartTaskHandler);/*删除开始任务*/ 
   taskEXIT_CRITICAL(); /*退出临界区*/

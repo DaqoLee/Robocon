@@ -105,7 +105,7 @@ void BSP_CAN1_Init(void)
 	* @param   void
 	* @retval  void
 	*/
-void CAN2_Init(void)
+void BSP_CAN2_Init(void)
 {
 	CAN_InitTypeDef     CAN_InitStructure;
 	CAN_FilterInitTypeDef   CAN_FilterInitStructure;
