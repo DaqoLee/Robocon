@@ -16,7 +16,6 @@
  **/
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Servo.h"
-#include "BSP_USART.h"
 #include "string.h"
 #include "Task_Usart.h"
 #include "check.h"
@@ -25,7 +24,7 @@
  #include <stdarg.h>
 /*-------------------------- D E F I N E S -----------------------------------*/
 
-DigitalServo_t Dynamixel[8];
+DigitalServo_t DigitalServo;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -54,7 +53,7 @@ void ServoParamInit()
 	* @param   void
 	* @retval  void
 	*/
-void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
+void DXL1_getMassage(uint8_t *DynamixelBuffer)
 {
 	 uint16_t crc=0;
 	
@@ -62,15 +61,17 @@ void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
    {
       if(DynamixelBuffer[i] == 0xFF && DynamixelBuffer[i+1]==0xFF)
       {
-					for(int j=i;j<(DynamixelBuffer[i+3]+1);j++)/*校验和*/
-					{
-						crc+=DynamixelBuffer[j+2];
-					}
-					crc=~crc;
+				for(int j=i;j<(DynamixelBuffer[i+3]+1);j++)/*校验和*/
+				{
+					crc+=DynamixelBuffer[j+2];
+				}
+				crc=~crc;
 
-					if(DynamixelBuffer[i+7]==crc)
-				    Dynamixel[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
-						                                    |(DynamixelBuffer[i+6]<<8);
+				if(DynamixelBuffer[i+7]==crc)
+				{
+					DigitalServo.MX_64[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
+																							|(DynamixelBuffer[i+6]<<8);
+				}
       }
    }
 }
@@ -82,11 +83,12 @@ void Dynamixel_getMassage(uint8_t *DynamixelBuffer)
 	* @param   void
 	* @retval  void
 	*/
-void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
+void DXL2_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length,
+                                     uint8_t Cmd, uint8_t *Data)
 {
 	USARTSend_t usartSend;
 	
-	usartSend.USART_x=USART_2;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff[0]=0xFF;
 	usartSend.pUSARTSendBuff[1]=0xFF;
 	usartSend.pUSARTSendBuff[2]=0xFD;
@@ -115,12 +117,13 @@ void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Da
   * @param   ID：舵机的ID，Length：数据长度，Cmd 命令，*Data：要发送的数据
 	* @retval  void
 	*/
-void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data)
+void DXL1_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length,
+                                     uint8_t Cmd, uint8_t *Data)
 {
 	USARTSend_t usartSend;
 	uint8_t sendBuff[Length+4];/*申请内存*/
 	
-	usartSend.USART_x=USART_2;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
@@ -150,13 +153,13 @@ void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Da
 	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
 	* @retval  void
 	*/
-void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
+void DXL1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd, uint16_t Data)
 {
 	USARTSend_t usartSend;
 	uint8_t sendBuff[9];
 	
 	usartSend.crc=0;
-	usartSend.USART_x=UART_7;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff=sendBuff;
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
@@ -181,81 +184,7 @@ void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Data)
    
 }
 
-	/**
-	* @Data    2019-01-10 14:07
-	* @brief   单个舵机写入目标角度
-	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
-	* @retval  void
-	*/
-// void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position,
-// 	                      uint16_t Time, uint16_t Speed)
-// {
-// 	USARTSend_t usartSend;
-// 	uint8_t sendBuff[13];
-	
-// 	usartSend.crc=0;
-// 	usartSend.USART_x=USART_2;
-// 	usartSend.pUSARTSendBuff=sendBuff;
-	
-// 	usartSend.pUSARTSendBuff[0]=0xFF;
-// 	usartSend.pUSARTSendBuff[1]=0xFF;
-// 	usartSend.pUSARTSendBuff[2]=ID;
-// 	usartSend.pUSARTSendBuff[3]=0x09;
-	
-// 	usartSend.pUSARTSendBuff[4]=Cmd;
 
-//   usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
-	
-// 	usartSend.pUSARTSendBuff[6]=Position;
-// 	usartSend.pUSARTSendBuff[7]=Position>>8;
-	
-// 	usartSend.pUSARTSendBuff[8]=Time;
-// 	usartSend.pUSARTSendBuff[9]=Time>>8;
-	
-// 	usartSend.pUSARTSendBuff[10]=Speed;
-// 	usartSend.pUSARTSendBuff[11]=Speed>>8;
-	
-// 	for(int i=0;i<10;i++)
-// 	{
-// 		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
-// 	}
-// 	usartSend.pUSARTSendBuff[12]=~usartSend.crc;
-	
-// 	xQueueSend(xusartTxQueue, &usartSend, 20);
-   
-// }
-
-
-void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position)
-{
-	USARTSend_t usartSend;
-	uint8_t sendBuff[9];
-	
-	usartSend.crc=0;
-	usartSend.USART_x=USART_2;
-	usartSend.pUSARTSendBuff=sendBuff;
-	
-	usartSend.pUSARTSendBuff[0]=0xFF;
-	usartSend.pUSARTSendBuff[1]=0xFF;
-	usartSend.pUSARTSendBuff[2]=ID;
-	usartSend.pUSARTSendBuff[3]=0x05;
-	
-	usartSend.pUSARTSendBuff[4]=Cmd;
-
-  usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
-	
-	usartSend.pUSARTSendBuff[6]=Position;
-	usartSend.pUSARTSendBuff[7]=Position>>8;
-	
-	for(int i=0;i<6;i++)
-	{
-		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
-	}
-	usartSend.pUSARTSendBuff[8]=~usartSend.crc;
-	
-	xQueueSend(xusartTxQueue, &usartSend, 20);
-   
-}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:07
@@ -264,7 +193,7 @@ void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position)
 	*          ... :舵机的ID和目标角度
 	* @retval  void
 	*/
-void Dynamixel1_setSyncTarAng(uint8_t Num,...)
+void DXL1_setSyncTarAng(USARTx_e USARTx,uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel***/
@@ -281,7 +210,7 @@ void Dynamixel1_setSyncTarAng(uint8_t Num,...)
 		dataBuff[i]=va_arg(args,int);
 	}
 
-	usartSend.USART_x=USART_2;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff=sendBuff;
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
@@ -319,7 +248,7 @@ void Dynamixel1_setSyncTarAng(uint8_t Num,...)
 	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
 	* @retval  void
 	*/
-void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
+void DXL1_setSyncMsg(USARTx_e USARTx,uint8_t Addr,uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
@@ -336,7 +265,7 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 		dataBuff[i]=va_arg(args,int);
 	}
 
-	usartSend.USART_x=USART_2;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
@@ -377,72 +306,6 @@ void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...)
    
 }
 
-/*------------------------------80 Chars Limit--------------------------------*/
-	/**
-	* @Data    2019-01-10 14:07
-	* @brief   同步写入舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
-  * @param   Addr:位址，位置:0x1E、限幅:CW 0x06/CCW 0x08、速度:0x20、加速度:0x49。
-	*          Num :舵机的数量
-	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
-	* @retval  void
-	*/
-void SMS_setSyncMsg(uint8_t Addr,uint8_t Num,...)
-{
-	USARTSend_t usartSend;
-	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
-	加速度L=1，速度和位置L=2*/
-	uint8_t Length = Addr==ACC ? 2*Num + 4 : 3*Num + 4;
-	uint8_t sendBuff[Length+4];/*申请内存，存放发送的数据*/
-	uint16_t dataBuff[2*Num];/*申请内存，存放舵机目标数据*/
-	
-	va_list args;
-	va_start(args, Num);/*args指向函数参数列表中的第一个可选参数Num*/
-	
-	for(int i=0;i<2*Num;i++)/*获取ID与目标数据*/
-	{
-		dataBuff[i]=va_arg(args,int);
-	}
-
-	usartSend.USART_x=USART_2;
-	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
-	
-	usartSend.pUSARTSendBuff[0]=0xFF;
-	usartSend.pUSARTSendBuff[1]=0xFF;
-	usartSend.pUSARTSendBuff[2]=0xFE;/*所有舵机*/
-	usartSend.pUSARTSendBuff[3]=Length;
-	usartSend.pUSARTSendBuff[4]=SYNC_WRITE;/*同步写入命令*/
-  usartSend.pUSARTSendBuff[5]=Addr;/*位址*/
-	
-	if(Addr == ACC)
-	{
-		usartSend.pUSARTSendBuff[6]=0x01;/*单个数据长度，目标加速度长度为 1 Byte*/
-		for(int i=0;i<Num;i++)/*打包ID与目标加速度*/
-		{
-			usartSend.pUSARTSendBuff[7+2*i]=dataBuff[2*i];
-			usartSend.pUSARTSendBuff[8+2*i]=dataBuff[2*i+1];
-		}
-	}
-	else
-	{
-		usartSend.pUSARTSendBuff[6]=0x02;/*单个数据长度，目标角度/速度长度为 2 Byte*/
-	  for(int i=0;i<Num;i++)/*打包ID与目标角度/速度*/
-		{
-			usartSend.pUSARTSendBuff[7+3*i]=dataBuff[2*i];
-			usartSend.pUSARTSendBuff[8+3*i]=dataBuff[2*i+1];
-			usartSend.pUSARTSendBuff[9+3*i]=dataBuff[2*i+1]>>8;
-		}
-	}
-
-	for(int i=0;i<Length+1;i++)/*校验和*/
-	{
-		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
-	}
-
-	usartSend.pUSARTSendBuff[Length+3]=~usartSend.crc;
-	
-	xQueueSend(xusartTxQueue, &usartSend, 20);/*将数据发送到队列*/
-   
-}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:07
@@ -451,7 +314,7 @@ void SMS_setSyncMsg(uint8_t Addr,uint8_t Num,...)
 	*          Num :舵机的数量，后面是舵机的ID和目标位址。
 	* @retval  void
 	*/
-void Dynamixel1_setBulkReadMsg(uint8_t Num,...)
+void DXL1_setBulkReadMsg(USARTx_e USARTx,uint8_t Num,...)
 {
 	USARTSend_t usartSend;
 	/***Length = 3 * N + 3,	N:Number of Dynamixel*/
@@ -467,7 +330,7 @@ void Dynamixel1_setBulkReadMsg(uint8_t Num,...)
 		dataBuff[i]=va_arg(args,int);
 	}
 
-	usartSend.USART_x=USART_2;
+	usartSend.USART_x=USARTx;
 	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
 	
 	usartSend.pUSARTSendBuff[0]=0xFF;
@@ -484,6 +347,191 @@ void Dynamixel1_setBulkReadMsg(uint8_t Num,...)
 		usartSend.pUSARTSendBuff[8+2*i]=dataBuff[2*i+1];
 	}
 
+	for(int i=0;i<Length+1;i++)/*校验和*/
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+
+	usartSend.pUSARTSendBuff[Length+3]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);/*将数据发送到队列*/
+   
+}
+/*------------------------------80 Chars Limit--------------------------------*/
+
+
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   DXL1.0协议简单打包函数
+  * @param   ID：舵机的ID，Length：数据长度，Cmd 命令，*Data：要发送的数据
+	* @retval  void
+	*/
+void SMS1_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length, 
+                                     uint8_t Cmd, uint8_t *Data)
+{
+	USARTSend_t usartSend;
+	uint8_t sendBuff[Length+4];/*申请内存*/
+	
+	usartSend.USART_x = USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
+	
+	usartSend.pUSARTSendBuff[0] = 0xFF;
+	usartSend.pUSARTSendBuff[1] = 0xFF;
+	usartSend.pUSARTSendBuff[2] = ID;
+	usartSend.pUSARTSendBuff[3] = Length;
+	usartSend.pUSARTSendBuff[4] = Cmd;
+	
+  if(Data!=NULL)/*如果有数据就拷贝*/
+	{
+  	memcpy(&usartSend.pUSARTSendBuff[5],Data,Length-2 );
+	}
+	for(int i=0;i<Length+1;i++)/*校验和*/
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+	usartSend.pUSARTSendBuff[Length+3]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);/*将数据发送到队列*/
+	
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   单个舵机写入目标角度
+	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
+	* @retval  void
+	*/
+
+void SMS1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd, uint16_t Position)
+{
+	USARTSend_t usartSend;
+	uint8_t sendBuff[9];
+	
+	usartSend.crc=0;
+	usartSend.USART_x=USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=ID;
+	usartSend.pUSARTSendBuff[3]=0x05;
+	
+	usartSend.pUSARTSendBuff[4]=Cmd;
+
+  usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
+	
+	usartSend.pUSARTSendBuff[6]=Position;
+	usartSend.pUSARTSendBuff[7]=Position>>8;
+	
+	for(int i=0;i<6;i++)
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+	usartSend.pUSARTSendBuff[8]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);
+   
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   同步写入舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
+	* @param   Num : 舵机的数量，后面是舵机的ID和目标角度
+	*          ... :舵机的ID和目标角度
+	* @retval  void
+	*/
+void SMS1_setSyncTarAng(USARTx_e USARTx,uint8_t Num,...)
+{
+	USARTSend_t usartSend;
+	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel***/
+	uint8_t 		Length=3*Num+4;
+	
+	uint8_t 		sendBuff[Length+4];
+	uint16_t		dataBuff[2*Num];/*申请内存，存放舵机与目标角度*/
+	
+	va_list args;
+	va_start(args, Num);/*args指向函数参数列表中的第一个可选参数Num*/
+	
+	for(int i=0;i<2*Num;i++)/*获取ID与目标角度*/
+	{
+		dataBuff[i]=va_arg(args,int);
+	}
+
+	usartSend.USART_x=USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=0xFE;/*所有舵机,广播模式*/
+	usartSend.pUSARTSendBuff[3]=Length;
+	usartSend.pUSARTSendBuff[4]=SYNC_WRITE;/*同步写入命令*/
+  usartSend.pUSARTSendBuff[5]=0x2A;/*位址*/
+	usartSend.pUSARTSendBuff[6]=0x02;/*单个数据长度，目标角度长度为 2 Byte*/
+	
+	for(int i=0;i<Num;i++)/*打包ID与目标角度*/
+	{
+		usartSend.pUSARTSendBuff[7+3*i]=dataBuff[2*i];
+		usartSend.pUSARTSendBuff[8+3*i]=dataBuff[2*i+1];
+		usartSend.pUSARTSendBuff[9+3*i]=dataBuff[2*i+1]>>8;
+	}
+	
+	for(int i=0;i<Length+1;i++)/*校验和*/
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+
+	usartSend.pUSARTSendBuff[Length+3]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);/*将数据发送到队列*/
+   
+}
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   同步写入舵机目标角度，参数数目不限。(目标角度长度为 2 Byte)
+  * @param   Addr:位址，位置:0x1E、限幅:CW 0x06/CCW 0x08、速度:0x20、加速度:0x49。
+	*          Num :舵机的数量
+	*          ... :舵机的ID和目标角度/速度/加速度(取决于位址Adrr)。
+	* @retval  void
+	*/
+void SMS1_setSyncMsg(USARTx_e USARTx,uint8_t Addr,uint8_t Num,...)
+{
+	USARTSend_t usartSend;
+	/***Length = ((L + 1) * N) + 4,	L:Data Length,N:Number of Dynamixel
+	加速度L=1，速度和位置L=2*/
+	uint8_t Length = 3*Num + 4;
+	uint8_t sendBuff[Length+4];/*申请内存，存放发送的数据*/
+	uint16_t dataBuff[2*Num];/*申请内存，存放舵机目标数据*/
+	
+	va_list args;
+	va_start(args, Num);/*args指向函数参数列表中的第一个可选参数Num*/
+	
+	for(int i=0;i<2*Num;i++)/*获取ID与目标数据*/
+	{
+		dataBuff[i]=va_arg(args,int);
+	}
+
+	usartSend.USART_x=USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;/*获取内存地址*/
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=0xFE;/*所有舵机*/
+	usartSend.pUSARTSendBuff[3]=Length;
+	usartSend.pUSARTSendBuff[4]=SYNC_WRITE;/*同步写入命令*/
+  usartSend.pUSARTSendBuff[5]=Addr;/*位址*/
+	
+	usartSend.pUSARTSendBuff[6]=0x02;/*单个数据长度，目标角度/速度长度为 2 Byte*/
+	for(int i=0;i<Num;i++)/*打包ID与目标角度/速度*/
+	{
+		usartSend.pUSARTSendBuff[7+3*i]=dataBuff[2*i];
+		usartSend.pUSARTSendBuff[8+3*i]=dataBuff[2*i+1];
+		usartSend.pUSARTSendBuff[9+3*i]=dataBuff[2*i+1]>>8;
+	}
 	for(int i=0;i<Length+1;i++)/*校验和*/
 	{
 		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];

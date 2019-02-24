@@ -122,7 +122,7 @@ static void vTaskUsart2Receive(void *pvParameters)
 	{
 	  xQueueReceive(xUsart2RxQueue, &usart2RxBuffer,portMAX_DELAY);
 		//Posture_getMessage(usart2RxBuffer);
-		Dynamixel_getMassage(usart2RxBuffer);
+		DXL1_getMassage(usart2RxBuffer);
 	}
 
 }

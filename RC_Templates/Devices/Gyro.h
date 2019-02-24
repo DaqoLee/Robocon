@@ -26,6 +26,8 @@
 
 typedef struct 
 {
+	uint8_t buff[20];
+	
   float  AccX;
   float  AccY;
   float  AccZ;

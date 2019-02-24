@@ -19,10 +19,6 @@
 	
 /*-------------------------- D E F I N E S -----------------------------------*/
 
-uint8_t Usart1Buffer[20];
-uint8_t Usart2Buffer[26];
-uint8_t Usart3Buffer[26];
-uint8_t Usart2SendBuffer[9];
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -92,8 +88,6 @@ void BSP_USART1_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
 	
-	DMA_USART1RxConfig((uint32_t)Usart1Buffer,20);
-	
 	USART_DMACmd(USART1, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART1, USART_IT_IDLE, ENABLE);
@@ -141,10 +135,6 @@ void BSP_USART2_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART2, &USART_InitStructure);
 
-
-	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
-	//DMA_USART2TxConfig((uint32_t)Usart2SendBuffer,9);
-	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
@@ -192,7 +182,6 @@ void BSP_USART2_Half_Init(uint32_t BaudRate)
 //	USART2->CR2&=0<<14; //清LINEN
   
 
-	DMA_USART2RxConfig((uint32_t)Usart2Buffer,26);
 	//DMA_USART2TxConfig((uint32_t)Usart2SendBuffer,9);
 	
 	USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
@@ -270,8 +259,6 @@ void BSP_USART3_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART3, &USART_InitStructure);
-	
-	DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
 
 	USART_DMACmd(USART3, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
@@ -293,12 +280,12 @@ void BSP_USART6_Init(uint32_t BaudRate)
 
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_AHB1PeriphClockCmd(USART6_TX_GPIO_CLK | USART6_RX_GPIO_CLK,ENABLE);
-			/* GPIO初始化 */
+	/* GPIO初始化 */
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;  
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-		/* 配置Tx引脚  */
+	/* 配置Tx引脚  */
 	GPIO_InitStructure.GPIO_Pin = USART6_TX_Pin;  
 	GPIO_Init(USART6_TX_GPIO_PORT, &GPIO_InitStructure);
 
@@ -308,7 +295,6 @@ void BSP_USART6_Init(uint32_t BaudRate)
 	
 	/* 连接 PXx 到 USARTx_Tx*/
 	GPIO_PinAFConfig(USART6_TX_GPIO_PORT, USART6_TX_PINSOURCE, GPIO_AF_USART6);
-
 	/*  连接 PXx 到 USARTx_Rx*/
 	GPIO_PinAFConfig(USART6_RX_GPIO_PORT, USART6_RX_PINSOURCE, GPIO_AF_USART6);
 	
@@ -320,8 +306,6 @@ void BSP_USART6_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(USART6, &USART_InitStructure);
 	
-	//DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
-
 	USART_DMACmd(USART6, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
 	USART_ITConfig(USART6, USART_IT_IDLE, ENABLE);
@@ -368,8 +352,6 @@ void BSP_UART7_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(UART7, &USART_InitStructure);
-	
-//	DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
 
 	USART_DMACmd(UART7, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */
@@ -417,8 +399,6 @@ void BSP_UART8_Init(uint32_t BaudRate)
 	USART_InitStructure.USART_StopBits           = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength         = USART_WordLength_8b;
 	USART_Init(UART8, &USART_InitStructure);
-	
-	//DMA_USART3RxConfig((uint32_t)Usart3Buffer,26);
 
 	USART_DMACmd(UART8, USART_DMAReq_Tx, ENABLE);
 	/* 使能串口空闲中断 */

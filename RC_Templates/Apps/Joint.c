@@ -64,24 +64,24 @@ void Thigh_M6020Ctrl(void)
 	*/
 void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {
-	Dynamixel1_setSyncMsg(POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
 	vTaskDelay(5);
-	Dynamixel1_setSyncMsg(POSITION,4,0x09,2548,0x0A,2548,0x0B,2548,0x0C,2548);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x09,2548,0x0A,2548,0x0B,2548,0x0C,2548);
 	vTaskDelay(80);
-	Dynamixel1_setSyncMsg(POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
 	vTaskDelay(220);
 	
-	Dynamixel1_setSyncMsg(POSITION,4,0x01,2548 + Vy,
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548 + Vy,
 	                                 0x03,2548 + Vy,
 																	 0x05,2548 - Vy,
 																	 0x07,2548 - Vy);
   vTaskDelay(5);
-	Dynamixel1_setSyncMsg(POSITION,4,0x09,2548 + Vx + Omega,
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x09,2548 + Vx + Omega,
 	                                 0x0A,2548 + Vx + Omega,
 																	 0x0B,2548 - Vx + Omega,
 																	 0x0C,2548 - Vx + Omega);																 
 	vTaskDelay(5);
-	Dynamixel1_setSyncMsg(POSITION,4,0x02,2548 + Vy + Vx + Omega,
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548 + Vy + Vx + Omega,
 	                                 0x04,2548 + Vy + Vx + Omega,
 																	 0x06,2548 + Vy + Vx + Omega,
 																	 0x08,2548 + Vy + Vx + Omega);   
@@ -100,31 +100,31 @@ void Joint_MotionTest(void)
 {
 //	uint8_t Data[2]={0x24,0x02};
 	
-//	Dynamixel1_setSyncTarAng(4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+//	DXL1_setSyncTarAng(USART_6,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
 //	vTaskDelay(80);
-//	Dynamixel1_setSyncTarAng(4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+//	DXL1_setSyncTarAng(USART_6,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
 //	vTaskDelay(220);
 
-//	Dynamixel1_setSyncTarAng(4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
+//	DXL1_setSyncTarAng(USART_6,4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
 //	vTaskDelay(5);
-//	Dynamixel1_setSyncTarAng(4,0x02,2700,0x04,2648,0x06,2648,0x08,2648);  
+//	DXL1_setSyncTarAng(USART_6,4,0x02,2700,0x04,2648,0x06,2648,0x08,2648);  
 //	vTaskDelay(220);
 		
-	Dynamixel1_setSyncMsg(POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
 	vTaskDelay(80);
-	Dynamixel1_setSyncMsg(POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
 	vTaskDelay(220);
 
-	Dynamixel1_setSyncMsg(POSITION,4,0x01,2750,0x03,2700,0x05,2700,0x07,2700);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2750,0x03,2700,0x05,2700,0x07,2700);
 	vTaskDelay(5);
-	Dynamixel1_setSyncMsg(POSITION,4,0x02,2750,0x04,2648,0x06,2648,0x08,2648);  
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2750,0x04,2648,0x06,2648,0x08,2648);  
 	vTaskDelay(220);
 	
-//	 Dynamixel1_setSyncMsg(POSITION,2,0x01,2048,0x02,2548);
+//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,2548);
 //	 vTaskDelay(500);
-//	 Dynamixel1_setSyncMsg(POSITION,2,0x01,2048,0x02,1548);
+//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,1548);
 //	 vTaskDelay(500);
-//	 Dynamixel1_setMassage(0x01,4,2,Data);
+//	 DXL1_setMassage(USART_6,0x01,4,2,Data);
 
 //	 USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
 //	 USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);

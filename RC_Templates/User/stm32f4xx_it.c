@@ -4,6 +4,9 @@
 #include "Task_can.h"
 #include "BSP_USART.h"
 #include "BSP_CAN.h"
+#include "DR16.h"
+#include "Gyro.h"
+#include "Servo.h"
 /**
   * @brief   This function handles NMI exception.
   * @param  None
@@ -90,7 +93,7 @@ void USART1_IRQHandler(void)
 		/*获取DMAbuff剩余大小，是否匹配*/
 		if (DMA_GetCurrDataCounter(USART1_RX_DMA_STREAM) == 2)
 		{
-			xQueueSendFromISR(xUsart1RxQueue,&Usart1Buffer,&xHigherPriorityTaskWoken);
+			xQueueSendFromISR(xUsart1RxQueue,&DR16.buff,&xHigherPriorityTaskWoken);
 			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		}
 		
@@ -112,7 +115,7 @@ void USART2_IRQHandler(void)
 		/*关闭DMA*/
 		DMA_Cmd(USART2_RX_DMA_STREAM, DISABLE);
 		/*获取DMAbuff剩余大小，是否匹配*/
-		xQueueSendFromISR(xUsart2RxQueue,&Usart2Buffer,&xHigherPriorityTaskWoken);
+		xQueueSendFromISR(xUsart2RxQueue,&DigitalServo.DxlBuff,&xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		
 		/*打开DMA*/
@@ -135,7 +138,7 @@ void USART3_IRQHandler(void)
 		/*获取DMAbuff剩余大小，是否匹配*/
 		if (DMA_GetCurrDataCounter(USART3_RX_DMA_STREAM) == 2)
 		{
-			xQueueSendFromISR(xUsart3RxQueue,&Usart3Buffer,&xHigherPriorityTaskWoken);
+			xQueueSendFromISR(xUsart3RxQueue,&GY955.buff,&xHigherPriorityTaskWoken);
 			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		}
 		

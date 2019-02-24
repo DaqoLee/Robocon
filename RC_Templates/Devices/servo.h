@@ -18,7 +18,7 @@
 #define __SERVO_H 
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "stm32f4xx.h"
-
+#include "BSP_USART.h"
 
 /*-------------------------G L O B A L - T Y P E S----------------------------*/
 
@@ -54,6 +54,32 @@ typedef struct
     uint16_t realSpeed;
     uint16_t realAcc;
 
+}DXL_t;
+
+typedef struct
+{
+    uint8_t ID;
+    uint8_t Error;
+
+    uint16_t targetAngle;
+    uint16_t targetSpeed;
+
+    uint16_t tarMaxAngLimit;
+    uint16_t tarMiniAngLimit;
+
+    uint16_t realAngle;
+    uint16_t realSpeed;
+
+}SMS_t;
+
+typedef struct
+{
+	uint8_t DxlBuff[20];
+	uint8_t SmsBuff[20];
+	
+	DXL_t MX_64[8];
+	SMS_t SM_60[8];
+	
 }DigitalServo_t;
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 #define MAX_ID				(252)
@@ -80,19 +106,19 @@ typedef struct
 #define CCW_ANGLE_LIMIT  0x08
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
-
+extern DigitalServo_t DigitalServo;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-void Dynamixel2_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
-void Dynamixel1_setMassage(uint8_t ID, uint16_t Length, uint8_t Cmd, uint8_t *Data);
-void Dynamixel1_setTargetAngle(uint8_t ID, uint8_t Cmd,  uint16_t Data);
-void Dynamixel_getMassage(uint8_t *DynamixelBuffer);
-void Dynamixel1_setSyncTarAng(uint8_t Num,...);
-void Dynamixel1_setSyncMsg(uint8_t Addr,uint8_t Num,...);
-// void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position,
-// 	                      uint16_t Time, uint16_t Speed);
-void SMS_setTargetAngle(uint8_t ID, uint8_t Cmd, uint16_t Position);
+void DXL2_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length, 
+                                     uint8_t Cmd, uint8_t *Data);
+void DXL1_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length,
+                                     uint8_t Cmd, uint8_t *Data);
+void DXL1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd,  uint16_t Data);
+void DXL1_getMassage(uint8_t *DXLBuffer);
+void DXL1_setSyncTarAng(USARTx_e USARTx,uint8_t Num,...);
+void DXL1_setSyncMsg(USARTx_e USARTx,uint8_t Addr,uint8_t Num,...);
+void SMS1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd, uint16_t Position);
 #endif	// __SERVO_H
 /*----------------------------------FILE OF END-------------------------------*/
 
