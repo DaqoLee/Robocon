@@ -158,43 +158,54 @@ static void vTaskUsartSend(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xusartTxQueue, &usartSend,portMAX_DELAY);
-		
-    if(usartSend.USART_x==USART_2)
+		switch(usartSend.USART_x)
 		{
-
-			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
-			{
-				USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
-			}			
-		}
-		else if(usartSend.USART_x==USART_3)
-		{
-			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
-			{
-				USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
-			}	
-		}
-		else if(usartSend.USART_x==USART_6)
-		{
-			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
-			{
-				USART_sendChar(USART6,usartSend.pUSARTSendBuff[i]);
-			}	
-		}
-		else if(usartSend.USART_x==UART_7)
-		{
-			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
-			{
-				USART_sendChar(UART7,usartSend.pUSARTSendBuff[i]);
-			}	
-		}
-		 else if(usartSend.USART_x==UART_8)
-		{
-			for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
-			{
-				
-				USART_sendChar(UART8,usartSend.pUSARTSendBuff[i]);
-			}	
+			case USART_1:
+				break;
+			case USART_2:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(USART2,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case USART_3:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(USART3,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case UART_4:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(UART4,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case UART_5:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(UART5,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case USART_6:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(USART6,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case UART_7:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(UART7,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			case UART_8:
+					 for(uint8_t i=0;i<usartSend.pUSARTSendBuff[3]+4;i++)
+					 {
+						 USART_sendChar(UART8,usartSend.pUSARTSendBuff[i]);
+					 }	
+				break;
+			default:
+				break;
 		}
 	}
 

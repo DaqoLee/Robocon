@@ -1,6 +1,2 @@
-
-
-
-
 #include "Cylinder.h"
 

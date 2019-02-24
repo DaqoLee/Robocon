@@ -53,12 +53,11 @@ void vTaskStart(void *pvParameters)
 {		
 	taskENTER_CRITICAL();/*进入临界区*/
 	/*------------------BSP初始化------------------*/
-	
-  BSP_USART1_Init(100000);
-  BSP_USART2_Init(57600);
-	BSP_USART3_Init(57600);
-	BSP_USART6_Init(57600);
-	BSP_UART7_Init(57600);
+  BSP_USART1_Init(100000); /*DR16接收机*/
+  BSP_USART2_Init(57600);  /*SMS舵机*/
+	BSP_USART3_Init(57600);  /*GY955陀螺仪*/
+	BSP_USART6_Init(57600);  /*DXL舵机*/
+	BSP_UART7_Init(57600);   /*摄像头*/
 	BSP_UART8_Init(57600);
 	
 	DMA_USART1RxConfig((uint32_t)DR16.buff,20);
@@ -70,17 +69,15 @@ void vTaskStart(void *pvParameters)
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
 	/*---------------Devices初始化----------------*/
-	
   LED_Init();
 	KEY_Init();
 	DR16_Init();
 	MotorParamInit();
 	/*-----------------Task创建-------------------*/
-	
-	CanTaskCreate();  /* 创建CAN任务 */
-	UsartTaskCreate();/* 创建USART任务 */
-  LEDTaskCreate();  /* 创建LED任务 */
-	vTaskDelay(1000);/*延时等待模块稳定*/
+	CanTaskCreate();   /* 创建CAN任务 */
+	UsartTaskCreate(); /* 创建USART任务 */
+  LEDTaskCreate();   /* 创建LED任务 */
+	vTaskDelay(1000);  /*延时等待模块稳定*/
 	ControlTaskCreate();/* 创建控制任务 */
 	/*-------------------------------------------*/
 	
