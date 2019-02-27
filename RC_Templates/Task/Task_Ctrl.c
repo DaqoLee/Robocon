@@ -114,7 +114,7 @@ static void vTaskCtrlJoint(void *pvParameters)
   while(1)
 	{
 ////		Thigh_M6020Ctrl();
-		Joint_MotionModel(0,200,DR16.ch3);
+		Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
 //		DXL1_setTargetAngle(USART_6,0x02,WRITE,2048);
 ////		SMS1_setTargetAngle(USART_2,0x01,WRITE,2048);
 //		vTaskDelay(200);

@@ -28,6 +28,7 @@ typedef struct
 	int16_t ch2;
 	int16_t ch3;
 	int16_t ch4;
+	int16_t ch5;
 	
 	uint8_t switch_left;	
 	uint8_t switch_right;
