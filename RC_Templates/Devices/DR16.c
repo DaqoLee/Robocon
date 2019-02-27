@@ -1,4 +1,4 @@
-﻿/**
+/**
 |-------------------------------- Copyright -----------------------------------|
 |                                                                              |
 |                     (C) Copyright 2019, Daqo Lee                             |
@@ -86,6 +86,8 @@ static void DR16_getMessage(uint8_t *pDR16Buffer)
 	DR16.mouse.press_right 	= pDR16Buffer[13];
 	
 	DR16.keyBoard.key_code 	= pDR16Buffer[14] | pDR16Buffer[15] << 8; 
+	DR16.ch5 = (pDR16Buffer[16] | pDR16Buffer[17]<<8) & 0x07FF;
+	DR16.ch5 -= 1024;
 }
 
 

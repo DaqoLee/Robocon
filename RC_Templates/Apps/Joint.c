@@ -50,7 +50,7 @@ void Thigh_M6020Ctrl(void)
 		Motor.M6020[i].targetCurrent=PID_Calc(&Motor.M6020[i].OutPID, \
 	         Motor.M6020[i].realAngle, Motor.M6020[i].targetAngle);
 	}
-	Motor.p_M6020setCur(CAN_1);
+	Motor.p_M6020setCur(CAN_1);  
 }
 
 
@@ -63,29 +63,81 @@ void Thigh_M6020Ctrl(void)
 	* @retval  void
 	*/
 void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
-{
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
-	vTaskDelay(5);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x09,2548,0x0A,2548,0x0B,2548,0x0C,2548);
-	vTaskDelay(80);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
-	vTaskDelay(220);
-	
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548 + Vy,
-	                                 0x03,2548 + Vy,
-																	 0x05,2548 - Vy,
-																	 0x07,2548 - Vy);
-  vTaskDelay(5);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x09,2548 + Vx + Omega,
-	                                 0x0A,2548 + Vx + Omega,
-																	 0x0B,2548 - Vx + Omega,
-																	 0x0C,2548 - Vx + Omega);																 
-	vTaskDelay(5);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548 + Vy + Vx + Omega,
-	                                 0x04,2548 + Vy + Vx + Omega,
-																	 0x06,2548 + Vy + Vx + Omega,
-																	 0x08,2548 + Vy + Vx + Omega);   
-	vTaskDelay(220);		
+{	
+//	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
+//	vTaskDelay(50);
+//	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648,0x03,2648,0x05,2648,0x07,2648,
+//                                     0x09,2648,0x0A,2648,0x0B,2648,0x0C,2648);
+
+//	vTaskDelay(420);
+//	
+//	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648 + Vy,
+//	                                   0x03,2648 + Vy,
+//																	   0x05,2648 - Vy,
+//																	   0x07,2648 - Vy,
+//                                     0x09,2648 + Vx + Omega,
+//	                                   0x0A,2648 + Vx + Omega,
+//																	   0x0B,2648 - Vx + Omega,
+//																	   0x0C,2648 - Vx + Omega);																 
+//	vTaskDelay(5);
+//	DXL1_setSyncMsg(USART_6,POSITION,4,	                         
+//	                0x02,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//	                0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//									0x06,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//									0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));  
+//	vTaskDelay(420);	
+	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548,0x03,2648,0x05,2648,0x07,2648,
+                                     0x09,2648,0x0A,2648,0x0B,2648,0x0C,2648);
+																		 
+	vTaskDelay(50);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2748,0x04,2648,0x06,2648,0x08,2648);
+
+
+
+	vTaskDelay(420);
+		DXL1_setSyncMsg(USART_6,POSITION,4,	                         
+	                0x02,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+	                0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+									0x06,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+									0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));  
+	vTaskDelay(50);
+	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548 + Vy,
+	                                   0x03,2648 + Vy,
+																	   0x05,2648 - Vy,
+																	   0x07,2648 - Vy,
+                                     0x09,2648 + Vx + Omega,
+	                                   0x0A,2648 + Vx + Omega,
+																	   0x0B,2648 - Vx + Omega,
+																	   0x0C,2648 - Vx + Omega);																 
+	vTaskDelay(50);
+	DXL1_setSyncMsg(USART_6,POSITION,2,	                          
+									0x02,2748 + Vy,
+									0x08,2748 + Vy);  
+	vTaskDelay(420);	
+
+
+//	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648,0x03,2648,0x05,2648,0x07,2648,
+//                                     0x09,2648,0x0A,2648,0x0B,2648,0x0C,2648);
+
+//	vTaskDelay(50);
+//	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
+//	vTaskDelay(420);
+//	
+//	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648 + Vy,
+//	                                   0x03,2648 + Vy,
+//																	   0x05,2648 - Vy,
+//																	   0x07,2648 - Vy,
+//                                     0x09,2648 + Vx + Omega,
+//	                                   0x0A,2648 + Vx + Omega,
+//																	   0x0B,2648 - Vx + Omega,
+//																	   0x0C,2648 - Vx + Omega);																 
+//	vTaskDelay(5);
+//	DXL1_setSyncMsg(USART_6,POSITION,4,	                         
+//	                0x02,2648 + Vy,
+//	                0x04,2648 + Vy,
+//									0x06,2648 + Vy,
+//									0x08,2648 + Vy);   
+//	vTaskDelay(420);		
 }
 
 
@@ -100,27 +152,27 @@ void Joint_MotionTest(void)
 {
 //	uint8_t Data[2]={0x24,0x02};
 	
-//	DXL1_setSyncTarAng(USART_6,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
+//	DXL1_setSyncTarAng(USART_6,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
 //	vTaskDelay(80);
-//	DXL1_setSyncTarAng(USART_6,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
+//	DXL1_setSyncTarAng(USART_6,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
 //	vTaskDelay(220);
 
-//	DXL1_setSyncTarAng(USART_6,4,0x01,2700,0x03,2700,0x05,2700,0x07,2700);
+//	DXL1_setSyncTarAng(USART_6,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
 //	vTaskDelay(5);
-//	DXL1_setSyncTarAng(USART_6,4,0x02,2700,0x04,2648,0x06,2648,0x08,2648);  
+//	DXL1_setSyncTarAng(USART_6,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);  
 //	vTaskDelay(220);
 		
-//	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2548,0x03,2548,0x05,2548,0x07,2548);
-//	vTaskDelay(80);
-//	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2548,0x04,2548,0x06,2548,0x08,2548);
-//	vTaskDelay(220);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
+	vTaskDelay(80);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
+	vTaskDelay(220);
 
-//	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2750,0x03,2700,0x05,2700,0x07,2700);
-//	vTaskDelay(5);
-//	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2750,0x04,2648,0x06,2648,0x08,2648);  
-//	vTaskDelay(220);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2750,0x03,2648,0x05,2648,0x07,2648);
+	vTaskDelay(5);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2750,0x04,2648,0x06,2648,0x08,2648);  
+	vTaskDelay(220);
 	
-//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,2548);
+//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,2648);
 //	 vTaskDelay(500);
 //	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,1548);
 //	 vTaskDelay(500);
