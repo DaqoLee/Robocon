@@ -86,34 +86,41 @@ void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 //									0x06,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
 //									0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));  
 //	vTaskDelay(420);	
-	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548,0x03,2648,0x05,2648,0x07,2648,
-                                     0x09,2648,0x0A,2648,0x0B,2648,0x0C,2648);
+	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548,
+	                                   0x03,2548 + Vy,
+																		 0x05,2548,
+																		 0x07,2548 - Vy,
+                                     0x09,2548,
+																		 0x0A,2548 + Vx + Omega,
+																		 0x0B,2548, 
+																		 0x0C,2548 - Vx + Omega);
 																		 
-	vTaskDelay(50);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2748,0x04,2648,0x06,2648,0x08,2648);
+	vTaskDelay(0);
+	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2748,
+	                                   0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+																		 0x06,2648,
+																		 0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));
 
-
-
-	vTaskDelay(420);
+	vTaskDelay(220);
 		DXL1_setSyncMsg(USART_6,POSITION,4,	                         
 	                0x02,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-	                0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-									0x06,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-									0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));  
-	vTaskDelay(50);
+	                0x04,2748 ,
+									0x06,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+									0x08,2748);  
+	vTaskDelay(5);
 	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548 + Vy,
-	                                   0x03,2648 + Vy,
-																	   0x05,2648 - Vy,
-																	   0x07,2648 - Vy,
-                                     0x09,2648 + Vx + Omega,
-	                                   0x0A,2648 + Vx + Omega,
-																	   0x0B,2648 - Vx + Omega,
-																	   0x0C,2648 - Vx + Omega);																 
-	vTaskDelay(50);
+	                                   0x03,2548 ,
+																	   0x05,2548 - Vy,
+																	   0x07,2548 ,
+                                     0x09,2548 + Vx + Omega,
+	                                   0x0A,2548,
+																	   0x0B,2548 - Vx + Omega,
+																	   0x0C,2548);																 
+	vTaskDelay(5);
 	DXL1_setSyncMsg(USART_6,POSITION,2,	                          
 									0x02,2748 + Vy,
 									0x08,2748 + Vy);  
-	vTaskDelay(420);	
+	vTaskDelay(220);	
 
 
 //	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648,0x03,2648,0x05,2648,0x07,2648,
