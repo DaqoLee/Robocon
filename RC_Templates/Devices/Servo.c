@@ -49,7 +49,7 @@ void ServoParamInit()
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:06
-	* @brief   
+	* @brief   解析DXL64舵机数据
 	* @param   void
 	* @retval  void
 	*/

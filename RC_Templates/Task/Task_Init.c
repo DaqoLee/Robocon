@@ -27,6 +27,7 @@
 #include "DR16.h"
 #include "Gyro.h"
 #include "Servo.h"
+#include "Filter.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
@@ -73,6 +74,8 @@ void vTaskStart(void *pvParameters)
 	KEY_Init();
 	DR16_Init();
 	MotorParamInit();
+
+	Filter_Init();
 	/*-----------------Task创建-------------------*/
 	CanTaskCreate();   /* 创建CAN任务 */
 	UsartTaskCreate(); /* 创建USART任务 */

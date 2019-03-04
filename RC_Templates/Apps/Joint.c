@@ -21,9 +21,11 @@
 #include "DR16.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "Curve.h"
+#include "Filter.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
-
+float Y1=0,Y2=0;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
@@ -64,6 +66,10 @@ void Thigh_M6020Ctrl(void)
 	*/
 void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
+
+	Y1=Filter.p_ABS(Curve_Sin(Vy,2,0,0));
+	Y2=Filter.p_Limit(Curve_Sin(Vy,4,-1,0),Vy,0);
+//	static float X=0;
 //	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
 //	vTaskDelay(50);
 //	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648,0x03,2648,0x05,2648,0x07,2648,
@@ -85,42 +91,77 @@ void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 //	                0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
 //									0x06,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
 //									0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));  
-//	vTaskDelay(420);	
-	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548,
-	                                   0x03,2548 + Vy,
-																		 0x05,2548,
-																		 0x07,2548 - Vy,
-                                     0x09,2548,
-																		 0x0A,2548 + Vx + Omega,
-																		 0x0B,2548, 
-																		 0x0C,2548 - Vx + Omega);
-																		 
-	vTaskDelay(0);
-	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2748,
-	                                   0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-																		 0x06,2648,
-																		 0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));
+//	vTaskDelay(420);	 
+//	DXL1_setSyncMsg(USART_2,POSITION,8,0x01,2548 + (int16_t)ABS(Y1),
+//	                                   0x02,2548 + (int16_t)Y2,
+//																		 0x05,2548,
+//																		 0x07,2548 - Vy,
+//                                     0x09,2548,
+//																		 0x0A,2548 + Vx + Omega,
+//																		 0x0B,2548, 
+//																		 0x0C,2548 - Vx + Omega);
+//	Y1=Vy*sin((X/180)*PI);
+//	Y2=250*sin((X/90)*PI);
+//	Y2=Y2>0?Y2:0;
+//	X=X>=360?0:X+5;
+//																		 
+//	vTaskDelay(25);
+//	
+//	
+	DXL1_setSyncMsg(USART_2,POSITION,8,
+	                0x01,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),                
+						      0x02,2500 + (int16_t)Filter.p_Limit(Curve_Sin(Vy,4,0,0),Vy,0),
+									0x05,2548,
+									0x07,2548 - Vy,
+                  0x09,2548,
+									0x0A,2548 + Vx + Omega,
+									0x0B,2548, 
+									0x0C,2548 - Vx + Omega);
+							 
+	vTaskDelay(35);	
+	
 
-	vTaskDelay(220);
-		DXL1_setSyncMsg(USART_6,POSITION,4,	                         
-	                0x02,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-	                0x04,2748 ,
-									0x06,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
-									0x08,2748);  
-	vTaskDelay(5);
-	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548 + Vy,
-	                                   0x03,2548 ,
-																	   0x05,2548 - Vy,
-																	   0x07,2548 ,
-                                     0x09,2548 + Vx + Omega,
-	                                   0x0A,2548,
-																	   0x0B,2548 - Vx + Omega,
-																	   0x0C,2548);																 
-	vTaskDelay(5);
-	DXL1_setSyncMsg(USART_6,POSITION,2,	                          
-									0x02,2748 + Vy,
-									0x08,2748 + Vy);  
-	vTaskDelay(220);	
+	DXL1_setSyncMsg(USART_2,POSITION,12,
+	                0x01,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),                
+						      0x02,2500 + (int16_t)Filter.p_Limit(Curve_Sin(Vy,4,0,0),Vy,0),
+									0x03,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,2,0)),
+									0x04,2548 + (int16_t)Filter.p_Limit(Curve_Sin(Vy,4,2,0),Vy,0),
+                  0x05,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),
+									0x06,2548 + (int16_t)Filter.p_Limit(Curve_Sin(Vy,4,0,0),Vy,0),
+									0x07,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),
+									0x08,2548 + (int16_t)Filter.p_Limit(Curve_Sin(Vy,4,0,0),Vy,0),
+                  0x09,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),
+									0x0A,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)),
+									0x0B,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)), 
+									0x0C,2548 + (int16_t)Filter.p_ABS(Curve_Sin(Vy,2,0,0)));
+							 
+	vTaskDelay(35);	
+
+//	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2748,
+//	                                   0x04,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//																		 0x06,2648,
+//																		 0x08,2648 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400));
+
+//	vTaskDelay(220);
+//		DXL1_setSyncMsg(USART_6,POSITION,4,	                         
+//	                0x02,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//	                0x04,2748 ,
+//									0x06,2748 + LIMIT(ABS(Vy) + ABS(Vx) + ABS(Omega),400),
+//									0x08,2748);  
+//	vTaskDelay(5);
+//	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2548 + Vy,
+//	                                   0x03,2548 ,
+//																	   0x05,2548 - Vy,
+//																	   0x07,2548 ,
+//                                     0x09,2548 + Vx + Omega,
+//	                                   0x0A,2548,
+//																	   0x0B,2548 - Vx + Omega,
+//																	   0x0C,2548);																 
+//	vTaskDelay(5);
+//	DXL1_setSyncMsg(USART_6,POSITION,2,	                          
+//									0x02,2748 + Vy,
+//									0x08,2748 + Vy);  
+//	vTaskDelay(220);	
 
 
 //	DXL1_setSyncMsg(USART_6,POSITION,8,0x01,2648,0x03,2648,0x05,2648,0x07,2648,

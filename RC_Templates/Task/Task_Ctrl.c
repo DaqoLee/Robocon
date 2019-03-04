@@ -93,6 +93,7 @@ static void vTaskCtrlGimbal(void *pvParameters)
 	portTickType CurrentControlTick = 0;
   while(1)
 	{
+	
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
@@ -114,7 +115,7 @@ static void vTaskCtrlJoint(void *pvParameters)
   while(1)
 	{
 ////		Thigh_M6020Ctrl();
-		Joint_MotionModel(DR16.ch1,100,DR16.ch3);
+		Joint_MotionModel(DR16.ch1,200,DR16.ch3);
 //		DXL1_setTargetAngle(USART_6,0x02,WRITE,2048);
 ////		SMS1_setTargetAngle(USART_2,0x01,WRITE,2048);
 //		vTaskDelay(200);
