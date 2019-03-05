@@ -73,12 +73,9 @@ float Curve_Bezier(uint8_t *x,uint8_t n,float t)
   return x[0];
 }
 
-float Curve_Sin(float A,float w,float fi,float b)
+float Curve_Sin(float A,float w,float fi,float b,float pi)
 {
-	static float pi=0;
-	
-	pi=pi>2*PI?0:pi+0.02f;
-  return (A*sin(w*pi+fi)+b);
+  return (A*sin(w*pi+fi*PI)+b);
 }
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/

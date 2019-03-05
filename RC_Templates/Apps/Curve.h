@@ -37,7 +37,7 @@
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-float Curve_Sin(float A,float w,float fi,float b);
+float Curve_Sin(float A,float w,float fi,float b,float pi);
 
 
 #endif	// __CURVE_H
