@@ -28,8 +28,8 @@
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
-static int16_t Joint_getThighTarAng(int16_t TarAng ,float Temp);
-static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Temp);
+static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp);
+static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -67,24 +67,24 @@ void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
 	static float temp=0;
 	
-	temp=temp>2*PI?0:temp+0.02f;
+	temp=temp>2*PI?0:temp+0.03f;
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,2648 + Joint_getThighTarAng(Vy,temp),                
-						      0x02,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,temp),
+	                0x01,2648 + Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						      0x02,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.1f,temp),
 									
-									0x03,2648 + Joint_getThighTarAng(Vy,temp),
-									0x04,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,temp),
+									0x03,2648 + Joint_getThighTarAng(Vy,-0.5f,temp), /*RH*/ 
+									0x04,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.1f,temp),
 									
-                  0x05,2648 + Joint_getThighTarAng(Vy,temp),
-									0x06,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,temp),
+                  0x05,2648 + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
+									0x06,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.1f,temp),
 									
-									0x07,2648 + Joint_getThighTarAng(Vy,temp),
-									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,temp),
+									0x07,2648 + Joint_getThighTarAng(Vy,-0.5f,temp), /*LF*/ 
+									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.1f,temp),
 									
-                  0x09,2648 + Joint_getThighTarAng(Omega + Vx,temp),
-									0x0A,2648 + Joint_getThighTarAng(Omega + Vx,temp),
-									0x0B,2648 + Joint_getThighTarAng(Omega - Vx,temp),
-									0x0C,2648 + Joint_getThighTarAng(Omega - Vx,temp));
+                  0x09,2648 + Joint_getThighTarAng(Omega + Vx,0,temp),
+									0x0A,2648 + Joint_getThighTarAng(Omega + Vx,-0.5f,temp),
+									0x0B,2648 + Joint_getThighTarAng(Omega - Vx,0,temp),
+									0x0C,2648 + Joint_getThighTarAng(Omega - Vx,-0.5f,temp));
 							 
 //	vTaskDelay(5);	
 	
@@ -92,25 +92,22 @@ void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
-	* @Data    2019-01-09 11:33
-	* @brief   关节运动模型 thigh crus
+	* @Data    2019-03-06 15:31
+	* @brief   单条腿控制
 	* @param   void
 	* @retval  void
 	*/
-static int16_t Joint_getThighTarAng(int16_t TarAng ,float Temp)
-{
-	if(TarAng>0)
-	  return (Filter.p_ABS(Curve_Sin(TarAng,2,0,0,Temp)));
-	else
-		return -(Filter.p_ABS(Curve_Sin(TarAng,2,0,0,Temp)));
-}
-
-static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Temp)
-{
-	return (Filter.p_Limit(Curve_Sin(Filter.p_ABS(TarAng),4,-0.1,0,Temp),\
-		Filter.p_ABS(TarAng),0));
-		
-}
+	void Joint_Legs(int16_t Vx, int16_t Vy, uint16_t Delay)
+	{
+		static float temp=0;
+	
+	  temp=temp>2*PI?0:temp+0.01f;
+	  DXL1_setSyncMsg(USART_6,POSITION,3,
+	                  0x01,2648 + Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						        0x02,2648 + Joint_getCrusTarAng(Vy + Vx ,-0.1f,temp),
+										0x09,2648 + Joint_getThighTarAng(Vx,0,temp));
+		vTaskDelay(Delay);
+	}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-09 11:33
@@ -120,18 +117,7 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Temp)
 	*/
 void Joint_MotionTest(void)
 {
-//	uint8_t Data[2]={0x24,0x02};
 	
-//	DXL1_setSyncTarAng(USART_6,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
-//	vTaskDelay(80);
-//	DXL1_setSyncTarAng(USART_6,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
-//	vTaskDelay(220);
-
-//	DXL1_setSyncTarAng(USART_6,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
-//	vTaskDelay(5);
-//	DXL1_setSyncTarAng(USART_6,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);  
-//	vTaskDelay(220);
-		
 	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
 	vTaskDelay(80);
 	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);
@@ -141,16 +127,7 @@ void Joint_MotionTest(void)
 	vTaskDelay(5);
 	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2750,0x04,2648,0x06,2648,0x08,2648);  
 	vTaskDelay(220);
-	
-//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,2648);
-//	 vTaskDelay(500);
-//	 DXL1_setSyncMsg(USART_6,POSITION,2,0x01,2048,0x02,1548);
-//	 vTaskDelay(500);
-//	 DXL1_setMassage(USART_6,0x01,4,2,Data);
 
-//	 USART_DMACmd(USART2, USART_DMAReq_Tx, ENABLE);
-//	 USART_ITConfig(USART2, USART_IT_IDLE, ENABLE);
-//	 vTaskDelay(10);
 }
 
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -173,6 +150,34 @@ void Thigh_Forward(void)
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   大腿控制
+	* @param   TarAng 目标角度， Phase相位 ，Temp 倍率
+	* @retval  滤波后的角度
+	*/
+static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp)
+{
+	if(TarAng>0)
+	  return (Filter.p_ABS(Curve_Sin(TarAng,2,Phase,0,Temp)));
+	else
+		return -(Filter.p_ABS(Curve_Sin(TarAng,2,Phase,0,Temp)));
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   小腿控制
+	* @param   TarAng 目标角度， Phase相位 ，Temp 倍率
+	* @retval  滤波后的角度
+	*/
+static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp)
+{
+	return (Filter.p_Limit(Curve_Sin(Filter.p_ABS(TarAng),4,Phase,0,Temp),\
+		Filter.p_ABS(TarAng),0));
+		
+}
 
 
 /*-----------------------------------FILE OF END------------------------------*/
