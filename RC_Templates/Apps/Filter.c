@@ -30,7 +30,7 @@ static float Filter_Absolute(float Value);
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05
-  * @brief   
+  * @brief   滤波器初始化
   * @param   void
   * @retval  void
   */
@@ -44,7 +44,7 @@ void Filter_Init(void)
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05
-  * @brief   
+  * @brief   限幅
   * @param   void
   * @retval  void
   */
@@ -66,7 +66,7 @@ static float Filter_Limit(float Value,float Max, float Mini)
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05
-  * @brief   
+  * @brief   绝对值
   * @param   void
   * @retval  void
   */
@@ -80,7 +80,7 @@ static float Filter_Absolute(float Value)
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05
-  * @brief   
+  * @brief   低通滤波
   * @param   void
   * @retval  void
   */
