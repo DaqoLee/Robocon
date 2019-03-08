@@ -12,7 +12,7 @@
 |--Date        : 2019-03-03               
 |--Libsupports : STM32F4xx_DFP ( 2.9.0)
 |--Description :                                                       
-|---------------------------------declaration of end----------------------------|
+|--------------------------------declaration of end----------------------------|
  **/
 #ifndef __FILTER_H 
 #define __FILTER_H 
