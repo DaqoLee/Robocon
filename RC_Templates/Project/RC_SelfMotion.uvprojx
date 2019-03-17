@@ -541,6 +541,16 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\OpticFlow.c</FilePath>
             </File>
+            <File>
+              <FileName>Camera.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Camera.c</FilePath>
+            </File>
+            <File>
+              <FileName>Ultrasonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Ultrasonic.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -371,7 +371,8 @@ void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 				Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
 				break;		
 			case 7:/*状态7 举起令牌*/
-
+				Joint_MotionModel(0,0,0);
+			  Joint_RobotArm(2600,2600);
 				break;
 			default:
 
@@ -385,13 +386,13 @@ void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	/**
 	* @Data    2019-03-06 15:31
 	* @brief   机械臂控制
-	* @param   void
+	* @param   UpperarmTarang:上臂目标值、ForearmTarang ：钱包目标值
 	* @retval  void
 	*/
-	void Joint_RobotArm(void)
-	{
-    DXL1_setSyncMsg(USART_6,POSITION,12,0x0E,2600,0x0F,2600);
-	}
+void Joint_RobotArm(uint16_t UpperarmTarang,uint16_t ForearmTarang)
+{
+	DXL1_setSyncMsg(USART_6,POSITION,2,0x0E,UpperarmTarang,0x0F,ForearmTarang);
+}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-03-06 15:31
@@ -399,17 +400,17 @@ void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	* @param   void
 	* @retval  void
 	*/
-	void Joint_Legs(int16_t Vx, int16_t Vy, uint16_t Delay)
-	{
-		static float temp=0;
-	
-	  temp=temp>2*PI?0:temp+0.01f;
-	  DXL1_setSyncMsg(USART_6,POSITION,3,
-	                  0x01,2648 + Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						        0x02,2648 + Joint_getCrusTarAng(Vy + Vx ,-0.1f,temp),
-										0x09,2648 + Joint_getThighTarAng(Vx,0,temp));
-		vTaskDelay(Delay);
-	}
+void Joint_Legs(int16_t Vx, int16_t Vy, uint16_t Delay)
+{
+	static float temp=0;
+
+	temp=temp>2*PI?0:temp+0.01f;
+	DXL1_setSyncMsg(USART_6,POSITION,3,
+									0x01,2648 + Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+									0x02,2648 + Joint_getCrusTarAng(Vy + Vx ,-0.1f,temp),
+									0x09,2648 + Joint_getThighTarAng(Vx,0,temp));
+	vTaskDelay(Delay);
+}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-09 11:33
@@ -419,7 +420,6 @@ void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	*/
 void Joint_MotionTest(void)
 {
-	
 	DXL1_setSyncMsg(USART_6,POSITION,4,0x01,2648,0x03,2648,0x05,2648,0x07,2648);
 	vTaskDelay(80);
 	DXL1_setSyncMsg(USART_6,POSITION,4,0x02,2648,0x04,2648,0x06,2648,0x08,2648);

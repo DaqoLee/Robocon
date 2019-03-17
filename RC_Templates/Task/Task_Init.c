@@ -29,6 +29,8 @@
 #include "Gyro.h"
 #include "Servo.h"
 #include "Filter.h" 
+#include "Ultrasonic.h" 
+#include "Camera.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
@@ -55,30 +57,35 @@ void vTaskStart(void *pvParameters)
 {		
 	taskENTER_CRITICAL();/*进入临界区*/
 	/*------------------BSP初始化------------------*/
+
   BSP_USART1_Init(100000); /*DR16接收机*/
   BSP_USART2_Init(115200);  /*SMS舵机*/
 	BSP_USART3_Init(57600);  /*GY955陀螺仪*/
 	BSP_USART6_Init(57600);  /*DXL舵机*/
 	BSP_UART7_Init(57600);   /*摄像头*/
-	BSP_UART8_Init(57600);
+	BSP_UART8_Init(57600);   /*超声波*/
 	
 	DMA_USART1RxConfig((uint32_t)DR16.buff,20);
 	DMA_USART2RxConfig((uint32_t)DigitalServo.SmsBuff,20);
 	DMA_USART3RxConfig((uint32_t)GY955.buff,20);
 	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
-
+	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
+	DMA_UART7RxConfig((uint32_t)Camera.buff,20);
+//	BSP_TIM6Init(0,20000);
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
-//	BSP_TIM6Init(0,20000);
 	/*---------------Devices初始化----------------*/
+
   LED_Init();
 	KEY_Init();
 	DR16_Init();
-	MotorParamInit();
+	Motor_Init();
+  /*---------------Apps初始化----------------*/
 
 	Filter_Init();
 	/*-----------------Task创建-------------------*/
+	
 	CanTaskCreate();   /* 创建CAN任务 */
 	UsartTaskCreate(); /* 创建USART任务 */
   LEDTaskCreate();   /* 创建LED任务 */
