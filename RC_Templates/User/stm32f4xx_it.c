@@ -7,6 +7,7 @@
 #include "DR16.h"
 #include "Gyro.h"
 #include "Servo.h"
+#include "Task_Init.h"
 /**
   * @brief   This function handles NMI exception.
   * @param  None
@@ -115,7 +116,7 @@ void USART2_IRQHandler(void)
 		/*关闭DMA*/
 		DMA_Cmd(USART2_RX_DMA_STREAM, DISABLE);
 		/*获取DMAbuff剩余大小，是否匹配*/
-		xQueueSendFromISR(xUsart2RxQueue,&DigitalServo.DxlBuff,&xHigherPriorityTaskWoken);
+		xQueueSendFromISR(xUsart2RxQueue,&DigitalServo.SmsBuff,&xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		
 		/*打开DMA*/
@@ -184,5 +185,13 @@ void CAN2_RX0_IRQHandler(void)
 	
 }
 
+void TIM6_DAC_IRQHandler (void)
+{
+	if(TIM_GetITStatus(TIM6, TIM_IT_Update) != RESET)
+	{
+		ulHighFrequencyTimerTicks++;
+		TIM_ClearITPendingBit(TIM6, TIM_IT_Update);
+	}
+}
 /******************************************************************************/
 

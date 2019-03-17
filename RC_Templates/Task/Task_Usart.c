@@ -21,6 +21,7 @@
 #include "LED.h"
 #include "Encoder.h"
 #include "Servo.h"
+#include "OpticFlow.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 QueueHandle_t xUsart1RxQueue = NULL;
@@ -122,7 +123,8 @@ static void vTaskUsart2Receive(void *pvParameters)
 	{
 	  xQueueReceive(xUsart2RxQueue, &usart2RxBuffer,portMAX_DELAY);
 		//Posture_getMessage(usart2RxBuffer);
-		DXL1_getMassage(usart2RxBuffer);
+		//DXL1_getMassage(usart2RxBuffer);
+		OpticFlow_getMassage(usart2RxBuffer);
 	}
 
 }

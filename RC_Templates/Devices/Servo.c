@@ -72,6 +72,8 @@ void DXL1_getMassage(uint8_t *DynamixelBuffer)
 					DigitalServo.MX_64[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
 																							|(DynamixelBuffer[i+6]<<8);
 				}
+				
+				break;
       }
    }
 }

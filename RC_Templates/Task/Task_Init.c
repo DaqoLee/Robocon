@@ -22,6 +22,7 @@
 #include "OLED.h"
 #include "Motor.h"
 #include "BSP_USART.h"
+#include "BSP_TIM.h"
 #include "Task_Ctrl.h"
 #include "BSP_NVIC.h"
 #include "DR16.h"
@@ -34,7 +35,7 @@ TaskHandle_t StartTaskHandler=NULL;
 
 static TaskHandle_t TaskLED0Handler=NULL;
 static TaskHandle_t TaskLED6Handler=NULL;
-
+volatile uint32_t ulHighFrequencyTimerTicks = 0UL;
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
 static void vTaskLED0(void *pvParameters);
@@ -55,7 +56,7 @@ void vTaskStart(void *pvParameters)
 	taskENTER_CRITICAL();/*进入临界区*/
 	/*------------------BSP初始化------------------*/
   BSP_USART1_Init(100000); /*DR16接收机*/
-  BSP_USART2_Init(57600);  /*SMS舵机*/
+  BSP_USART2_Init(115200);  /*SMS舵机*/
 	BSP_USART3_Init(57600);  /*GY955陀螺仪*/
 	BSP_USART6_Init(57600);  /*DXL舵机*/
 	BSP_UART7_Init(57600);   /*摄像头*/
@@ -69,6 +70,7 @@ void vTaskStart(void *pvParameters)
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
+//	BSP_TIM6Init(0,20000);
 	/*---------------Devices初始化----------------*/
   LED_Init();
 	KEY_Init();
@@ -109,7 +111,7 @@ static void LEDTaskCreate(void)
 	
 	xTaskCreate(vTaskLED6,            
 						"vTaskLED6",          
-						128,       			   
+						256,       			   
 						NULL,                 
 						1,       			   
 						&TaskLED6Handler); 
@@ -148,20 +150,18 @@ static void vTaskLED0(void *pvParameters)
 	*/
 static void vTaskLED6(void *pvParameters)
 {
-	
+//  uint8_t pcWriteBuffer[500];
 	while(1)
 	{
-//		KeyScan();
-//		if(!KeyStatus)
-//		{
-//			LED_TOGGLE(LED_R);
-//		    CANSendData.SendCanTxMsg.DLC   =   8;
-//      M6020_setCurrent(CAN_1);
-//      printf("M6020[1].realAngle = %d\r\n",M6020[1].realAngle);
-//		  vPrintString("Test\r\n");
-		//printf("%d",2);
-			vTaskDelay(100);
-//		}
+//		printf("=================================================\r\n");
+//		printf("任务名      任务状态 优先级   剩余栈 任务序号\r\n");
+//		vTaskList((char *)&pcWriteBuffer);
+//		printf("%s\r\n", pcWriteBuffer);
+//	
+//		printf("\r\n任务名       运行计数         使用率\r\n");
+//		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
+//		printf("%s\r\n", pcWriteBuffer);
+		vTaskDelay(100);
 
 	}
 }

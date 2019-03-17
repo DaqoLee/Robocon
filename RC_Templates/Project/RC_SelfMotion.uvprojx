@@ -536,6 +536,11 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\Encoder.c</FilePath>
             </File>
+            <File>
+              <FileName>OpticFlow.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\OpticFlow.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

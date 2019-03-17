@@ -58,7 +58,7 @@ void ControlTaskCreate(void)
 					    &xHandleCtrlGimbal);
 	xTaskCreate(vTaskCtrlJoint,            
 					    "vTaskCtrlJoint",          
-				    	512,       			   
+				    	1000,       			   
 				    	NULL,                 
 					    2,       			   
 					    &xHandleCtrlJoint);
@@ -114,8 +114,8 @@ static void vTaskCtrlJoint(void *pvParameters)
 //	DXL1_setSyncMsg(USART_6,ACC,2,0x01,100,0x02,100);
   while(1)
 	{
-		Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
-
+//		Joint_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
+    Joint_ThrMotionModel(DR16.ch1,200,DR16.ch3);
 	  vTaskDelayUntil(&CurrentControlTick, 10 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
