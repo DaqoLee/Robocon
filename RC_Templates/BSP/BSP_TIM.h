@@ -55,7 +55,7 @@
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
 
-
+void BSP_TIM6Init(uint16_t prescaler,uint16_t period);
 
 #endif	// __BSP_TIM_H
 /*----------------------------------FILE OF END-------------------------------*/

@@ -38,7 +38,8 @@ int main(void)
 					  	&StartTaskHandler);   /* 任务句柄  */ 
 	
   /* 启动调度，开始执行任务 */
-	vTaskStartScheduler();            
+	vTaskStartScheduler(); 
+	return 0;           
 }
 
 /*-----------------------------------FILE OF END------------------------------*/

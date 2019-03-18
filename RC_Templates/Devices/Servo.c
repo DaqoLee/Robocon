@@ -49,7 +49,7 @@ void ServoParamInit()
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:06
-	* @brief   
+	* @brief   解析DXL64舵机数据
 	* @param   void
 	* @retval  void
 	*/
@@ -72,6 +72,8 @@ void DXL1_getMassage(uint8_t *DynamixelBuffer)
 					DigitalServo.MX_64[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
 																							|(DynamixelBuffer[i+6]<<8);
 				}
+				
+				break;
       }
    }
 }

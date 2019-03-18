@@ -35,7 +35,7 @@
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 extern TaskHandle_t StartTaskHandler;
-
+extern volatile uint32_t ulHighFrequencyTimerTicks;
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
 void vTaskStart(void *pvParameters);

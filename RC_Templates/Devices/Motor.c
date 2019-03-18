@@ -47,7 +47,7 @@ static void M6020_setLimitAngle(uint8_t M6020_ID,int16_t *TargetAngle);
 	* @param   void
 	* @retval  void
 	*/
-void MotorParamInit(void)
+void Motor_Init(void)
 {
 	Motor.M6020[0].medianAngle = 4000;
 	Motor.M6020[1].medianAngle = 4000;

@@ -6,16 +6,16 @@
 |                            By:GCU The wold of team                           |
 |                         https://github.com/GCUWildwolfteam                   |
 |------------------------------------------------------------------------------|
-|--FileName    : Curve.h                                                
+|--FileName    : OpticFlow.h                                                
 |--Version     : v1.0                                                            
 |--Author      : Daqo Lee                                                       
-|--Date        : 2019-03-03               
+|--Date        : 2019-03-14               
 |--Libsupports : STM32F4xx_DFP ( 2.9.0)
 |--Description :                                                       
 |---------------------------------declaration of end----------------------------|
  **/
-#ifndef __CURVE_H 
-#define __CURVE_H 
+#ifndef __OPTICFLOW_H 
+#define __OPTICFLOW_H 
 
   
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
@@ -28,21 +28,24 @@
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
-#define LEN  1000
-#define PI 3.141592653589
+typedef struct 
+{
+  int16_t DeltaX;
+  int16_t DeltaY;
+  /* data */
+}OpticFlow_t;
+
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
-
+extern OpticFlow_t OpticFlow;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-float Curve_Sin(float A,float w,float fi,float b,float pi);
+void OpticFlow_getMassage(uint8_t *OFbuffer);
 
 
-#endif	// __CURVE_H
+#endif	// __OPTICFLOW_H
 /*----------------------------------FILE OF END-------------------------------*/
 
-
- 
 

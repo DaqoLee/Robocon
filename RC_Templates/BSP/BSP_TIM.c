@@ -30,6 +30,7 @@
 void BSP_TIM1PWMOutput(u16 prescaler, u16 period, u16 Pulse)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
   /*使能GPIO时钟*/
 	RCC_AHB1PeriphClockCmd(TIM1_CH1_GPIO_CLK | TIM1_CH2_GPIO_CLK \
 	  | TIM1_CH3_GPIO_CLK | TIM1_CH4_GPIO_CLK, ENABLE);
@@ -58,8 +59,7 @@ void BSP_TIM1PWMOutput(u16 prescaler, u16 period, u16 Pulse)
 	GPIO_Init(TIM1_CH4_GPIO_PORT, &GPIO_InitStructure);
 	GPIO_PinAFConfig(TIM1_CH4_GPIO_PORT,TIM1_CH4_PINSOURCE, GPIO_AF_TIM1);
 
-	/* 配置时基结构体 */
-	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+
 	/*配置定时器时钟分频*/
 	TIM_TimeBaseStructure.TIM_Prescaler = prescaler;
 	/*配置自动重装载寄存器的值*/
@@ -102,10 +102,23 @@ void BSP_TIM1PWMOutput(u16 prescaler, u16 period, u16 Pulse)
 	TIM_CtrlPWMOutputs(TIM1, ENABLE);
 	
 }
+void BSP_TIM6Init(uint16_t prescaler,uint16_t period)
+{
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6,ENABLE);
+
+	TIM_TimeBaseStructure.TIM_Period = period;
+	TIM_TimeBaseStructure.TIM_Prescaler =prescaler;
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseInit(TIM6, &TIM_TimeBaseStructure);
+
+	TIM_ITConfig(TIM6,TIM_IT_Update,ENABLE );
+	TIM_Cmd(TIM6, ENABLE);
+}
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
-
-
 
 /*-----------------------------------FILE OF END------------------------------*/
 

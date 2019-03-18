@@ -143,7 +143,7 @@ extern Motor_t Motor;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-void MotorParamInit(void);
+void Motor_Init(void);
 
 
 #endif	// __MOTOR_H

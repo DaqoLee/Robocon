@@ -6,7 +6,7 @@
 |                          By:GCU The wold of team                             |
 |                     https://github.com/GCUWildwolfteam                       |
 |------------------------------------------------------------------------------|
-|  FileName    : Curve.c                                                
+|  FileName    : Filter.c                                                
 |  Version     : v1.0                                                            
 |  Author      : Daqo Lee                                                       
 |  Date        : 2019-03-03               
@@ -15,74 +15,80 @@
 |------------------------------declaration of end------------------------------|
  **/
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
-
-#include "Curve.h"
-#include "Encoder.h"
-#include <math.h>
+#include "Filter.h" 
+  
 /*-------------------------- D E F I N E S -----------------------------------*/
 
-
+Filter_t Filter;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
-
-
+static float Filter_Limit(float Value,float Max, float Mini);
+static float Filter_Lowpass(float Value, float *p_Value, float Rate);
+static float Filter_Absolute(float Value);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
-
-
-
-
-
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05
-  * @brief   
+  * @brief   滤波器初始化
   * @param   void
   * @retval  void
   */
-void Curve_Straight(void)
+void Filter_Init(void)
 {
-	static float xCoords=1120.0f,yCoords=0.0f;
-	
-	yCoords=Posture.realY_Coords+\
-	        sqrt(LEN*LEN-(pow(Posture.realX_Coords-xCoords,2)));
-	
-	Posture.targetX_Coords=xCoords;
-	Posture.targetY_Coords=yCoords;
-	
+  Filter.p_Limit = Filter_Limit;
+  Filter.p_ABS = Filter_Absolute;
+  Filter.p_Lowpass = Filter_Lowpass;
 }
-
-
-/*------------------------------80 Chars Limit--------------------------------*/
-  /**
-  * @Data    2019-03-03 13:05
-  * @brief   
-  * @param   void
-  * @retval  void
-  */
-float Curve_Bezier(uint8_t *x,uint8_t n,float t)
-{
-  for(;n>0;n--)
-	{
-		for(uint8_t i=0;i<n;i++)
-		{
-			x[i]=((1-t)*x[i]+t*x[i+1]);
-		}
-
-	}
-  return x[0];
-}
-
-float Curve_Sin(float A,float w,float fi,float b,float pi)
-{
-  return (A*sin(w*pi+fi*PI)+b);
-}
-
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
+/*------------------------------80 Chars Limit--------------------------------*/
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   限幅
+  * @param   void
+  * @retval  void
+  */
+static float Filter_Limit(float Value,float Max, float Mini)
+{
+	if(Value>=0)
+	{
+		Value = Value >= Max ? Max : Value;
+		Value = Value <= Mini ? Mini : Value;
+	}
+	else
+	{
+	  Value = Value <= Max ? Max : Value;
+		Value = Value >= Mini ? Mini : Value;
+	}
+  return Value;
+}
 
+/*------------------------------80 Chars Limit--------------------------------*/
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   绝对值
+  * @param   void
+  * @retval  void
+  */
+static float Filter_Absolute(float Value)
+{
+  Value = Value > 0 ? Value : -Value;
 
+  return Value;
+}
 
+/*------------------------------80 Chars Limit--------------------------------*/
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   低通滤波
+  * @param   void
+  * @retval  void
+  */
+static float Filter_Lowpass(float Value, float *p_Value, float Rate) 
+{ 
+  *p_Value+=Rate*(Value-*p_Value);
+  return *p_Value;
+}
 /*-----------------------------------FILE OF END------------------------------*/
-
 
 

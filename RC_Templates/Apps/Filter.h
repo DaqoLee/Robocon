@@ -6,43 +6,46 @@
 |                            By:GCU The wold of team                           |
 |                         https://github.com/GCUWildwolfteam                   |
 |------------------------------------------------------------------------------|
-|--FileName    : Curve.h                                                
+|--FileName    : Filter.h                                                
 |--Version     : v1.0                                                            
 |--Author      : Daqo Lee                                                       
 |--Date        : 2019-03-03               
 |--Libsupports : STM32F4xx_DFP ( 2.9.0)
 |--Description :                                                       
-|---------------------------------declaration of end----------------------------|
+|--------------------------------declaration of end----------------------------|
  **/
-#ifndef __CURVE_H 
-#define __CURVE_H 
+#ifndef __FILTER_H 
+#define __FILTER_H 
 
   
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 
-#include "stm32f4xx.h"
+
 
 /*-------------------------G L O B A L - T Y P E S----------------------------*/
 
+typedef struct 
+{
+  float (*p_Limit) (float Value,float Max, float Mini);
+  float (*p_ABS) (float Value);
+  float (*p_Lowpass) (float Value, float *p_Value, float Rate); 
+}Filter_t;
 
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
-#define LEN  1000
-#define PI 3.141592653589
+
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
-
+extern Filter_t Filter;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-float Curve_Sin(float A,float w,float fi,float b,float pi);
+void Filter_Init(void);
 
 
-#endif	// __CURVE_H
+#endif	// __FILTER_H
 /*----------------------------------FILE OF END-------------------------------*/
 
-
- 
 
