@@ -551,6 +551,11 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\Ultrasonic.c</FilePath>
             </File>
+            <File>
+              <FileName>Photoelectric.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\Photoelectric.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

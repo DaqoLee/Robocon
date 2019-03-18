@@ -31,18 +31,23 @@
 #include "Filter.h" 
 #include "Ultrasonic.h" 
 #include "Camera.h" 
+#include "Photoelectric.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
 
-static TaskHandle_t TaskLED0Handler=NULL;
-static TaskHandle_t TaskLED6Handler=NULL;
+static TaskHandle_t TaskLEDHandler=NULL;
+static TaskHandle_t TaskTestHandler=NULL;
+static TaskHandle_t TaskMonitorHandler=NULL;
+
 volatile uint32_t ulHighFrequencyTimerTicks = 0UL;
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
-static void vTaskLED0(void *pvParameters);
-static void vTaskLED6(void *pvParameters);
-static void LEDTaskCreate(void);
+static void vTaskLED(void *pvParameters);
+static void vTaskTest(void *pvParameters);
+static void vTaskMonitor(void *pvParameters);
+
+static void TestTaskCreate(void);
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 
@@ -71,7 +76,7 @@ void vTaskStart(void *pvParameters)
 	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
 	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
 	DMA_UART7RxConfig((uint32_t)Camera.buff,20);
-//	BSP_TIM6Init(0,20000);
+
 	BSP_CAN1_Init();
 	BSP_I2C2_Init();
 	BSP_NVIC_Init();
@@ -81,14 +86,16 @@ void vTaskStart(void *pvParameters)
 	KEY_Init();
 	DR16_Init();
 	Motor_Init();
+	Photoelectric_Init();
   /*---------------Apps初始化----------------*/
 
 	Filter_Init();
 	/*-----------------Task创建-------------------*/
 	
-	CanTaskCreate();   /* 创建CAN任务 */
-	UsartTaskCreate(); /* 创建USART任务 */
-  LEDTaskCreate();   /* 创建LED任务 */
+	CanTaskCreate();   /* 创建CAN相关任务 */
+	UsartTaskCreate(); /* 创建USART相关任务 */
+  TestTaskCreate();  /* 创建测试相关任务 */
+
 	vTaskDelay(1000);  /*延时等待模块稳定*/
 	ControlTaskCreate();/* 创建控制任务 */
 	/*-------------------------------------------*/
@@ -107,21 +114,31 @@ void vTaskStart(void *pvParameters)
 	* @param   void
 	* @retval  void
 	*/
-static void LEDTaskCreate(void)
+static void TestTaskCreate(void)
 {
-	xTaskCreate(vTaskLED0,         /* 任务函数  */   
-						"vTaskLED0",         /* 任务名    */ 
-						128,       			     /* 任务栈大小*/
+	xTaskCreate(vTaskLED,         /* 任务函数  */   
+						"vTaskLED",         /* 任务名    */ 
+						32,       			     /* 任务栈大小*/
 						NULL,                /* 任务参数  */
 						1,       			   		 /* 任务优先级*/
-						&TaskLED0Handler);   /* 任务句柄  */ 
-	
-	xTaskCreate(vTaskLED6,            
-						"vTaskLED6",          
+						&TaskLEDHandler);   /* 任务句柄  */ 
+#if 1
+	xTaskCreate(vTaskTest,            
+						"vTaskTest",          
 						256,       			   
 						NULL,                 
 						1,       			   
-						&TaskLED6Handler); 
+						&TaskTestHandler); 
+#endif
+
+#if 0			
+	xTaskCreate(vTaskMonitor,            
+						"vTaskMonitor",          
+						256,       			   
+						NULL,                 
+						1,       			   
+						&TaskMonitorHandler); 
+#endif
 }
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
@@ -130,7 +147,7 @@ static void LEDTaskCreate(void)
 	* @param   void
 	* @retval  void
 	*/
-static void vTaskLED0(void *pvParameters)
+static void vTaskLED(void *pvParameters)
 {
 	while(1)
 	{
@@ -155,22 +172,48 @@ static void vTaskLED0(void *pvParameters)
 	* @param   void
 	* @retval  void
 	*/
-static void vTaskLED6(void *pvParameters)
+static void vTaskTest(void *pvParameters)
 {
-//  uint8_t pcWriteBuffer[500];
 	while(1)
 	{
-//		printf("=================================================\r\n");
-//		printf("任务名      任务状态 优先级   剩余栈 任务序号\r\n");
-//		vTaskList((char *)&pcWriteBuffer);
-//		printf("%s\r\n", pcWriteBuffer);
-//	
-//		printf("\r\n任务名       运行计数         使用率\r\n");
-//		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
-//		printf("%s\r\n", pcWriteBuffer);
-		vTaskDelay(100);
+    PhotoelectricScan();/*光电开关扫描*/
 
+    if (!PhoFlg.LF || !PhoFlg.LH || !PhoFlg.RF || !PhoFlg.RH)
+		{
+			LED_ON(LED_G);
+		}
+		else
+		{
+			LED_OFF(LED_G);
+		}
+		
+		vTaskDelay(5);
 	}
 }
 
+/**
+	* @Data    2019-03-18 15:31
+	* @brief   
+	* @param   void
+	* @retval  void
+	*/
+static void vTaskMonitor(void *pvParameters)
+{
+	uint8_t pcWriteBuffer[500];
+	BSP_USART2_Init(115200);
+	BSP_TIM6Init(0,20000);
+	while(1)
+	{
+		printf("=================================================\r\n");
+		printf("任务名\t\t任务状态\t优先级\t剩余栈\t任务序号\r\n");
+		vTaskList((char *)&pcWriteBuffer);
+		printf("%s\r\n", pcWriteBuffer);
+	
+		printf("\r\n任务名       运行计数         使用率\r\n");
+		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
+		printf("%s\r\n", pcWriteBuffer);
+
+		vTaskDelay(100);
+	}
+}
 /*-----------------------------------FILE OF END------------------------------*/

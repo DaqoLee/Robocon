@@ -386,7 +386,7 @@ void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	/**
 	* @Data    2019-03-06 15:31
 	* @brief   机械臂控制
-	* @param   UpperarmTarang:上臂目标值、ForearmTarang ：钱包目标值
+	* @param   UpperarmTarang:上臂目标值、ForearmTarang ：前臂目标值
 	* @retval  void
 	*/
 void Joint_RobotArm(uint16_t UpperarmTarang,uint16_t ForearmTarang)

@@ -6,16 +6,16 @@
 |                          By:GCU The wold of team                             |
 |                     https://github.com/GCUWildwolfteam                       |
 |------------------------------------------------------------------------------|
-|--FileName    : Key.h                                                
+|--FileName    : Photoelectric.h                                                
 |--Version     : v1.0                                                            
 |--Author      : Daqo Lee                                                         
 |--Date        : 2019-03-18               
 |--Libsupports : 
 |--Description : STM32F4xx_DFP ( 2.9.0)                                                      
-|-----------------------------declaration of end-----------------------------|
+|-----------------------------declaration of end-------------------------------|
  **/
-#ifndef __KEY_H 
-#define __KEY_H 
+#ifndef __PHOTOELECTRIC_H 
+#define __PHOTOELECTRIC_H 
 
 
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
@@ -24,24 +24,42 @@
 
 /*-------------------------G L O B A L - T Y P E S----------------------------*/
 
+typedef struct 
+{
+  uint8_t LF : 1;
+  uint8_t LH : 1;
+  uint8_t RF : 1;
+  uint8_t RH : 1;
+}PhoFlg_t;
 
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
-#define KEY_GPIO_CLK             	RCC_AHB1Periph_GPIOD
-#define KEY_PIN                  	GPIO_Pin_7
-#define KEY_GPIO_PORT           	GPIOD
+#define LF_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define LF_PIN                  	GPIO_Pin_0
+#define LF_GPIO_PORT           	  GPIOA
 
+#define LH_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define LH_PIN                  	GPIO_Pin_1
+#define LH_GPIO_PORT           	  GPIOA
+
+#define RF_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define RF_PIN                  	GPIO_Pin_2
+#define RF_GPIO_PORT           	  GPIOA
+
+#define RH_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define RH_PIN                  	GPIO_Pin_3
+#define RH_GPIO_PORT           	  GPIOA
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
-extern uint8_t KeyStatus;
+extern PhoFlg_t PhoFlg;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
+void Photoelectric_Init(void);
+void PhotoelectricScan(void);
 
-void KEY_Init(void);
-void KeyScan(void);
-
-#endif	// __KEY_H
+#endif	// __PHOTOELECTRIC_H
 /*-----------------------------------file of end------------------------------*/
+
 
