@@ -35,8 +35,9 @@
 
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
-
-
+void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed);
+void Chassis_Init(void);
+void Chassis_Ctrl(void);
 
 
 #endif	// __CHASSIS_H
