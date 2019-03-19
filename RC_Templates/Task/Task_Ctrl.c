@@ -16,6 +16,7 @@
  **/
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Task_Ctrl.h" 
+#include "Chassis.h"
 #include "Joint.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -75,8 +76,11 @@ void ControlTaskCreate(void)
 static void vTaskCtrlChassis(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
+
+	Chassis_Init();
   while(1)
 	{
+		Chassis_Ctrl();
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }

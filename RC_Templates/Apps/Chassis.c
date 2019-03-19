@@ -18,6 +18,7 @@
 #include "Chassis.h"
 #include "RoboModule.h"
 #include  "math.h"
+#include "FreeRTOS.h"
 #include "task.h"
 #include "DR16.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
