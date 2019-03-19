@@ -16,7 +16,10 @@
  **/
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Chassis.h"
+#include "RoboModule.h"
 #include  "math.h"
+#include "task.h"
+#include "DR16.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 #define MECANUM   0  /*麦克纳姆轮*/
 #define THROMNI		1  /*三轮全向*/
@@ -64,7 +67,37 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
+/**
+  * @Data    2019-03-19 10:56
+  * @brief   底盘参数初始化
+  * @param   void
+  * @retval  void
+  */
+  void Chassis_Init(void)
+  {
+    RoboModule_DRV_Reset(0,1);
+    RoboModule_DRV_Reset(0,2);
+    RoboModule_DRV_Reset(0,3);
 
+    vTaskDelay(1000);
+    RoboModule_DRV_Mode_Choice(0,1,Velocity_Mode);
+    RoboModule_DRV_Mode_Choice(0,2,Velocity_Mode);
+    RoboModule_DRV_Mode_Choice(0,3,Velocity_Mode);
+  }
+/**
+  * @Data    2019-03-19 11:08
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
+  void Chassis_Ctrl(void)
+  {
+    int16_t velBuff[3];
 
+    Chassis_MotionModel(DR16.ch1,DR16.ch2,DR16.ch3,velBuff);
+    RoboModule_DRV_Velocity_Mode(0,1,1000,velBuff[0]);
+    RoboModule_DRV_Velocity_Mode(0,2,1000,velBuff[1]);
+    RoboModule_DRV_Velocity_Mode(0,3,1000,velBuff[2]);
+  }
 /*-----------------------------------FILE OF END------------------------------*/
 
