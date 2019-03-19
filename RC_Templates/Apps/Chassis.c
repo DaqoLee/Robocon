@@ -17,10 +17,16 @@
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "Chassis.h"
 #include "RoboModule.h"
+<<<<<<< HEAD
 #include  "math.h"
 #include "FreeRTOS.h"
 #include "task.h"
+=======
+#include "math.h"
+>>>>>>> b12efca6a026d76948caf96fb237a8607ef25866
 #include "DR16.h"
+#include "FreeRTOS.h"
+#include "task.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 #define MECANUM   0  /*麦克纳姆轮*/
 #define THROMNI		1  /*三轮全向*/
@@ -79,7 +85,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
     RoboModule_DRV_Reset(0,1);
     RoboModule_DRV_Reset(0,2);
     RoboModule_DRV_Reset(0,3);
-
+		
     vTaskDelay(1000);
     RoboModule_DRV_Mode_Choice(0,1,Velocity_Mode);
     RoboModule_DRV_Mode_Choice(0,2,Velocity_Mode);

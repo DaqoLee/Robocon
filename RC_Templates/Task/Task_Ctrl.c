@@ -76,11 +76,20 @@ void ControlTaskCreate(void)
 static void vTaskCtrlChassis(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
+<<<<<<< HEAD
 
 	Chassis_Init();
   while(1)
 	{
 		Chassis_Ctrl();
+=======
+	Chassis_Init();
+  while(1)
+	{
+		
+		Chassis_Ctrl();
+		
+>>>>>>> b12efca6a026d76948caf96fb237a8607ef25866
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
