@@ -1,4 +1,4 @@
-﻿/**
+/**
 |-------------------------------- Copyright -----------------------------------|
 |                                                                              |
 |                        (C) Copyright 2019, Daqo Lee,                         |
@@ -12,7 +12,7 @@
 |--Date        : 2019-01-08               
 |--Libsupports : STM32F4xx_DFP ( 2.9.0)
 |--Description :                                                       
-|---------------------------------declaration of end----------------------------|
+|---------------------------------declaration of end---------------------------|
  **/
 #ifndef __USER_CONFIG_H 
 #define __USER_CONFIG_H 
