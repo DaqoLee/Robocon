@@ -412,14 +412,14 @@
           <GroupName>Task</GroupName>
           <Files>
             <File>
-              <FileName>Task_Init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Task\Task_Init.c</FilePath>
-            </File>
-            <File>
               <FileName>Task_Ctrl.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\Task_Ctrl.c</FilePath>
+            </File>
+            <File>
+              <FileName>Task_Init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Task_Init.c</FilePath>
             </File>
             <File>
               <FileName>Task_Usart.c</FileName>
