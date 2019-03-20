@@ -36,14 +36,14 @@ typedef struct
 			float realY_Coords;
 			float realOmega;
 		};
-		float targetZ_Angle;																		
-		float targetX_Angle;
-		float targetY_Angle;
-		float targetX_Coords;
-		float targetY_Coords;
-		float targetOmega;
 	}; 
-	
+	float targetZ_Angle;																		
+	float targetX_Angle;
+	float targetY_Angle;
+	float targetX_Coords;
+	float targetY_Coords;
+	float targetOmega;
+
 }Posture_t;	
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/

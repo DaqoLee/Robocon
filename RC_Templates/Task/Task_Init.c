@@ -32,6 +32,8 @@
 #include "Ultrasonic.h" 
 #include "Camera.h" 
 #include "Photoelectric.h" 
+#include "Chassis.h"
+#include "math.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
@@ -174,18 +176,33 @@ static void vTaskLED(void *pvParameters)
 	*/
 static void vTaskTest(void *pvParameters)
 {
+	float x=0.0f;
+	int8_t i=0;
+	vTaskDelay(500);
 	while(1)
 	{
-    PhotoelectricScan();/*光电开关扫描*/
+		for(;x<1650*PI;x+=10*PI)
+		{
+			i++;
+	  	printf("%f, ",	(10*cos(x/450 - 800))/9);
+			if(i==5)
+			{
+				i=0;
+				printf("\r\n");
+			}
+			vTaskDelay(1);
+		}
 
-    if (!PhoFlg.LF || !PhoFlg.LH || !PhoFlg.RF || !PhoFlg.RH)
-		{
-			LED_ON(LED_G);
-		}
-		else
-		{
-			LED_OFF(LED_G);
-		}
+    // PhotoelectricScan();/*光电开关扫描*/
+
+    // if (!PhoFlg.LF || !PhoFlg.LH || !PhoFlg.RF || !PhoFlg.RH)
+		// {
+		// 	LED_ON(LED_G);
+		// }
+		// else
+		// {
+		// 	LED_OFF(LED_G);
+		// }
 		
 		vTaskDelay(5);
 	}

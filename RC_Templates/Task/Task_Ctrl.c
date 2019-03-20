@@ -22,7 +22,7 @@
 #include "task.h"
 #include "DR16.h"
 #include "Servo.h"
-
+#include "RoboModule.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 static TaskHandle_t xHandleCtrlChassis = NULL;
@@ -76,20 +76,13 @@ void ControlTaskCreate(void)
 static void vTaskCtrlChassis(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
-<<<<<<< HEAD
-
-	Chassis_Init();
-  while(1)
-	{
-		Chassis_Ctrl();
-=======
-	Chassis_Init();
+	
+	RoboModule_Init();/*RoboModule驱动初始化*/
   while(1)
 	{
 		
 		Chassis_Ctrl();
 		
->>>>>>> b12efca6a026d76948caf96fb237a8607ef25866
 	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms延时*/
 	}
 }

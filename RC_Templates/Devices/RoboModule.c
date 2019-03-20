@@ -5,8 +5,15 @@
 /******************************************************************************/
 void RoboModule_Init(void)
 {
-//	RoboModule_DRV_Mode_Choice(0,0,Current_Velocity_Mode); 
-
+	RoboModule_DRV_Reset(0,1);
+	RoboModule_DRV_Reset(0,2);
+	RoboModule_DRV_Reset(0,3);
+						
+	vTaskDelay(1000);
+	RoboModule_DRV_Mode_Choice(0,1,Velocity_Mode);
+	RoboModule_DRV_Mode_Choice(0,2,Velocity_Mode);
+	RoboModule_DRV_Mode_Choice(0,3,Velocity_Mode);
+	vTaskDelay(500);
 }
 
 /*******************************************************************************
@@ -16,10 +23,10 @@ Number  取值范围 0-15，其中Number==0时，为广播发送
 *******************************************************************************/
 void RoboModule_DRV_Reset(uint8_t Group,uint8_t Number)
 {
-		static CanSend_t canSendData;
+	  static CanSend_t canSendData;
     uint8_t stdId = 0x000;
   
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -69,7 +76,7 @@ void RoboModule_DRV_Mode_Choice(uint8_t Group,uint8_t Number,uint8_t Mode)
 {
     uint8_t stdId = 0x001;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -113,7 +120,7 @@ void RoboModule_DRV_OpenLoop_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x002;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -169,7 +176,7 @@ void RoboModule_DRV_Current_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x003;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -226,11 +233,11 @@ temp_velocity的取值范围如下：
 
 *******************************************************************************/
 void RoboModule_DRV_Velocity_Mode(uint8_t Group,uint8_t Number,
-	                                    int16_t Temp_PWM,uint8_t Temp_Velocity)
+	                                    int16_t Temp_PWM,int16_t Temp_Velocity)
 {
     uint8_t stdId = 0x004;
-    static CanSend_t canSendData;
-    
+    CanSend_t canSendData;
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -292,7 +299,7 @@ void RoboModule_DRV_Position_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x005;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -355,7 +362,7 @@ void RoboModule_DRV_Velocity_Position_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x006;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -418,11 +425,11 @@ temp_velocity的取值范围如下：
 
 *******************************************************************************/
 void RoboModule_DRV_Current_Velocity_Mode(uint8_t Group,uint8_t Number,
-	                                  int16_t Temp_Current,uint8_t Temp_Velocity)
+	                                  int16_t Temp_Current,int16_t Temp_Velocity)
 {
     uint8_t stdId = 0x007;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -475,7 +482,7 @@ void RoboModule_DRV_Current_Position_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x008;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -532,7 +539,7 @@ void RoboModule_DRV_Current_Velocity_Position_Mode(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x009;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -582,7 +589,7 @@ void RoboModule_DRV_Config(uint8_t Group,uint8_t Number,
 {
     uint8_t stdId = 0x00A;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8
@@ -624,7 +631,7 @@ void RoboModule_DRV_Online_Check(uint8_t Group,uint8_t Number)
 {
     uint8_t stdId = 0x00F;
     static CanSend_t canSendData;
-    
+    canSendData.CANx=1;
     canSendData.SendCanTxMsg.IDE = CAN_ID_STD;    //标准帧
     canSendData.SendCanTxMsg.RTR = CAN_RTR_DATA;  //数据帧
     canSendData.SendCanTxMsg.DLC = 0x08;          //帧长度为8

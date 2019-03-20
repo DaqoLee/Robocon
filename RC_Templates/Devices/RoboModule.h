@@ -51,13 +51,13 @@ void RoboModule_DRV_OpenLoop_Mode(uint8_t Group,uint8_t Number,
 void RoboModule_DRV_Current_Mode(uint8_t Group,uint8_t Number,
 	                                   int16_t Temp_PWM,int16_t Temp_Current);
 void RoboModule_DRV_Velocity_Mode(uint8_t Group,uint8_t Number,
-	                                    int16_t Temp_PWM,uint8_t Temp_Velocity);
+	                                    int16_t Temp_PWM,int16_t Temp_Velocity);
 void RoboModule_DRV_Position_Mode(uint8_t Group,uint8_t Number,
 	                                      int16_t Temp_PWM,uint32_t Temp_Position);
 void RoboModule_DRV_Velocity_Position_Mode(uint8_t Group,uint8_t Number,
 	                int16_t Temp_PWM,int16_t Temp_Velocity,uint32_t Temp_Position);
 void RoboModule_DRV_Current_Velocity_Mode(uint8_t Group,uint8_t Number,
-	                                  int16_t Temp_Current,uint8_t Temp_Velocity);
+	                                  int16_t Temp_Current,int16_t Temp_Velocity);
 void RoboModule_DRV_Current_Position_Mode(uint8_t Group,uint8_t Number,
 	                                   int16_t Temp_Current,int32_t Temp_Position);
 void RoboModule_DRV_Current_Velocity_Position_Mode(uint8_t Group,uint8_t Number,
