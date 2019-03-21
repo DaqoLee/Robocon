@@ -8,6 +8,7 @@
 #include "Gyro.h"
 #include "Servo.h"
 #include "Task_Init.h"
+#include "Encoder.h" 
 /**
   * @brief   This function handles NMI exception.
   * @param  None
@@ -116,7 +117,7 @@ void USART2_IRQHandler(void)
 		/*关闭DMA*/
 		DMA_Cmd(USART2_RX_DMA_STREAM, DISABLE);
 		/*获取DMAbuff剩余大小，是否匹配*/
-		xQueueSendFromISR(xUsart2RxQueue,&DigitalServo.SmsBuff,&xHigherPriorityTaskWoken);
+		xQueueSendFromISR(xUsart2RxQueue,&Posture.Buff,&xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		
 		/*打开DMA*/

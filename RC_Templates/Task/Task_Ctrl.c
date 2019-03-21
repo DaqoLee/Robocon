@@ -83,7 +83,7 @@ static void vTaskCtrlChassis(void *pvParameters)
 		
 		Chassis_Ctrl();
 		
-	  vTaskDelayUntil(&CurrentControlTick, 5 / portTICK_RATE_MS);/*5ms—” ±*/
+	  vTaskDelayUntil(&CurrentControlTick, 10 / portTICK_RATE_MS);/*5ms—” ±*/
 	}
 }
 

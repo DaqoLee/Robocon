@@ -53,7 +53,7 @@ static void vTaskUsartSend(void *pvParameters);
 void UsartTaskCreate(void)
 {
 	xUsart1RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
-	xUsart2RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
+	xUsart2RxQueue = xQueueCreate(20,28*sizeof(uint8_t));
 	xUsart3RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xusartTxQueue  = xQueueCreate(20,sizeof(USARTSend_t));
 
@@ -122,9 +122,10 @@ static void vTaskUsart2Receive(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xUsart2RxQueue, &usart2RxBuffer,portMAX_DELAY);
-		//Posture_getMessage(usart2RxBuffer);
+		Posture_getMessage(usart2RxBuffer);
+		LED_TOGGLE(LED_R);
 		//DXL1_getMassage(usart2RxBuffer);
-		OpticFlow_getMassage(usart2RxBuffer);
+		//OpticFlow_getMassage(usart2RxBuffer);
 	}
 
 }

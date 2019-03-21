@@ -34,6 +34,7 @@
 #include "Photoelectric.h" 
 #include "Chassis.h"
 #include "math.h"
+#include "Encoder.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
@@ -73,7 +74,7 @@ void vTaskStart(void *pvParameters)
 	BSP_UART8_Init(57600);   /*超声波*/
 	
 	DMA_USART1RxConfig((uint32_t)DR16.buff,20);
-	DMA_USART2RxConfig((uint32_t)DigitalServo.SmsBuff,20);
+	DMA_USART2RxConfig((uint32_t)Posture.Buff,28);
 	DMA_USART3RxConfig((uint32_t)GY955.buff,20);
 	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
 	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
@@ -92,6 +93,7 @@ void vTaskStart(void *pvParameters)
   /*---------------Apps初始化----------------*/
 
 	Filter_Init();
+	Chassis_Init();
 	/*-----------------Task创建-------------------*/
 	
 	CanTaskCreate();   /* 创建CAN相关任务 */
@@ -181,17 +183,17 @@ static void vTaskTest(void *pvParameters)
 	vTaskDelay(500);
 	while(1)
 	{
-		for(;x<1650*PI;x+=10*PI)
-		{
-			i++;
-	  	printf("%f, ",	(10*cos(x/450 - 800))/9);
-			if(i==5)
-			{
-				i=0;
-				printf("\r\n");
-			}
-			vTaskDelay(1);
-		}
+//		for(;x<1650*PI;x+=10*PI)
+//		{
+//			i++;
+//	  	printf("%f, ",	(10*cos(x/450 - 800))/9);
+//			if(i==5)
+//			{
+//				i=0;
+//				printf("\r\n");
+//			}
+//			vTaskDelay(1);
+//		}
 
     // PhotoelectricScan();/*光电开关扫描*/
 

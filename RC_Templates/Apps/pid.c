@@ -78,7 +78,7 @@ float PID_Calc(pid_t* pid, float get, float set)
         pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
         ? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
       
-			CalcMembership(pid);
+			//CalcMembership(pid);
 			
       pid->Pout = pid->P * pid->err[NOW];
       pid->Iout += pid->I * pid->err[NOW];

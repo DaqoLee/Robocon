@@ -23,7 +23,8 @@
 /*-------------------------G L O B A L - T Y P E S----------------------------*/
 
 typedef struct
-{																					
+{						
+  uint8_t Buff[28];	
 	union
 	{
 		uint8_t DataBuff[24];
