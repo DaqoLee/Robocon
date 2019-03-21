@@ -71,12 +71,12 @@ float PID_Calc(pid_t* pid, float get, float set)
     
     if(pid->pidMode == POSITION_PID) //Î»ÖÃÊ½P
     {	
-      if(pid->err[NOW] < 0)
-        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(pid->maxInput - ABS(pid->err[NOW])) \
-        ? pid->maxInput - ABS(pid->err[NOW]):pid->err[NOW];
-      else if(pid->err[NOW]>0)
-        pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
-        ? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
+//      if(pid->err[NOW] < 0)
+//        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(pid->maxInput - ABS(pid->err[NOW])) \
+//        ? pid->maxInput - ABS(pid->err[NOW]):pid->err[NOW];
+//      else if(pid->err[NOW]>0)
+//        pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
+//        ? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
       
 			//CalcMembership(pid);
 			

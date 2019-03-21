@@ -161,54 +161,66 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   {
     static uint16_t temp = 0,temp1=0;
     int16_t velBuff[3];
+		Posture.targetZ_Angle=0;
+#if 0
+    Posture.targetX_Coords=DR16.ch1;
+		Posture.targetY_Coords=DR16.ch2;
 
-//    Posture.targetX_Coords=DR16.ch1;
-//		Posture.targetY_Coords=DR16.ch2;
-//		Posture.targetZ_Angle=0;
 //		
-//    Chassis.Vx=PID_Calc(&Chassis.PID_X,
-//                        Posture.realX_Coords,Posture.targetX_Coords);
-//    Chassis.Vy=PID_Calc(&Chassis.PID_Y,
-//                        Posture.realY_Coords,Posture.targetY_Coords);
-//    Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
-//                        Posture.targetZ_Angle,Posture.targetZ_Angle);
+    Chassis.Vx=PID_Calc(&Chassis.PID_X,
+                        Posture.realX_Coords,Posture.targetX_Coords);
+    Chassis.Vy=PID_Calc(&Chassis.PID_Y,
+                        Posture.realY_Coords,Posture.targetY_Coords);
+    Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+                        Posture.realZ_Angle,Posture.targetZ_Angle);
 //		
-		
+#endif	
+#if 0
+//		if(temp<160&&DR16.switch_right==3)
+//		{
+//			Chassis.Vy=-1500;
+//			Chassis.Vx=-Chassis.Vy*Cure[temp];
+//			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+//											 Posture.realZ_Angle,Posture.targetZ_Angle);
+//		if(++temp1>3)
+//		{
+//			temp1=0;
+//			temp++;
+//		}
+//		}
+//		else
+//		{
+//			Chassis.Vx=-10*DR16.ch3;
+//      Chassis.Vy=-10*(DR16.ch2+DR16.ch4);
+//			Chassis.Vspin=10*DR16.ch1;
+//		//	Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+//      //       Posture.realZ_Angle,Posture.targetZ_Angle);
+//		}
+#endif
+
+#if 1 /*全场定位跑曲线*/
 
 		if(temp<160&&DR16.switch_right==3)
 		{
-			Chassis.Vy=-1500;
-			Chassis.Vx=-Chassis.Vy*Cure[temp];
+		  Chassis.Vy=-1500;
+		
+			if((30*(temp+1))+Posture.realY_Coords<10)
+			{
+				Chassis.Vx=-Chassis.Vy*Cure[temp];
+				temp++;
+			}
 			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
-											 Posture.realZ_Angle,Posture.targetZ_Angle);
-		if(++temp1>3)
-		{
-			temp1=0;
-			temp++;
-		}
+      Posture.realZ_Angle,Posture.targetZ_Angle);
 		}
 		else
 		{
 			Chassis.Vx=-10*DR16.ch3;
       Chassis.Vy=-10*(DR16.ch2+DR16.ch4);
-		//	Chassis.Vspin=10*DR16.ch1;
 			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
-             Posture.realZ_Angle,Posture.targetZ_Angle);
+      Posture.realZ_Angle,Posture.targetZ_Angle);
 		}
-//    Chassis.Vy=-1000;
-//		Chassis.Vx=Chassis.Vy*Cure[temp];
-//		if(ABS(-Posture.realY_Coords-(temp*10*PI))<10)
-//		{
-//      Chassis.Vx=Chassis.Vy*Cure[temp];
-//      temp++;
-//		}
-
-//    if(temp>150)
-//    {
-//      Chassis.Vx=0;
-//      Chassis.Vy=0;
-//    }
-//		
+    
+#endif	
     Chassis_MotionModel(Chassis.Vx,Chassis.Vy,Chassis.Vspin,velBuff);
 
 //  Chassis_MotionModel(-10*DR16.ch3,-10*(DR16.ch2+DR16.ch4),10*DR16.ch1,velBuff);
