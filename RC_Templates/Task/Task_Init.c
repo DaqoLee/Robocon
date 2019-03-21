@@ -178,22 +178,24 @@ static void vTaskLED(void *pvParameters)
 	*/
 static void vTaskTest(void *pvParameters)
 {
-	float x=0.0f;
+	float x=0.0f;//1000
 	int8_t i=0;
 	vTaskDelay(500);
 	while(1)
 	{
 //		for(;x<1650*PI;x+=10*PI)
-//		{
-//			i++;
-//	  	printf("%f, ",	(10*cos(x/450 - 800))/9);
-//			if(i==5)
-//			{
-//				i=0;
-//				printf("\r\n");
-//			}
-//			vTaskDelay(1);
-//		}
+  	// 	for(;x<1715*PI;x+=10*PI)
+		// {
+		// 	i++;
+	  // 	// printf("%f, ",	(10*cos(x/450 - 800))/9);
+    //   	printf("%f, ",	(11*cos(x/500 + 250))/10);
+		// 	if(i==5)
+		// 	{
+		// 		i=0;
+		// 		printf("\r\n");
+		// 	}
+		// 	vTaskDelay(1);
+		// }
 
     // PhotoelectricScan();/*光电开关扫描*/
 
