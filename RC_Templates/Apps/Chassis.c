@@ -243,8 +243,9 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 
 		if(temp<165&&DR16.switch_right==3)
 		{
-		  Chassis.Vy=Chassis.Vy<-2500?-2500:Chassis.Vy-10;
-		
+	  Chassis.Vy=Chassis.Vy<-1800?-1800:Chassis.Vy-10;
+			Chassis.Vy=Chassis.Vy*ABS(Cure[temp])-800;
+	//	Chassis.Vy=-1000;
 			if((30*(temp+1))+Posture.realY_Coords<10)
 			{
 				Chassis.Vx=-Chassis.Vy*Cure[temp];
