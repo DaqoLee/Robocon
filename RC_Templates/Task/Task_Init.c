@@ -185,7 +185,7 @@ static void vTaskTest(void *pvParameters)
 //		for(;x<5250;x+=30)
 //		{
 //		  i++;
-//		  printf("%f, ",	(PI*cos((PI*(x - 750))/1500))/3);
+//		  printf("%f, ",	(13*PI*cos((PI*(x - 750))/1500))/30);
 //			if(i==5)
 //		  {
 //				i=0;

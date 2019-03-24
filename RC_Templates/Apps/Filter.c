@@ -23,7 +23,7 @@ Filter_t Filter;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
-static float Filter_Limit(float Value,float Max, float Mini);
+static void Filter_Limit(float *Value,float Max, float Mini);
 static float Filter_Lowpass(float Value, float *p_Value, float Rate);
 static float Filter_Absolute(float Value);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
@@ -48,19 +48,18 @@ void Filter_Init(void)
   * @param   void
   * @retval  void
   */
-static float Filter_Limit(float Value,float Max, float Mini)
+static void Filter_Limit(float *Value,float Max, float Mini)
 {
-	if(Value>=0)
+	if(*Value>=0)
 	{
-		Value = Value >= Max ? Max : Value;
-		Value = Value <= Mini ? Mini : Value;
+		*Value = *Value >= Max ? Max : *Value;
+		*Value = *Value <= Mini ? Mini : *Value;
 	}
 	else
 	{
-	  Value = Value <= Max ? Max : Value;
-		Value = Value >= Mini ? Mini : Value;
+	  *Value = *Value <= Max ? Max : *Value;
+		*Value = *Value >= Mini ? Mini : *Value;
 	}
-  return Value;
 }
 
 /*------------------------------80 Chars Limit--------------------------------*/

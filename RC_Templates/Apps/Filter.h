@@ -26,7 +26,7 @@
 
 typedef struct 
 {
-  float (*p_Limit) (float Value,float Max, float Mini);
+  void (*p_Limit) (float *Value,float Max, float Mini);
   float (*p_ABS) (float Value);
   float (*p_Lowpass) (float Value, float *p_Value, float Rate); 
 }Filter_t;
