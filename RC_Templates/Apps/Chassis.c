@@ -23,6 +23,7 @@
 #include "task.h"
 #include "Encoder.h"
 #include "Curve.h"
+#include "Filter.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 const float Radian=PI/6;
 
@@ -136,7 +137,7 @@ Chassis_t Chassis;
 //   -1.097247, -1.099965
 // };
 
-static float Cure[]=
+const float Slope[]=
 {
   0.000000, 0.065754, 0.131249, 0.196225, 0.260427, 
   0.323602, 0.385499, 0.445875, 0.504491, 0.561117, 
@@ -280,24 +281,25 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 
 #if 1 /*全场定位跑曲线*/
 
-		if(temp<170&&DR16.switch_right==3)
+		if(temp<170 && DR16.switch_right == 3)/*一共取了170个点*/
 		{
-	    Chassis.Vy=Chassis.Vy<-1800?-1800:Chassis.Vy-10;
-			Chassis.Vy=Chassis.Vy*ABS(Cure[temp])-1000;
-	//	Chassis.Vy=-1000;
-			if((30*(temp+1))+Posture.realY_Coords<10)
+	    //Chassis.Vy = Chassis.Vy < -1500 ? -1500 : Chassis.Vy - 10; /*起步缓慢加速*/
+
+			Chassis.Vy = Chassis.Vy * ABS(Slope[temp]) - 1000; /*直线提速，拐弯减速*/
+      Filter.p_Limit(&(float)Chassis.Vy,-2000,-1000);
+			if((30*(temp+1)) + Posture.realY_Coords < 5)
 			{
-				Chassis.Vx=-Chassis.Vy*Cure[temp];
+				Chassis.Vx = -Chassis.Vy*Slope[temp];
 				temp++;
 			}
-			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
       Posture.realZ_Angle,Posture.targetZ_Angle);
 		}
 		else
 		{
-			Chassis.Vx=-10*DR16.ch3;
-      Chassis.Vy=-10*(DR16.ch2+DR16.ch4);
-			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+			Chassis.Vx = -10*DR16.ch3;
+      Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
+			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
       Posture.realZ_Angle,Posture.targetZ_Angle);
 		}
     
