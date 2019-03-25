@@ -224,9 +224,9 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   void Chassis_Init(void)
   {
 		
-    PID_StructInit(&Chassis.PID_X, POSITION_PID, 3000, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 3000, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 3000, 500, -50, 0, 0);
+    PID_StructInit(&Chassis.PID_X, POSITION_PID, 1000, 500, 2, 0, 0);
+    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 2000, 500, 2, 0, 0);
+    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 2000, 500, -50, 0, 0);
 		
     Posture.targetZ_Angle=0;
 		Chassis.Vy=0;
@@ -242,15 +242,32 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   void Chassis_Ctrl(void)
   {
     static uint16_t temp = 0;
+		static uint8_t temp1=1;
     int16_t velBuff[3];
-		Posture.targetZ_Angle=0;
 
-#if 1
-    Posture.targetX_Coords= DR16.ch1 * 5;
-		Posture.targetY_Coords= DR16.ch2 * 5;
-		Posture.targetZ_Angle = DR16.ch2 / 6;
+#if 0
+		if(DR16.switch_right==3)
+		{
+		  Posture.targetX_Coords= -DR16.ch1 * 5;
+			Posture.targetY_Coords= -DR16.ch2 * 5;
+			Posture.targetZ_Angle = -DR16.ch3 / 6;
 
-		SpinRuning();
+//		  Chassis.Vx=PID_Calc(&Chassis.PID_X,
+//                        Posture.realX_Coords,Posture.targetX_Coords);
+//      Chassis.Vy=PID_Calc(&Chassis.PID_Y,
+//                        Posture.realY_Coords,Posture.targetY_Coords);
+			Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+										Posture.realZ_Angle,Posture.targetZ_Angle);
+			SpinRuning();
+			
+		}
+		else
+		{
+			Chassis.Vx = -10*DR16.ch3;
+			Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
+			Chassis.Vspin=5*DR16.ch1;
+		}
+
 #endif
 
 #if 0
@@ -289,13 +306,13 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 //		}
 #endif
 
-#if 0 /*全场定位切线跑曲线*/
+#if 1 /*全场定位切线跑曲线*/
 
   if(temp<170 && DR16.switch_right == 3)/*一共取了170个点*/
 	{
 		//Chassis.Vy = Chassis.Vy < -1500 ? -1500 : Chassis.Vy - 10; /*起步缓慢加速*/
-
-		Chassis.Vy = -800 - 500*ABS(Slope[temp]); /*直线提速，拐弯减速*/
+    Posture.targetZ_Angle=0;
+		Chassis.Vy = -800 - 200*ABS(Slope[temp]); /*直线提速，拐弯减速*/
 //		Filter.p_Limit(&Chassis.Vy,-2500,-1000); /*限幅滤波*/
 		if((30*(temp+1)) + Posture.realY_Coords < 5) /*每隔30mm取一个点，误差接近5mm更新*/
 		{
@@ -305,15 +322,45 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 			Posture.realZ_Angle,Posture.targetZ_Angle); /*陀螺仪伺服*/
 	}
-	else /*跑完点切回遥控*/
+	else if(DR16.switch_right == 3)/*跑完点切回遥控*/
 	{
-		Chassis.Vx = -10*DR16.ch3;
-		Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
-//		Chassis.Vspin=5*DR16.ch1;
-		Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
-		Posture.realZ_Angle,Posture.targetZ_Angle);
-	}  
+		switch(temp1)
+		{
+			case 1:
+				Posture.targetX_Coords= 0;
+				Posture.targetY_Coords= -8500;
+		  	Posture.targetZ_Angle=0;
+				Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
+				         Posture.realZ_Angle,Posture.targetZ_Angle);
+			
+				SpinRuning();
+			  
+			  if(Posture.targetY_Coords-Posture.realY_Coords>-100
+					&& Posture.targetX_Coords-Posture.realX_Coords>-100)
+				{
+					temp1=2;
+				}
+				break;
+			case 2:
+				Posture.targetX_Coords= 2500;
+				Posture.targetY_Coords= -8500;
+		  	Posture.targetZ_Angle=90;
+				Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
+				         Posture.realZ_Angle,Posture.targetZ_Angle);
+			  SpinRuning();
+				break;
+		}
+	}
+    else
+		{
+			Chassis.Vx = -10*DR16.ch3;
+			Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
+			Chassis.Vspin=5*DR16.ch1;
+//			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
+//			Posture.realZ_Angle,Posture.targetZ_Angle);
+		}  
 #endif	
+	
     Chassis_MotionModel(Chassis.Vx,Chassis.Vy,Chassis.Vspin,velBuff);
 
 //  Chassis_MotionModel(-10*DR16.ch3,-10*(DR16.ch2+DR16.ch4),10*DR16.ch1,velBuff);
@@ -350,7 +397,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 		Chassis.Vx = ((Vxy * CoordsErrX)/Length)*cos(Posture.realZ_Angle*(PI/180))
 								+((Vxy * CoordsErrY)/Length)*sin(Posture.realZ_Angle*(PI/180));
 
-		Chassis.Vy = ((Vxy * CoordsErrX)/Length)*sin(Posture.realZ_Angle*(PI/180))
+		Chassis.Vy = -((Vxy * CoordsErrX)/Length)*sin(Posture.realZ_Angle*(PI/180))
 								+((Vxy * CoordsErrY)/Length)*cos(Posture.realZ_Angle*(PI/180));
 	}
 /*-----------------------------------FILE OF END------------------------------*/
