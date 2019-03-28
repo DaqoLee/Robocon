@@ -28,7 +28,6 @@
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
-#define LEN  1000
 #define PI 3.141592653589
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
@@ -37,6 +36,8 @@
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
+void Curve_Straight(int16_t Len);
+void Curve_Straight1(int16_t Len);
 float Curve_Sin(float A,float w,float fi,float b,float pi);
 
 

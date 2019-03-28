@@ -40,19 +40,35 @@
   * @param   void
   * @retval  void
   */
-void Curve_Straight(void)
+void Curve_Straight(int16_t Len)
 {
-	static float xCoords=1120.0f,yCoords=0.0f;
+	static float xCoords=725.0f,yCoords=0.0f;
 	
-	yCoords=Posture.realY_Coords+\
-	        sqrt(LEN*LEN-(pow(Posture.realX_Coords-xCoords,2)));
+	yCoords=Posture.realY_Coords-\
+	        sqrt(pow(Len,2)-pow(xCoords-Posture.realX_Coords,2));
 	
 	Posture.targetX_Coords=xCoords;
 	Posture.targetY_Coords=yCoords;
 	
 }
 
-
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
+void Curve_Straight1(int16_t Len)
+{
+	static float xCoords=0.0f,yCoords=-8500.0f;
+	
+	xCoords=Posture.realX_Coords+\
+	        sqrt(pow(Len,2)-pow(yCoords-Posture.realY_Coords,2));
+	
+	Posture.targetX_Coords=xCoords;
+	Posture.targetY_Coords=yCoords;
+	
+}
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-03-03 13:05

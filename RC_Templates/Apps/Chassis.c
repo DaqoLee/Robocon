@@ -224,9 +224,9 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   void Chassis_Init(void)
   {
 		
-    PID_StructInit(&Chassis.PID_X, POSITION_PID, 1000, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 2000, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 2000, 500, -50, 0, 0);
+    PID_StructInit(&Chassis.PID_X, POSITION_PID, 800, 500, 2, 0, 0);
+    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 800, 500, 2, 0, 0);
+    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 800, 500, -50, 0, 0);
 		
     Posture.targetZ_Angle=0;
 		Chassis.Vy=0;
@@ -308,11 +308,11 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 
 #if 1 /*全场定位切线跑曲线*/
 
-  if(temp<170 && DR16.switch_right == 3)/*一共取了170个点*/
+  if(temp<162 && DR16.switch_right == 3)/*一共取了170个点*/
 	{
 		//Chassis.Vy = Chassis.Vy < -1500 ? -1500 : Chassis.Vy - 10; /*起步缓慢加速*/
     Posture.targetZ_Angle=0;
-		Chassis.Vy = -800 - 200*ABS(Slope[temp]); /*直线提速，拐弯减速*/
+		Chassis.Vy = -1000 - 500*ABS(Slope[temp]); /*直线提速，拐弯减速*/
 //		Filter.p_Limit(&Chassis.Vy,-2500,-1000); /*限幅滤波*/
 		if((30*(temp+1)) + Posture.realY_Coords < 5) /*每隔30mm取一个点，误差接近5mm更新*/
 		{
@@ -322,32 +322,42 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 			Posture.realZ_Angle,Posture.targetZ_Angle); /*陀螺仪伺服*/
 	}
-	else if(DR16.switch_right == 3)/*跑完点切回遥控*/
+	else if(DR16.switch_right == 3&&temp1<3)/*跑完点切回遥控*/
 	{
 		switch(temp1)
 		{
 			case 1:
-				Posture.targetX_Coords= 0;
-				Posture.targetY_Coords= -8500;
+//				Posture.targetX_Coords= 0;
+//				Posture.targetY_Coords= -8500;
+			  Curve_Straight(1000);
+			
 		  	Posture.targetZ_Angle=0;
 				Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 				         Posture.realZ_Angle,Posture.targetZ_Angle);
 			
-				SpinRuning();
+				Chassis.Vx=PID_Calc(&Chassis.PID_X,
+                        Posture.realX_Coords,Posture.targetX_Coords);
+        Chassis.Vy=PID_Calc(&Chassis.PID_Y,
+                        Posture.realY_Coords,Posture.targetY_Coords);
 			  
-			  if(Posture.targetY_Coords-Posture.realY_Coords>-100
-					&& Posture.targetX_Coords-Posture.realX_Coords>-100)
+			  if(-8000-Posture.realY_Coords>-100
+					&& Posture.realX_Coords-725<100)
 				{
 					temp1=2;
 				}
 				break;
 			case 2:
-				Posture.targetX_Coords= 2500;
-				Posture.targetY_Coords= -8500;
-		  	Posture.targetZ_Angle=90;
+			  Curve_Straight1(1500);
+		  	Posture.targetZ_Angle=Posture.targetZ_Angle>90?90:Posture.targetZ_Angle+0.9;
+
 				Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 				         Posture.realZ_Angle,Posture.targetZ_Angle);
 			  SpinRuning();
+				if(-8500-Posture.realY_Coords>-100
+					&& 2500-Posture.realX_Coords<100)
+				{
+					temp1=3;
+				}
 				break;
 		}
 	}
