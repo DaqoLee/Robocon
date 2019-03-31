@@ -88,7 +88,12 @@ float Curve_Bezier(uint8_t *x,uint8_t n,float t)
 	}
   return x[0];
 }
-
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
 float Curve_Sin(float A,float w,float fi,float b,float pi)
 {
   return (A*sin(w*pi+fi*PI)+b);

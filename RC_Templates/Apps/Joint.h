@@ -38,10 +38,10 @@
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
 void Thigh_M6020Ctrl(void);
-void Joint_MotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_MotionTest(void);
-void Joint_ThrMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
-void Joint_RobotArm(uint16_t UpperarmTarang,uint16_t ForearmTarang);
+void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
+void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
+void Joint_RobotArmCtrl(uint16_t UpperarmTarang,uint16_t ForearmTarang);
 #endif	// __JOINT_H
 /*----------------------------------FILE OF END-------------------------------*/
 

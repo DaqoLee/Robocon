@@ -322,7 +322,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 			Posture.realZ_Angle,Posture.targetZ_Angle); /*陀螺仪伺服*/
 	}
-	else if(DR16.switch_right == 3&&temp1<3)/*跑完点切回遥控*/
+	else if(DR16.switch_right == 3&&temp1<3)
 	{
 		switch(temp1)
 		{
@@ -361,14 +361,14 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 				break;
 		}
 	}
-    else
-		{
-			Chassis.Vx = -10*DR16.ch3;
-			Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
-			Chassis.Vspin=5*DR16.ch1;
+	else/*跑完点切回遥控*/
+	{
+		Chassis.Vx = -10*DR16.ch3;
+		Chassis.Vy = -10*(DR16.ch2+DR16.ch4);
+		Chassis.Vspin=5*DR16.ch1;
 //			Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 //			Posture.realZ_Angle,Posture.targetZ_Angle);
-		}  
+	}  
 #endif	
 	
     Chassis_MotionModel(Chassis.Vx,Chassis.Vy,Chassis.Vspin,velBuff);

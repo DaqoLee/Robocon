@@ -155,13 +155,13 @@ static void vTaskLED(void *pvParameters)
 {
 	while(1)
 	{
-		LED_ON(LED0);
-		for(uint8_t i=1;i<7;i++)
+	//	LED_ON(LED0);
+		for(uint8_t i=0;i<7;i++)
 		{
 				LED_ON(i);
 				vTaskDelay(30); 
 		}
-		for(uint8_t i=6;i>0;i--)
+		for(uint8_t i=0; i<7;i++)
 		{
 				LED_OFF(i);
 				vTaskDelay(30);
@@ -178,8 +178,8 @@ static void vTaskLED(void *pvParameters)
 	*/
 static void vTaskTest(void *pvParameters)
 {
-	float x=0.0f;//1000
-	int8_t i=0;
+//	float x=0.0f;//1000
+//	int8_t i=0;
 	while(1)
 	{
 //		for(;x<5250;x+=30)
