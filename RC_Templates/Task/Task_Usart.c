@@ -22,16 +22,19 @@
 #include "Encoder.h"
 #include "Servo.h"
 #include "OpticFlow.h" 
+#include "Gyro.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 QueueHandle_t xUsart1RxQueue = NULL;
 QueueHandle_t xUsart2RxQueue = NULL;
 QueueHandle_t xUsart3RxQueue = NULL;
+QueueHandle_t xUsart6RxQueue = NULL;
 QueueHandle_t xusartTxQueue = NULL;
 
 static TaskHandle_t xHandleUsart1Receive = NULL;
 static TaskHandle_t xHandleUsart2Receive = NULL;
 static TaskHandle_t xHandleUsart3Receive = NULL;
+static TaskHandle_t xHandleUsart6Receive = NULL;
 static TaskHandle_t xHandleUsartsend     = NULL;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
@@ -39,6 +42,7 @@ static TaskHandle_t xHandleUsartsend     = NULL;
 static void vTaskUsart1Receive(void *pvParameters);
 static void vTaskUsart2Receive(void *pvParameters);
 static void vTaskUsart3Receive(void *pvParameters);
+static void vTaskUsart6Receive(void *pvParameters);
 static void vTaskUsartSend(void *pvParameters);
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
@@ -55,6 +59,7 @@ void UsartTaskCreate(void)
 	xUsart1RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xUsart2RxQueue = xQueueCreate(20,28*sizeof(uint8_t));
 	xUsart3RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
+	xUsart6RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xusartTxQueue  = xQueueCreate(20,sizeof(USARTSend_t));
 
 	
@@ -78,6 +83,13 @@ void UsartTaskCreate(void)
 						  NULL,                 
 						  3,       			   
 					  	&xHandleUsart3Receive);
+							
+	xTaskCreate(vTaskUsart6Receive,            
+					  	"vTaskUsart6Receive",          
+						  128,       			   
+						  NULL,                 
+						  3,       			   
+					  	&xHandleUsart6Receive);
 
 	xTaskCreate(vTaskUsartSend,            
 					  	"vTaskUsartSend",          
@@ -143,11 +155,24 @@ static void vTaskUsart3Receive(void *pvParameters)
   while(1)
 	{
 	  xQueueReceive(xUsart3RxQueue, &usart3RxBuffer,portMAX_DELAY);
-
+		GY955.pGY955getMsg(usart3RxBuffer);
 	}
 
 }
 
+static void vTaskUsart6Receive(void *pvParameters)
+{
+  uint8_t usart6RxBuffer[26];
+  while(1)
+	{
+	  xQueueReceive(xUsart6RxQueue, &usart6RxBuffer,portMAX_DELAY);
+	//	Posture_getMessage(usart6RxBuffer);
+	//	LED_TOGGLE(LED_R);
+		DXL1_getMassage(usart6RxBuffer);
+		//OpticFlow_getMassage(usart2RxBuffer);
+	}
+
+}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-02-20 15:59

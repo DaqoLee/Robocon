@@ -37,6 +37,7 @@
 extern QueueHandle_t xUsart1RxQueue;
 extern QueueHandle_t xUsart2RxQueue;
 extern QueueHandle_t xUsart3RxQueue;
+extern QueueHandle_t xUsart6RxQueue;
 extern QueueHandle_t xusartTxQueue ;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/

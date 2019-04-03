@@ -68,7 +68,7 @@ void vTaskStart(void *pvParameters)
 
   BSP_USART1_Init(100000); /*DR16接收机*/
   BSP_USART2_Init(115200);  /*SMS舵机*/
-	BSP_USART3_Init(57600);  /*GY955陀螺仪*/
+	BSP_USART3_Init(115200);  /*GY955陀螺仪*/
 	BSP_USART6_Init(57600);  /*DXL舵机*/
 	BSP_UART7_Init(57600);   /*摄像头*/
 	BSP_UART8_Init(57600);   /*超声波*/
@@ -88,6 +88,7 @@ void vTaskStart(void *pvParameters)
   LED_Init();
 	KEY_Init();
 	DR16_Init();
+	Gyro_Init();
 	Motor_Init();
 	Photoelectric_Init();
   /*---------------Apps初始化----------------*/

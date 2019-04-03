@@ -34,7 +34,7 @@ static void GY955_getMassage(uint8_t *pGyroData);
   * @param   void
   * @retval  void
   */
-  void GyroInit(void)
+  void Gyro_Init(void)
   {
     GY955.pGY955getMsg = GY955_getMassage;
   }
@@ -61,9 +61,9 @@ static void GY955_getMassage(uint8_t *pGyroData);
       GY955.Gyr_Y = ((pGyroData[6]<<8)|pGyroData[7]);
       GY955.Gyr_Z = ((pGyroData[8]<<8)|pGyroData[9]);
 
-      GY955.Yaw = (uint16_t)((pGyroData[10]<<8)|pGyroData[11])/10.0f;
-      GY955.Roll = (int16_t)((pGyroData[12]<<8)|pGyroData[13])/10.0f;
-      GY955.Pitch = (int16_t)((pGyroData[14]<<8)|pGyroData[15])/10.0f;
+      GY955.Yaw = (uint16_t)((pGyroData[10]<<8)|pGyroData[11])/100.0f;
+      GY955.Roll = (int16_t)((pGyroData[12]<<8)|pGyroData[13])/100.0f;
+      GY955.Pitch = (int16_t)((pGyroData[14]<<8)|pGyroData[15])/100.0f;
     }  
   }
 

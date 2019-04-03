@@ -64,7 +64,7 @@ extern GY955_t GY955;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 
-  void GyroInit(void);
+void Gyro_Init(void);
 
 
 #endif	// __GYRO_H

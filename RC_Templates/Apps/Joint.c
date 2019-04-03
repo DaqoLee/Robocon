@@ -68,24 +68,61 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.04f;
-
+	  temp=temp>2*PI?0:temp+0.02f;
+	
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,2648 + Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						      0x02,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+	                0x01,2600 - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						      0x02,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
-									0x03,2648 + Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-									0x04,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									0x03,2748 - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
+									0x04,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
                   0x05,2648 + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-									0x06,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+									0x06,2400 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
 									0x07,2648 + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
 									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
-                  0x09,2048 + Joint_getThighTarAng(Omega + Vx,0,temp),
+                  0x09,2324 + Joint_getThighTarAng(Omega + Vx,0,temp),
+									0x0A,1766 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
+									0x0B,2324 + Joint_getThighTarAng(Omega - Vx,0,temp),
+									0x0C,1766 + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
+							 
+//	vTaskDelay(5);	
+	
+}
+
+
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   对角步态关节运动模型
+	* @param   void
+	* @retval  void
+	*/
+void Joint_TrotMotionModelx(int16_t Vx, int16_t Vy, int16_t Omega)
+{	
+	static float temp=0;
+	if(Vx == 0 && Vy == 0 && Omega == 0)
+		temp=0;
+	else
+	  temp=temp>2*PI?0:temp+0.02f;
+	
+	DXL1_setSyncMsg(USART_6,POSITION,12,
+	                0x09,2048 - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						      0x02,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+									
+									0x03,2748 - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
+									0x04,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									
+                  0x0B,2048 + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
+									0x06,2400 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+									
+									0x07,2648 + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
+									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									
+                  0x01,2600 + Joint_getThighTarAng(Omega + Vx,0,temp),
 									0x0A,2048 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-									0x0B,2048 + Joint_getThighTarAng(Omega - Vx,0,temp),
+									0x05,2648 + Joint_getThighTarAng(Omega - Vx,0,temp),
 									0x0C,2048 + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
 							 
 //	vTaskDelay(5);	
@@ -106,7 +143,7 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.08f;
+	  temp=temp>2*PI?0:temp+0.03f;
 
 	RFx=Joint_getThighTarAng(Vy,0.0f,temp);
   LH=Joint_getThighTarAng(Vy,-0.5f,temp);
@@ -114,22 +151,22 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	RH=Joint_getThighTarAng(Vy,-1.5f,temp);
 	
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,2648 + Joint_getThighTarAng(Vy,-0.5f,temp), /*LH左前*/               
-						      0x02,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
+	                0x01,2600 - Joint_getThighTarAng(Vy,-0.5f,temp), /*LH左前*/               
+						      0x02,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
 									
-									0x03,2648 + Joint_getThighTarAng(Vy,-1.5f,temp), /*RH*/ 
-									0x04,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
+									0x03,2748 - Joint_getThighTarAng(Vy,-1.5f,temp), /*RH*/ 
+									0x04,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,-1.25f,temp),
 									
                   0x05,2648 + Joint_getThighTarAng(Vy,-1.0,temp), /*RF*/ 
-									0x06,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.75f,temp),
+									0x06,2400 + Joint_getCrusTarAng(Vy + Vx + Omega,-0.75f,temp),
 									
 									0x07,2648 + Joint_getThighTarAng(Vy,0.0f,temp), /*LF*/ 
 									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
-                  0x09,2048 + Joint_getThighTarAng(Omega + Vx,0,temp),
-									0x0A,2048 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-									0x0B,2048 + Joint_getThighTarAng(Omega - Vx,0,temp),
-									0x0C,2048 + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
+                  0x09,2334 + Joint_getThighTarAng(Omega + Vx,0,temp),
+									0x0A,1766 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
+									0x0B,2324 + Joint_getThighTarAng(Omega - Vx,0,temp),
+									0x0C,1766 + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
 }
 
 
@@ -261,6 +298,8 @@ static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp)
 //		return -(Filter.p_ABS(Curve_Sin(TarAng,2,Phase,0,Temp)));
 //	
 //		if(TarAng>0)
+	  TarAng=TarAng>200?200:TarAng;
+		TarAng=TarAng<-200?-200:TarAng;
 	  return ((Curve_Sin(TarAng,2,Phase,0,Temp)));
 //	else
 //		return -((Curve_Sin(TarAng,2,Phase,0,Temp)));
@@ -277,8 +316,13 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp)
 {
 //		return (Filter.p_Limit(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp),\
 //			Filter.p_ABS(TarAng),0));	
-	
+	TarAng*=2;
+	TarAng=TarAng>500?500:TarAng;
+	TarAng=TarAng<-500?-500:TarAng;
+//	if(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp)>0)
 		return Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp);
+//	else
+//		return 0;
 }
 
 
