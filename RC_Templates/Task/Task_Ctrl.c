@@ -23,6 +23,7 @@
 #include "DR16.h"
 #include "Servo.h"
 #include "RoboModule.h"
+#include "Gyro.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 static TaskHandle_t xHandleCtrlChassis = NULL;
@@ -114,13 +115,26 @@ static void vTaskCtrlGimbal(void *pvParameters)
 static void vTaskCtrlJoint(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
-//	vTaskDelay(500);
+	vTaskDelay(1000);
+	GY955.targetYaw = GY955.Yaw;
+	GY955.targetPitch = GY955.Pitch;
+	GY955.targetRoll = GY955.Roll;
 //	DXL1_setSyncMsg(USART_6,SPEED,2,0x01,600,0x02,600);
-//	vTaskDelay(5);
+	vTaskDelay(100);
 //	DXL1_setSyncMsg(USART_6,ACC,2,0x01,100,0x02,100);
   while(1)
 	{
-		Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
+	
+		Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
+		if(DR16.switch_right == 3)
+		{
+			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-Joint.Vspin);
+		}
+		else
+		{
+			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
+		}
+
 //		Joint_TrotMotionModelx(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(DR16.ch1,DR16.ch2/2,DR16.ch3);

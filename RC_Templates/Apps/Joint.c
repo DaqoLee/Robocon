@@ -23,14 +23,29 @@
 #include "task.h"
 #include "Curve.h"
 #include "Filter.h" 
+#include "Gyro.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 static float LH=0,RH=0,LFx=0,RFx=0;
+Joint_t Joint;
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
 static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp);
 static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
-
+	/**
+	* @Data    2019-01-08 14:49
+	* @brief   关节初始化
+	* @param   void
+	* @retval  void
+	*/
+void Joint_Init(void)
+{
+	  Joint.PID_Spin.maxInput=360;
+	  PID_StructInit(&Joint.PID_X, POSITION_PID, 800, 500, 2, 0, 0);
+    PID_StructInit(&Joint.PID_Y, POSITION_PID, 800, 500, 2, 0, 0);
+	  PID_StructInit(&Joint.PID_Z, POSITION_PID, 500, 100, 30, 0, 0);
+    PID_StructInit(&Joint.PID_Spin, POSITION_PID, 50, 100, 10, 0, 0);
+}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-08 14:49
@@ -68,20 +83,20 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.02f;
-	
+	  temp=temp>2*PI?0:temp+0.04f;
+	Joint.Vz = PID_Calc(&Joint.PID_Z,GY955.Roll,GY955.targetRoll);
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,2600 - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						      0x02,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+	                0x01,2600 +0 *Joint.Vz - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						      0x02,2548 - Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
-									0x03,2748 - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-									0x04,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									0x03,2748 + 0*Joint.Vz  - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
+									0x04,2548 - Joint.Vz  + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
-                  0x05,2648 + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-									0x06,2400 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+                  0x05,2648 - 0*Joint.Vz + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
+									0x06,2400 + 0*Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
-									0x07,2648 + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									0x07,2648 - 0*Joint.Vz + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
+									0x08,2648 + 0*Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
                   0x09,2324 + Joint_getThighTarAng(Omega + Vx,0,temp),
 									0x0A,1766 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),

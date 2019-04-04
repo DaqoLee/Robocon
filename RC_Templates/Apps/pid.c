@@ -16,7 +16,7 @@
  **/
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 #include "pid.h" 
-  
+#include "Joint.h"  
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 int16_t FuzzyErrRule[7] = {60, -40, -20, 0, 20, 40, 60};
@@ -71,12 +71,15 @@ float PID_Calc(pid_t* pid, float get, float set)
     
     if(pid->pidMode == POSITION_PID) //Î»ÖÃÊ½P
     {	
-//      if(pid->err[NOW] < 0)
-//        pid->err[NOW] = ABS(pid->err[NOW]) > ABS(pid->maxInput - ABS(pid->err[NOW])) \
-//        ? pid->maxInput - ABS(pid->err[NOW]):pid->err[NOW];
-//      else if(pid->err[NOW]>0)
-//        pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
-//        ? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
+			if(pid==&Joint.PID_Spin)
+			{
+				if(pid->err[NOW] < 0)
+					pid->err[NOW] = ABS(pid->err[NOW]) > ABS(pid->maxInput - ABS(pid->err[NOW])) \
+					? pid->maxInput - ABS(pid->err[NOW]):pid->err[NOW];
+				else if(pid->err[NOW]>0)
+					pid->err[NOW] = ABS(pid->err[NOW])>ABS(pid->maxInput - ABS(pid->err[NOW])) \
+					? ABS(pid->err[NOW]) - pid->maxInput:pid->err[NOW];
+	  	}
       
 			//CalcMembership(pid);
 			

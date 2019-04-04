@@ -35,6 +35,7 @@
 #include "Chassis.h"
 #include "math.h"
 #include "Encoder.h" 
+#include "Joint.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 TaskHandle_t StartTaskHandler=NULL;
@@ -94,6 +95,7 @@ void vTaskStart(void *pvParameters)
   /*---------------Apps初始化----------------*/
 
 	Filter_Init();
+	Joint_Init();
 	Chassis_Init();
 	/*-----------------Task创建-------------------*/
 	

@@ -21,10 +21,22 @@
 /*--------------------- I N C L U D E - F I L E S ----------------------------*/
 
 #include "stm32f4xx.h"
-
+#include "pid.h"
 /*-------------------------G L O B A L - T Y P E S----------------------------*/
 
+typedef struct
+{
+	int16_t Vx;			    //Vx速度
+	int16_t Vy;				//Vy速度
+	int16_t Vz;	
+	int16_t Vspin;			//自旋速度
 
+	pid_t   PID_X;
+	pid_t   PID_Z;
+	pid_t   PID_Y;
+	pid_t   PID_Spin;
+
+}Joint_t;
 
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
@@ -33,10 +45,10 @@
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
-
+extern Joint_t Joint;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
-
+void Joint_Init(void);
 void Thigh_M6020Ctrl(void);
 void Joint_MotionTest(void);
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
