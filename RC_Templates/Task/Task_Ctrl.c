@@ -126,6 +126,7 @@ static void vTaskCtrlJoint(void *pvParameters)
 	{
 	
 		Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
+//		Joint_StateMachine();
 		if(DR16.switch_right == 3)
 		{
 			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-Joint.Vspin);

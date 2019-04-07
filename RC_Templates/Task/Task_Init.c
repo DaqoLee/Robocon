@@ -197,16 +197,16 @@ static void vTaskTest(void *pvParameters)
 //		  vTaskDelay(1);
 //		}
 
-    // PhotoelectricScan();/*光电开关扫描*/
+//     PhotoelectricScan();/*光电开关扫描*/
 
-    // if (!PhoFlg.LF || !PhoFlg.LH || !PhoFlg.RF || !PhoFlg.RH)
-		// {
-		// 	LED_ON(LED_G);
-		// }
-		// else
-		// {
-		// 	LED_OFF(LED_G);
-		// }
+//		 if (!PhoFlg.LF || !PhoFlg.LH || !PhoFlg.RF || !PhoFlg.RH)
+//		 {
+//			LED_ON(LED_R);
+//		 }
+//		 else
+//		 {
+//			LED_OFF(LED_R);
+//		 }
 		
 		vTaskDelay(5);
 	}

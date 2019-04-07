@@ -47,6 +47,7 @@ typedef struct
     uint16_t targetSpeed;
     uint16_t targetAcc;
 
+    uint16_t MiddleAngle;	
     uint16_t tarMaxAngLimit;
     uint16_t tarMiniAngLimit;
 
@@ -63,7 +64,8 @@ typedef struct
 
     uint16_t targetAngle;
     uint16_t targetSpeed;
-
+    
+	  uint16_t MiddleAngle;
     uint16_t tarMaxAngLimit;
     uint16_t tarMiniAngLimit;
 
@@ -77,8 +79,8 @@ typedef struct
 	uint8_t DxlBuff[20];
 	uint8_t SmsBuff[20];
 	
-	DXL_t MX_64[8];
-	SMS_t SM_60[8];
+	DXL_t MX_64[12];
+	SMS_t SM_60[12];
 	
 }DigitalServo_t;
 /*------------------------G L O B A L - M A C R O S --------------------------*/

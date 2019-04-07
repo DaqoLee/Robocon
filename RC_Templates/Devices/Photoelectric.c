@@ -32,18 +32,18 @@ PhoFlg_t PhoFlg;/*光电开关标志位*/
   * @param   void
   * @retval  void
   */
-  void Photoelectric_Init(void)
-  {
-    GPIO_InitTypeDef GPIO_InitStructure; 
-    RCC_AHB1PeriphClockCmd(LF_GPIO_CLK, ENABLE); 		
+void Photoelectric_Init(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure; 
+	RCC_AHB1PeriphClockCmd(LF_GPIO_CLK, ENABLE); 		
 
-    GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;   
-    GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;	
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
-    GPIO_InitStructure.GPIO_Pin   = LF_PIN|LH_PIN|RF_PIN|RH_PIN;	 
+	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;   
+	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;	
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
+	GPIO_InitStructure.GPIO_Pin   = LF_PIN|LH_PIN|RF_PIN|RH_PIN;	 
 
-    GPIO_Init(LF_GPIO_PORT, &GPIO_InitStructure);
-  }
+	GPIO_Init(LF_GPIO_PORT, &GPIO_InitStructure);
+}
 
 /**
   * @Data    2019-03-18 10:58
