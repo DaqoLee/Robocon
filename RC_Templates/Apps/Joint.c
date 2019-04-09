@@ -32,8 +32,7 @@ Joint_t Joint;
 
 static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp);
 static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp);
-static void Joint_PassSandDune(void);
-static void Joint_PassSandDunex(void);
+static void Joint_PassSandDune(uint8_t Temp);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 	/**
 	* @Data    2019-01-08 14:49
@@ -97,27 +96,27 @@ void Thigh_M6020Ctrl(void)
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
 	static float temp=0;
-	static uint16_t  Tex=0;
+	static int16_t  Err=0,ErrCr=0;
 	
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.06f;
+	  temp=temp>2*PI?0:temp+0.04f;
 	
 	//Tex=DR16.switch_left==1?450:0;
 	Joint.Vz = PID_Calc(&Joint.PID_Z,GY955.Roll,GY955.targetRoll);
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,2600 - Tex +0 *Joint.Vz - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						      0x02,2548 + Tex - Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+	                0x01,DigitalServo.MX_64[0].MiddleAngle +Err + 0*Joint.Vz - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
+						      0x02,DigitalServo.MX_64[1].MiddleAngle +ErrCr + Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
 									
-									0x03,2748 + 0*Joint.Vz  - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-									0x04,2548 - Joint.Vz  + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+									0x03,DigitalServo.MX_64[2].MiddleAngle +Err+ 0*Joint.Vz  - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
+									0x04,DigitalServo.MX_64[3].MiddleAngle +ErrCr+ Joint.Vz  + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
-                  0x05,2600 - 0*Joint.Vz + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-									0x06,2400 +Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
-									
-									0x07,2600 - 0*Joint.Vz + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-									0x08,2648 + Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
+                  0x05,DigitalServo.MX_64[4].MiddleAngle +Err- 0*Joint.Vz + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
+									0x06,DigitalServo.MX_64[5].MiddleAngle +ErrCr+Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+	
+									0x07,DigitalServo.MX_64[6].MiddleAngle +Err- 0*Joint.Vz + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
+									0x08,DigitalServo.MX_64[7].MiddleAngle +ErrCr+ Joint.Vz + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
 									
                   0x09,2324 + Joint_getThighTarAng(Omega + Vx,0,temp),
 									0x0A,1766 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
@@ -173,81 +172,193 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	* @param   void
 	* @retval  void
 	*/
-static void Joint_PassSandDune(void)
+static void Joint_PassSandDune(uint8_t Temp)
 {
-		static uint16_t  Tex=450;
-		//Tex=DR16.switch_left==1?450:0;
-    
-	  DXL1_setSyncMsg(USART_6,ACC,12,0x01,100,0x02,100,0x03,100,
-	                                  0x04,100,0x05,100,0x06,100,
-                                    0x07,100,0x08,100,0x09,100,
-	                                  0x0A,100,0x0B,100,0x0C,100);
-  	vTaskDelay(5);
-		DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x01,2400 - Tex , /*LH*/               
-						      0x02,2648 + Tex );
-	  vTaskDelay(300);
-	  DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x01,2400  , /*LH*/               
-						      0x02,2648 );
-	  vTaskDelay(300);
-		DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x03,2548 - Tex , /*LH*/               
-						      0x04,2648 + Tex );
-	  vTaskDelay(300);
-	  DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x03,2548 , /*LH*/               
-						      0x04,2448 );
-		  vTaskDelay(5);
-			DXL1_setSyncMsg(USART_6,ACC,12,0x01,0,0x02,100,0x03,0,
-																  	 0x04,0,0x05,100,0x06,0,
-																		 0x07,0,0x08,100,0x09,0,
-																		 0x0A,0,0x0B,100,0x0C,0);
+	static uint16_t  Tex=600;
+	//Tex=DR16.switch_left==1?450:0;
+
+	DXL1_setSyncMsg(USART_6,ACC,12,0x01,100,0x02,100,0x03,100,
+																	0x04,100,0x05,100,0x06,100,
+																	0x07,100,0x08,100,0x09,100,
+																	0x0A,100,0x0B,100,0x0C,100);
+	vTaskDelay(5);
+	
+	if(Temp==1)
+	{
+		for(uint16_t i=0;i<Tex;i+=10)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x01,2400 - i , /*LH*/               
+									0x02,2648 + i );
 			vTaskDelay(5);
-}
+		}
+		for(uint16_t i=0;i<Tex;i+=10)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x01,2400 - Tex + i  , /*LH*/               
+									0x02,2648 + Tex - 2*i);
+			vTaskDelay(5);
+		}
 
-	/**
-	* @Data    2019-01-09 11:33
-	* @brief   ¹ýÉ³Çð
-	* @param   void
-	* @retval  void
-	*/
-static void Joint_PassSandDunex(void)
-{
-		static uint16_t  Tex=450;
-		//Tex=DR16.switch_left==1?450:0;
-    
-	  DXL1_setSyncMsg(USART_6,ACC,12,0x01,100,0x02,100,0x03,100,
-	                                  0x04,100,0x05,100,0x06,100,
-                                    0x07,100,0x08,100,0x09,100,
-	                                  0x0A,100,0x0B,100,0x0C,100);
-  	vTaskDelay(5);
-
-		DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x05,2400 - Tex , /*LH*/               
-						      0x06,2700 + Tex );
-	  vTaskDelay(300);
-	  DXL1_setSyncMsg(USART_6,POSITION,1,
-	                0x05,2550 );
-		vTaskDelay(300);
-	 DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-						      0x06,2400 );
-	  vTaskDelay(300);
-		DXL1_setSyncMsg(USART_6,POSITION,2,
-	                0x07,2400 - Tex , /*LH*/               
-						      0x08,2948 + Tex );
-	  vTaskDelay(300);
-	  DXL1_setSyncMsg(USART_6,POSITION,1,
-	                0x07,2550 );
-			vTaskDelay(300);					
-		DXL1_setSyncMsg(USART_6,POSITION,1,               
-							0x08,2648 );
-		  vTaskDelay(5);
-		DXL1_setSyncMsg(USART_6,ACC,12,0x01,0,0x02,100,0x03,0,
-																	 0x04,0,0x05,100,0x06,0,
-																	 0x07,0,0x08,100,0x09,0,
-																	 0x0A,0,0x0B,100,0x0C,0);
+	  DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x01,DigitalServo.MX_64[0].MiddleAngle  , /*LH*/               
+									0x02,DigitalServo.MX_64[1].MiddleAngle );
+		vTaskDelay(100);
+		
+		for(uint16_t i=0;i<Tex;i+=10)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x03,2548 - i , /*LH*/               
+									0x04,2648 + i );
 		vTaskDelay(5);
+		}
+		for(uint16_t i=0;i<Tex;i+=10)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x03,2548 - Tex + i , /*LH*/               
+									0x04,2648 + Tex - 2*i);
+			vTaskDelay(5);
+		}
+		
+
+		DXL1_setSyncMsg(USART_6,POSITION,2,
+									0x03,DigitalServo.MX_64[2].MiddleAngle, /*LH*/               
+									0x04,DigitalServo.MX_64[3].MiddleAngle );
+		vTaskDelay(100);
+			
+//		
+//		for(uint16_t i=0;i<200;i+=20)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//										0x05,2400 - i , /*LH*/               
+//										0x06,2700 + i );
+//			vTaskDelay(5);
+//		}
+//		
+//		for(uint16_t i=0;i<600;i+=20)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,1,
+//										0x05,2400 - Tex + i );
+//			vTaskDelay(5);
+//		}
+//		for(uint16_t i=0;i<600;i+=20)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
+//										0x06,2700 + Tex - i );
+//			vTaskDelay(5);
+//		}
+//		
+
+//		for(uint16_t i=0;i<Tex;i+=20)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//										0x07,2400 - i , /*LH*/               
+//										0x08,2948 + i );
+//			vTaskDelay(5);
+//		}
+//		for(uint16_t i=0;i<600;i+=20)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,1,
+//									0x07,2400 - Tex + i );
+//			vTaskDelay(5);
+//		}
+//		for(uint16_t i=0;i<600;i+=20)
+//		{					
+//			DXL1_setSyncMsg(USART_6,POSITION,1,               
+//								0x08,2948 + Tex - i);
+//				vTaskDelay(5);
+//		}
+//		
+//				for(uint16_t i=0;i<Tex;i+=10)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//									0x01,2400 - i , /*LH*/               
+//									0x02,2648 + i );
+//			vTaskDelay(5);
+//		}
+//		for(uint16_t i=0;i<Tex;i+=10)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//									0x01,2400 - Tex + i  , /*LH*/               
+//									0x02,2648 + Tex - 2*i);
+//			vTaskDelay(5);
+//		}
+
+
+//		for(uint16_t i=0;i<Tex;i+=10)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//									0x03,2548 - i , /*LH*/               
+//									0x04,2648 + i );
+//		vTaskDelay(5);
+//		}
+//		for(uint16_t i=0;i<Tex;i+=10)
+//		{
+//			DXL1_setSyncMsg(USART_6,POSITION,2,
+//									0x03,2548 - Tex + i , /*LH*/               
+//									0x04,2648 + Tex - 2*i);
+//			vTaskDelay(5);
+//		}
+//		
+//		
+		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,40,0,0);
+
+	}
+  else if(Temp==2)
+	{
+	  Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
+		for(uint16_t i=0;i<Tex;i+=20)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+										0x05,2400 - i , /*LH*/               
+										0x06,2700 + i );
+			vTaskDelay(5);
+		}
+		
+		for(uint16_t i=0;i<700;i+=20)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,1,
+										0x05,2400 - Tex + i );
+			vTaskDelay(5);
+		}
+		for(uint16_t i=0;i<700;i+=20)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
+										0x06,2700 + Tex - i );
+			vTaskDelay(5);
+		}
+	}
+	else if(Temp==3)
+	{
+		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
+		for(uint16_t i=0;i<Tex;i+=20)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,2,
+										0x07,2400 - i , /*LH*/               
+										0x08,2948 + i );
+			vTaskDelay(5);
+		}
+		for(uint16_t i=0;i<700;i+=20)
+		{
+			DXL1_setSyncMsg(USART_6,POSITION,1,
+									0x07,2400 - Tex + i );
+			vTaskDelay(5);
+		}
+		for(uint16_t i=0;i<700;i+=20)
+		{					
+			DXL1_setSyncMsg(USART_6,POSITION,1,               
+								0x08,2948 + Tex - i);
+				vTaskDelay(5);
+		}
+	}
+	
+	DXL1_setSyncMsg(USART_6,ACC,12,0x01,0,0x02,100,0x03,0,
+																 0x04,0,0x05,100,0x06,0,
+																 0x07,0,0x08,100,0x09,0,
+																 0x0A,0,0x0B,100,0x0C,0);
+	vTaskDelay(5);
+	
+
 }
 
 	/**
@@ -344,9 +455,13 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 			{
 				temp=2;
 			}
-			else if(!PhoFlg.RH&& !PhoFlg.LH)
+			else if(!PhoFlg.LH)
 			{
 				temp=3;
+			}
+			else if(!PhoFlg.RH)
+			{
+				temp=4;
 			}
 		}
 //		if(DR16.switch_left == 2)
@@ -357,22 +472,23 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 		switch (temp)
 		{
 			case 1:/*×´Ì¬1 ¶Ô½Ç²½Ì¬ÍùÉ³Çð*/
-				Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
+				Joint_TrotMotionModel(-DR16.ch1/2,50,-DR16.ch3/2);
 				break;
 			case 2:/*×´Ì¬2 Èý½Ç²½Ì¬¹ýÉ³Çð*/
-				Joint_PassSandDune();
-			  temp=1;
+				Joint_PassSandDune(1);
+			  temp=5;
       //  Joint_WalkMotionModel(DR16.ch1,200,DR16.ch3);
 				break;
 			case 3:/*×´Ì¬3 ¶Ô½Ç²½Ì¬Íù²ÝµØ*/
-				Joint_PassSandDunex();
-		  	temp=1;
+				Joint_PassSandDune(2);
+        temp=5;
 				break;
 			case 4:/*×´Ì¬4 Èý½Ç²½Ì¬¹ý²ÝµØ*/
-				Joint_WalkMotionModel(DR16.ch1,200,DR16.ch3);
+				Joint_PassSandDune(3);
+		  	temp=5;
 				break;
 			case 5:/*×´Ì¬5 ×ªÍäµÈ´ýÉÏÆÂÐÅºÅ*/
-				Joint_WalkMotionModel(DR16.ch1,200,DR16.ch3);
+				Joint_TrotMotionModel(-DR16.ch1/2,60,-DR16.ch3/2);
 				break;
 			case 6:/*×´Ì¬6 ¶Ô½Ç²½Ì¬ÉÏÆÂ*/
 				Joint_TrotMotionModel(DR16.ch1,DR16.ch2,DR16.ch3);
@@ -493,7 +609,7 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp)
 {
 //		return (Filter.p_Limit(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp),\
 //			Filter.p_ABS(TarAng),0));	
-	TarAng*=2;
+	TarAng*=3;
 	TarAng=TarAng>600?600:TarAng;
 	TarAng=TarAng<-600?-600:TarAng;
 //	if(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp)>0)
