@@ -36,7 +36,7 @@ typedef struct
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
 #define LF_GPIO_CLK             	RCC_AHB1Periph_GPIOA
-#define LF_PIN                  	GPIO_Pin_2
+#define LF_PIN                  	GPIO_Pin_3
 #define LF_GPIO_PORT           	  GPIOA
 
 #define LH_GPIO_CLK             	RCC_AHB1Periph_GPIOA
@@ -44,7 +44,7 @@ typedef struct
 #define LH_GPIO_PORT           	  GPIOA
 
 #define RF_GPIO_CLK             	RCC_AHB1Periph_GPIOA
-#define RF_PIN                  	GPIO_Pin_3
+#define RF_PIN                  	GPIO_Pin_2
 #define RF_GPIO_PORT           	  GPIOA
 
 #define RH_GPIO_CLK             	RCC_AHB1Periph_GPIOA
