@@ -339,16 +339,16 @@ static void Joint_PassSandDune(uint8_t Temp)
 				vTaskDelay(5);
 			}
 
-			for(uint16_t i=0;i<250;i+=10)
+			for(uint16_t i=0;i<150;i+=10)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,1,
 											0x05,DigitalServo.MX_64[4].MiddleAngle + Tex + i );
 				vTaskDelay(5);
 			}
-			for(uint16_t i=0;i<400;i+=10)
+			for(uint16_t i=0;i<700;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-											0x06,DigitalServo.MX_64[5].MiddleAngle + Tex - 2*i );
+											0x06,DigitalServo.MX_64[5].MiddleAngle + Tex - i );
 				vTaskDelay(5);
 			}
 //			break;
@@ -359,6 +359,7 @@ static void Joint_PassSandDune(uint8_t Temp)
 //							0x08,DigitalServo.MX_64[7].MiddleAngle);
 //			vTaskDelay(200);
 //			Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
+			vTaskDelay(200);
 			for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
@@ -366,18 +367,33 @@ static void Joint_PassSandDune(uint8_t Temp)
 											0x08,DigitalServo.MX_64[7].MiddleAngle + i );
 				vTaskDelay(5);
 			}
-			for(uint16_t i=0;i<250;i+=10)
+			for(uint16_t i=0;i<150;i+=10)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,1,
 										0x07,DigitalServo.MX_64[6].MiddleAngle + Tex + i );
 				vTaskDelay(5);
 			}
-			for(uint16_t i=0;i<400;i+=10)
+			for(uint16_t i=0;i<700;i+=20)
 			{					
 				DXL1_setSyncMsg(USART_6,POSITION,1,         				
-									0x08,DigitalServo.MX_64[7].MiddleAngle + Tex - 2*i);
+									0x08,DigitalServo.MX_64[7].MiddleAngle + Tex - i);
 					vTaskDelay(5);
 			}
+		  vTaskDelay(50);
+			DigitalServo.MX_64[0].MiddleAngle=2600;
+			DigitalServo.MX_64[2].MiddleAngle=2748;
+			
+		  DigitalServo.MX_64[1].MiddleAngle=2548;
+			DigitalServo.MX_64[3].MiddleAngle=2548;
+			DXL1_setSyncMsg(USART_6,POSITION,8,
+		          0x01, DigitalServo.MX_64[0].MiddleAngle,
+							0x02, DigitalServo.MX_64[1].MiddleAngle,
+							0x03, DigitalServo.MX_64[2].MiddleAngle,
+							0x04, DigitalServo.MX_64[3].MiddleAngle,
+							0x05,DigitalServo.MX_64[4].MiddleAngle, /*LH*/               
+							0x06,DigitalServo.MX_64[5].MiddleAngle,
+							0x07,DigitalServo.MX_64[6].MiddleAngle, /*LH*/               
+							0x08,DigitalServo.MX_64[7].MiddleAngle);
 			break;
 		default:
 			break;
