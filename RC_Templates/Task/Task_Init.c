@@ -71,7 +71,7 @@ void vTaskStart(void *pvParameters)
   BSP_USART1_Init(100000); /*DR16接收机*/
   BSP_USART2_Init(115200);  /*SMS舵机*/
 	BSP_USART3_Init(115200);  /*GY955陀螺仪*/
-	BSP_USART6_Init(57600);  /*DXL舵机*/
+	BSP_USART6_Init(3000000);  /*DXL舵机*/
 	BSP_UART7_Init(115200);   /*摄像头*/
 	BSP_UART8_Init(57600);   /*超声波*/
 	
@@ -131,7 +131,7 @@ static void TestTaskCreate(void)
 						NULL,                /* 任务参数  */
 						1,       			   		 /* 任务优先级*/
 						&TaskLEDHandler);   /* 任务句柄  */ 
-#if 1
+#if 0
 	xTaskCreate(vTaskTest,            
 						"vTaskTest",          
 						256,       			   
@@ -140,7 +140,7 @@ static void TestTaskCreate(void)
 						&TaskTestHandler); 
 #endif
 
-#if 0			
+#if 0
 	xTaskCreate(vTaskMonitor,            
 						"vTaskMonitor",          
 						256,       			   
@@ -220,7 +220,7 @@ static void vTaskTest(void *pvParameters)
 	//	OLED_Clear();
 
 		
-		OLED_ShowString(0,3,"1.3' OLED TEST");
+		//OLED_ShowString(0,3,"1.3' OLED TEST");
 		
 		t++;
 		if(t>'~')t=' ';
@@ -250,7 +250,7 @@ static void vTaskMonitor(void *pvParameters)
 		vTaskList((char *)&pcWriteBuffer);
 		printf("%s\r\n", pcWriteBuffer);
 	
-		printf("\r\n任务名       运行计数         使用率\r\n");
+		printf("\r\n任务名\t\t运行计数\t\t使用率\r\n");
 		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
 		printf("%s\r\n", pcWriteBuffer);
 

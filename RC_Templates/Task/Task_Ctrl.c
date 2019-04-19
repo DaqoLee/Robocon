@@ -48,7 +48,7 @@ void ControlTaskCreate(void)
 {
 	xTaskCreate(vTaskCtrlChassis,            /* 任务函数  */   
 						  "vTaskCtrlChassis",          /* 任务名    */ 
-						  128,       			             /* 任务栈大小*/
+						  256,       			             /* 任务栈大小*/
 						  NULL,                        /* 任务参数  */
 					    2,       			               /* 任务优先级*/
 						  &xHandleCtrlChassis);        /* 任务句柄  */ 

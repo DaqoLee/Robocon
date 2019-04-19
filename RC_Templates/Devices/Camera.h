@@ -30,7 +30,7 @@ typedef struct
   uint8_t buff[10];
 
   int16_t Angle;
-  int16_t AngErr;
+  int16_t Offset;
 	uint8_t Flag;
 }Camera_t;
 

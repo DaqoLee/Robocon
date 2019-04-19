@@ -7,7 +7,7 @@
 |                     https://github.com/GCUWildwolfteam                       |
 |------------------------------------------------------------------------------|
 |  FileName    : Curve.c                                                
-|  Version     : v1.0                                                            
+|  Version     : v1.0                                                           
 |  Author      : Daqo Lee                                                       
 |  Date        : 2019-03-03               
 |  Libsupports : STM32F4xx_DFP ( 2.9.0)
@@ -94,7 +94,7 @@ float Curve_Bezier(uint8_t *x,uint8_t n,float t)
   * @param   void
   * @retval  void
   */
-float Curve_Sin(float A,float w,float fi,float b,float pi)
+double Curve_Sin(double A,double w,double fi,double b,double pi)
 {
   return (A*sin(w*pi+fi*PI)+b);
 }

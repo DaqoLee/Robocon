@@ -29,11 +29,29 @@ Camera_t Camera;
 
 void Camera_getMassage(uint8_t *CameraBuff)
 {
-  for(uint8_t i=0;i<10;i++)
+  for(uint8_t i=0;i<15;i++)
 	{
 		if(CameraBuff[i]=='$')
 		{
-		  
+		  if(CameraBuff[i+4] == ',' && CameraBuff[i+8] == ',')
+			{
+        Camera.Angle = 
+				  (CameraBuff[i+1] - '0') * 100
+				+ (CameraBuff[i+2] - '0') * 10
+        + (CameraBuff[i+3] - '0');
+
+				Camera.Offset =
+			  	(CameraBuff[i+5] - '0') * 100
+			  +	(CameraBuff[i+6] - '0') * 10
+        + (CameraBuff[i+7] - '0');
+
+				Camera.Flag = CameraBuff[i+9] - '0';
+			}
+			else
+			{
+				
+			}
+			
 		}
 	}
 }

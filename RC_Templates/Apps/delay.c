@@ -4,10 +4,10 @@
   * @author   Hare
   * @version  V1.4
   * @date     2019-04-01
-  * @brief    å»¶æ—¶åº”ç”¨å‡½æ•°æŽ¥å£ï¼ŒOSå¯ç”¨ï¼Œåˆ©ç”¨DWTå®žçŽ°å»¶æ—¶
-  * @Note     1.å¦‚æžœå¯ç”¨OSï¼Œåˆ™Systickä¸­æ–­æœåŠ¡å‡½æ•°å»ºè®®å†™æˆå¦‚ä¸‹å½¢å¼ï¼ˆä»¥FreeRTOSä¸ºä¾‹ï¼‰
-  *             åœ¨ä»»åŠ¡å¼€å§‹è°ƒåº¦åŽå†è°ƒç”¨ç³»ç»Ÿçš„SystickHandle
-  *             å¦åˆ™å¦‚æžœåœ¨ç³»ç»Ÿå¼€å§‹è°ƒåº¦å‰å¦‚æžœè¿›å…¥äº†ä¸­æ–­ä¼šä½¿ç¨‹åºå¡åœ¨ä¸­æ–­é‡Œ
+  * @brief    ÑÓÊ±Ó¦ÓÃº¯Êý½Ó¿Ú£¬OS¿ÉÓÃ£¬ÀûÓÃDWTÊµÏÖÑÓÊ±
+  * @Note     1.Èç¹ûÆôÓÃOS£¬ÔòSystickÖÐ¶Ï·þÎñº¯Êý½¨ÒéÐ´³ÉÈçÏÂÐÎÊ½£¨ÒÔFreeRTOSÎªÀý£©
+  *             ÔÚÈÎÎñ¿ªÊ¼µ÷¶ÈºóÔÙµ÷ÓÃÏµÍ³µÄSystickHandle
+  *             ·ñÔòÈç¹ûÔÚÏµÍ³¿ªÊ¼µ÷¶ÈÇ°Èç¹û½øÈëÁËÖÐ¶Ï»áÊ¹³ÌÐò¿¨ÔÚÖÐ¶ÏÀï
   *             void SysTick_Handler(void)
   *             {
 	*               if(xTaskGetSchedulerState()!=taskSCHEDULER_NOT_STARTED)
@@ -15,17 +15,17 @@
   *                 xPortSysTickHandler();	
   *               }
   *             }
-  *           2.è®°å¾—åœ¨mainä¸­åˆå§‹åŒ–Systick
+  *           2.¼ÇµÃÔÚmainÖÐ³õÊ¼»¯Systick
   *             SysTick_Config(SystemCoreClock/1000);
-  *           3.å› Systickè®¡æ•°åŽŸå› ï¼Œå½“tStartåœ¨71990é™„è¿‘ä¼šå‡ºçŽ°å¡åœ¨whileå¾ªçŽ¯ï¼Œ
-  *             çŽ°æ”¹ç”¨DWTå®žçŽ°ï¼Œè®°å¾—åˆå§‹åŒ–dwtæ‰å¯æ­£å¸¸ä½¿ç”¨delay
+  *           3.ÒòSystick¼ÆÊýÔ­Òò£¬µ±tStartÔÚ71990¸½½ü»á³öÏÖ¿¨ÔÚwhileÑ­»·£¬
+  *             ÏÖ¸ÄÓÃDWTÊµÏÖ£¬¼ÇµÃ³õÊ¼»¯dwt²Å¿ÉÕý³£Ê¹ÓÃdelay
   ******************************************************************************
   */
   
   
 #include "delay.h"
 
-/* DWT å¯„å­˜å™¨åœ°å€ */
+/* DWT ¼Ä´æÆ÷µØÖ· */
 #define  DWT_CYCCNT  *(volatile unsigned int *)0xE0001004
 #define  DWT_CR      *(volatile unsigned int *)0xE0001000
 #define  DEM_CR      *(volatile unsigned int *)0xE000EDFC
@@ -43,32 +43,32 @@ void delay_init(void)
 }
 
 ///**
-//  * @brief  å¾®ç§’çº§å»¶æ—¶,å‚è€ƒå®‰å¯ŒèŽ±DWTï¼Œå»¶æ—¶æ•°å€¼è¾ƒå°æ—¶ä¼šæœ‰0.25uså·¦å³è¯¯å·®
-//  * @Note 	ä¸¤ä¸ª32ä½æ— ç¬¦å·æ•°ç›¸å‡ï¼ŒèŽ·å–çš„ç»“æžœå†èµ‹å€¼ç»™32ä½æ— ç¬¦å·æ•°ä¾ç„¶å¯ä»¥æ­£ç¡®çš„èŽ·å–å·®å€¼ã€‚
-//  *			å‡å¦‚A,B,Céƒ½æ˜¯32ä½æ— ç¬¦å·æ•°ã€‚
-//  *              å¦‚æžœA > B  é‚£ä¹ˆA - B = Cï¼Œè¿™ä¸ªå¾ˆå¥½ç†è§£ï¼Œå®Œå…¨æ²¡æœ‰é—®é¢˜
-//  *              å¦‚æžœA < B  é‚£ä¹ˆA - B = Cï¼Œ Cçš„æ•°å€¼å°±æ˜¯0xFFFFFFFF - B + A + 1ã€‚
-//  * @param  _us å»¶æ—¶å¾®ç§’æ•°ï¼Œ32ä½è®¡æ•°å™¨è®¡æ»¡æ˜¯2^32/SystemCoreClockç§’
+//  * @brief  Î¢Ãë¼¶ÑÓÊ±,²Î¿¼°²¸»À³DWT£¬ÑÓÊ±ÊýÖµ½ÏÐ¡Ê±»áÓÐ0.25us×óÓÒÎó²î
+//  * @Note 	Á½¸ö32Î»ÎÞ·ûºÅÊýÏà¼õ£¬»ñÈ¡µÄ½á¹ûÔÙ¸³Öµ¸ø32Î»ÎÞ·ûºÅÊýÒÀÈ»¿ÉÒÔÕýÈ·µÄ»ñÈ¡²îÖµ¡£
+//  *			¼ÙÈçA,B,C¶¼ÊÇ32Î»ÎÞ·ûºÅÊý¡£
+//  *              Èç¹ûA > B  ÄÇÃ´A - B = C£¬Õâ¸öºÜºÃÀí½â£¬ÍêÈ«Ã»ÓÐÎÊÌâ
+//  *              Èç¹ûA < B  ÄÇÃ´A - B = C£¬ CµÄÊýÖµ¾ÍÊÇ0xFFFFFFFF - B + A + 1¡£
+//  * @param  _us ÑÓÊ±Î¢ÃëÊý£¬32Î»¼ÆÊýÆ÷¼ÆÂúÊÇ2^32/SystemCoreClockÃë
 //  * @retval None
 //  */
 void delay_us(uint32_t _us)
 {
   uint32_t tCnt, tDelayCnt;
 	uint32_t tStart;
-		
-	tStart = DWT_CYCCNT;                                     /* åˆšè¿›å…¥æ—¶çš„è®¡æ•°å™¨å€¼ */
+
+	tStart = DWT_CYCCNT;                                     /* ¸Õ½øÈëÊ±µÄ¼ÆÊýÆ÷Öµ */
 	tCnt = 0;
-	tDelayCnt = _us * (SystemCoreClock / 1000000);	 /* éœ€è¦çš„èŠ‚æ‹æ•° */ 		      
+	tDelayCnt = _us * (SystemCoreClock / 1000000);	 /* ÐèÒªµÄ½ÚÅÄÊý */ 		      
 
 	while(tCnt < tDelayCnt)
 	{
-		tCnt = DWT_CYCCNT - tStart; /* æ±‚å‡è¿‡ç¨‹ä¸­ï¼Œå¦‚æžœå‘ç”Ÿç¬¬ä¸€æ¬¡32ä½è®¡æ•°å™¨é‡æ–°è®¡æ•°ï¼Œä¾ç„¶å¯ä»¥æ­£ç¡®è®¡ç®— */	
+  	tCnt = DWT_CYCCNT - tStart; /* Çó¼õ¹ý³ÌÖÐ£¬Èç¹û·¢ÉúµÚÒ»´Î32Î»¼ÆÊýÆ÷ÖØÐÂ¼ÆÊý£¬ÒÀÈ»¿ÉÒÔÕýÈ·¼ÆËã */	
 	}
 }
 
 /**
-  * @brief  æ¯«ç§’çº§å»¶æ—¶
-  * @param  _ms å»¶æ—¶æ¯«ç§’æ•°
+  * @brief  ºÁÃë¼¶ÑÓÊ±
+  * @param  _ms ÑÓÊ±ºÁÃëÊý
   * @retval None
   */
 void delay_ms(uint32_t _ms)
@@ -79,14 +79,14 @@ void delay_ms(uint32_t _ms)
 	}
 }
 
-/* å› F1ä½¿ç”¨systickå®žçŽ°ä¼šå‡ºé—®é¢˜ï¼Œæ­¤ä»£ç ä½œåºŸ */
+/* ÒòF1Ê¹ÓÃsystickÊµÏÖ»á³öÎÊÌâ£¬´Ë´úÂë×÷·Ï */
 ///**
-//  * @brief  å¾®ç§’çº§å»¶æ—¶,å‚è€ƒå®‰å¯ŒèŽ±DWTï¼Œå»¶æ—¶æ•°å€¼è¾ƒå°æ—¶ä¼šæœ‰0.25uså·¦å³è¯¯å·®
-//  * @Note 	ä¸¤ä¸ª32ä½æ— ç¬¦å·æ•°ç›¸å‡ï¼ŒèŽ·å–çš„ç»“æžœå†èµ‹å€¼ç»™32ä½æ— ç¬¦å·æ•°ä¾ç„¶å¯ä»¥æ­£ç¡®çš„èŽ·å–å·®å€¼ã€‚
-//  *			å‡å¦‚A,B,Céƒ½æ˜¯32ä½æ— ç¬¦å·æ•°ã€‚
-//  *              å¦‚æžœA > B  é‚£ä¹ˆA - B = Cï¼Œè¿™ä¸ªå¾ˆå¥½ç†è§£ï¼Œå®Œå…¨æ²¡æœ‰é—®é¢˜
-//  *              å¦‚æžœA < B  é‚£ä¹ˆA - B = Cï¼Œ Cçš„æ•°å€¼å°±æ˜¯0xFFFFFFFF - B + A + 1ã€‚
-//  * @param  _us å»¶æ—¶å¾®ç§’æ•°ï¼Œ32ä½è®¡æ•°å™¨è®¡æ»¡æ˜¯2^32/SystemCoreClockç§’
+//  * @brief  Î¢Ãë¼¶ÑÓÊ±,²Î¿¼°²¸»À³DWT£¬ÑÓÊ±ÊýÖµ½ÏÐ¡Ê±»áÓÐ0.25us×óÓÒÎó²î
+//  * @Note 	Á½¸ö32Î»ÎÞ·ûºÅÊýÏà¼õ£¬»ñÈ¡µÄ½á¹ûÔÙ¸³Öµ¸ø32Î»ÎÞ·ûºÅÊýÒÀÈ»¿ÉÒÔÕýÈ·µÄ»ñÈ¡²îÖµ¡£
+//  *			¼ÙÈçA,B,C¶¼ÊÇ32Î»ÎÞ·ûºÅÊý¡£
+//  *              Èç¹ûA > B  ÄÇÃ´A - B = C£¬Õâ¸öºÜºÃÀí½â£¬ÍêÈ«Ã»ÓÐÎÊÌâ
+//  *              Èç¹ûA < B  ÄÇÃ´A - B = C£¬ CµÄÊýÖµ¾ÍÊÇ0xFFFFFFFF - B + A + 1¡£
+//  * @param  _us ÑÓÊ±Î¢ÃëÊý£¬32Î»¼ÆÊýÆ÷¼ÆÂúÊÇ2^32/SystemCoreClockÃë
 //  * @retval None
 //  */
 //void delay_us(uint32_t _us)
@@ -96,11 +96,11 @@ void delay_ms(uint32_t _ms)
 //	
 //	tStart = SysTick->VAL;
 //	tCnt = 0;
-//	tDelayCnt = _us * (SystemCoreClock / 1000000);	 /* éœ€è¦çš„èŠ‚æ‹æ•° */ 
+//	tDelayCnt = _us * (SystemCoreClock / 1000000);	 /* ÐèÒªµÄ½ÚÅÄÊý */ 
 //	
 //	while(tCnt < tDelayCnt)
 //	{
-//		tCnt = tStart - SysTick->VAL; /* æ±‚å‡è¿‡ç¨‹ä¸­ï¼Œå¦‚æžœå‘ç”Ÿç¬¬ä¸€æ¬¡32ä½è®¡æ•°å™¨é‡æ–°è®¡æ•°ï¼Œä¾ç„¶å¯ä»¥æ­£ç¡®è®¡ç®— */	
+//		tCnt = tStart - SysTick->VAL; /* Çó¼õ¹ý³ÌÖÐ£¬Èç¹û·¢ÉúµÚÒ»´Î32Î»¼ÆÊýÆ÷ÖØÐÂ¼ÆÊý£¬ÒÀÈ»¿ÉÒÔÕýÈ·¼ÆËã */	
 //	}
 //	
 //}

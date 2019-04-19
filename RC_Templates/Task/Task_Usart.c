@@ -75,13 +75,13 @@ void UsartTaskCreate(void)
 					  	3,       			                  /* 任务优先级*/
 					  	&xHandleUsart1Receive);         /* 任务句柄  */ 
 	
-//	xTaskCreate(vTaskUsart2Receive,            
-//					  	"vTaskUsart2Receive",          
-//						  128,       			   
-//						  NULL,                 
-//						  3,       			   
-//					  	&xHandleUsart2Receive);	
-//	
+	xTaskCreate(vTaskUsart2Receive,            
+					  	"vTaskUsart2Receive",          
+						  128,       			   
+						  NULL,                 
+						  3,       			   
+					  	&xHandleUsart2Receive);	
+	
 	xTaskCreate(vTaskUsart3Receive,            
 					  	"vTaskUsart3Receive",          
 						  128,       			   
@@ -107,7 +107,7 @@ void UsartTaskCreate(void)
 					  	"vTaskUsartSend",          
 						  128,       			   
 						  NULL,                 
-						  3,       			   
+						  4,       			   
 					  	&xHandleUsartsend);
 }
 
@@ -188,7 +188,7 @@ static void vTaskUsart6Receive(void *pvParameters)
 
 static void vTaskUart7Receive(void *pvParameters)
 {
-  uint8_t usart7RxBuffer[8];
+  uint8_t usart7RxBuffer[10];
   while(1)
 	{
 	  xQueueReceive(xUart7RxQueue, &usart7RxBuffer,portMAX_DELAY);
