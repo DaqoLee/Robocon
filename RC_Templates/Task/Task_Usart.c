@@ -75,13 +75,13 @@ void UsartTaskCreate(void)
 					  	3,       			                  /* 任务优先级*/
 					  	&xHandleUsart1Receive);         /* 任务句柄  */ 
 	
-//	xTaskCreate(vTaskUsart2Receive,            
-//					  	"vTaskUsart2Receive",          
-//						  128,       			   
-//						  NULL,                 
-//						  3,       			   
-//					  	&xHandleUsart2Receive);	
-//	
+	xTaskCreate(vTaskUsart2Receive,            
+					  	"vTaskUsart2Receive",          
+						  128,       			   
+						  NULL,                 
+						  3,       			   
+					  	&xHandleUsart2Receive);	
+	
 	xTaskCreate(vTaskUsart3Receive,            
 					  	"vTaskUsart3Receive",          
 						  128,       			   

@@ -348,7 +348,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 				break;
 			case 2:
 			  Curve_Straight1(1500);
-		  	Posture.targetZ_Angle=Posture.targetZ_Angle>90?90:Posture.targetZ_Angle+0.9;
+		  	Posture.targetZ_Angle=Posture.targetZ_Angle>90?90:Posture.targetZ_Angle+0.9f;
 
 				Chassis.Vspin = PID_Calc(&Chassis.PID_Spin,
 				         Posture.realZ_Angle,Posture.targetZ_Angle);

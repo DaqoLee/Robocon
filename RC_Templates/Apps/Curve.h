@@ -38,7 +38,7 @@
 
 void Curve_Straight(int16_t Len);
 void Curve_Straight1(int16_t Len);
-float Curve_Sin(float A,float w,float fi,float b,float pi);
+double Curve_Sin(double A,double w,double fi,double b,double pi);
 
 
 #endif	// __CURVE_H

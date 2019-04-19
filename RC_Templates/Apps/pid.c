@@ -35,8 +35,8 @@ int16_t FuzzyKpRule[7][7] = {{PB,PB,PM,PM,PS,ZO,ZO},
 static void pidParamInit(pid_t *pid, uint32_t mode, uint32_t maxout,
            	uint32_t intergral_limit, float kp, float ki, float kd);
 static void pidReset(pid_t	*pid, float kp, float ki, float kd);
-static void LinearQuantization(pid_t* pid, float get, float set ,float *p_Value);
-static void CalcMembership(pid_t* pid );
+//static void LinearQuantization(pid_t* pid, float get, float set ,float *p_Value);
+//static void CalcMembership(pid_t* pid );
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 
@@ -167,7 +167,7 @@ static void pidReset(pid_t	*pid, float kp, float ki, float kd)
     pid->I = ki;
     pid->D = kd;
 }
-
+#if 0
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-01-13 19:13
@@ -175,18 +175,18 @@ static void pidReset(pid_t	*pid, float kp, float ki, float kd)
   * @param   void
   * @retval  void
   */
-static void LinearQuantization(pid_t* pid, float get, float set ,float *p_Value)
-{
-  pid->err[NOW] = set - get;	//set - measure
-  pid->erc[NOW] = pid->err[NOW] - pid->err[LAST];
+//static void LinearQuantization(pid_t* pid, float get, float set ,float *p_Value)
+//{
+//  pid->err[NOW] = set - get;	//set - measure
+//  pid->erc[NOW] = pid->err[NOW] - pid->err[LAST];
 
 
-  p_Value[0]=6.0f*pid->err[NOW]/pid->errRange;
-  p_Value[1]=3.0f*pid->erc[NOW]/pid->errRange;
+//  p_Value[0]=6.0f*pid->err[NOW]/pid->errRange;
+//  p_Value[1]=3.0f*pid->erc[NOW]/pid->errRange;
 
-  pid->err[LAST] = pid-> err[NOW];
-  pid->erc[LAST] = pid-> err[NOW];
-}
+//  pid->err[LAST] = pid-> err[NOW];
+//  pid->erc[LAST] = pid-> err[NOW];
+//}
 /*------------------------------80 Chars Limit--------------------------------*/
   /**
   * @Data    2019-01-13 19:13
@@ -295,5 +295,6 @@ static void CalcMembership(pid_t* pid )
   + errMembership[1] * ercMembership[1] * FuzzyKpRule[errIndex + 1][ercIndex + 1]));
   
 }
+#endif
 /*-----------------------------------FILE OF END------------------------------*/
 
