@@ -130,12 +130,12 @@ static void vTaskCtrlJoint(void *pvParameters)
 		if(DR16.switch_right == 3)
 		{
 			Joint_StateMachine();
-		//	Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-Joint.Vspin);
+//			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-Joint.Vspin);
 		}
 		else if(DR16.switch_right == 2)
 		{
 			
-			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
+			Joint_TrotMotionModel(-DR16.ch3/2,DR16.ch2/2,-DR16.ch1/2);
 			//Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 		}
 

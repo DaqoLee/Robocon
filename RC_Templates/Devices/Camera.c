@@ -27,7 +27,16 @@ Camera_t Camera;
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 
-
+void Camera_getMassage(uint8_t *CameraBuff)
+{
+  for(uint8_t i=0;i<10;i++)
+	{
+		if(CameraBuff[i]=='$')
+		{
+		  
+		}
+	}
+}
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 

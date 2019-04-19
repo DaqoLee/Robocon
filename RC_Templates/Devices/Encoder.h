@@ -24,7 +24,7 @@
 
 typedef struct
 {						
-  uint8_t Buff[28];	
+  uint8_t buff[28];	
 	union
 	{
 		uint8_t DataBuff[24];

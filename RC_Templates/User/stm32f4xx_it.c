@@ -9,6 +9,7 @@
 #include "Servo.h"
 #include "Task_Init.h"
 #include "Encoder.h" 
+#include "Camera.h"
 /**
   * @brief   This function handles NMI exception.
   * @param  None
@@ -117,7 +118,7 @@ void USART2_IRQHandler(void)
 		/*关闭DMA*/
 		DMA_Cmd(USART2_RX_DMA_STREAM, DISABLE);
 		/*获取DMAbuff剩余大小，是否匹配*/
-		xQueueSendFromISR(xUsart2RxQueue,&Posture.Buff,&xHigherPriorityTaskWoken);
+		xQueueSendFromISR(xUsart2RxQueue,&Posture.buff,&xHigherPriorityTaskWoken);
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 		
 		/*打开DMA*/
@@ -170,6 +171,27 @@ void USART6_IRQHandler(void)
 		/*清除空闲中断标志位*/
 		(void)USART6->DR;
 		(void)USART6->SR;
+
+	}
+}
+
+void UART7_IRQHandler(void)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	
+	if(USART_GetITStatus(UART7, USART_IT_IDLE) != RESET)
+	{
+		/*关闭DMA*/
+		DMA_Cmd(UART7_RX_DMA_STREAM, DISABLE);
+		/*获取DMAbuff剩余大小，是否匹配*/
+		xQueueSendFromISR(xUart7RxQueue,&Camera.buff,&xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+		
+		/*打开DMA*/
+		DMA_Cmd(UART7_RX_DMA_STREAM, ENABLE);
+		/*清除空闲中断标志位*/
+		(void)UART7->DR;
+		(void)UART7->SR;
 
 	}
 }

@@ -302,7 +302,7 @@ void DMA_UART7RxConfig(uint32_t DMABuffAddr, uint32_t buffsize)
 	DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_1QuarterFull;    
 	DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;    
 	DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;    	   
-	DMA_Init(USART6_RX_DMA_STREAM, &DMA_InitStructure);
+	DMA_Init(UART7_RX_DMA_STREAM, &DMA_InitStructure);
 	  
 	DMA_Cmd(UART7_RX_DMA_STREAM, ENABLE);
   

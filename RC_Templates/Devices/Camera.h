@@ -27,10 +27,11 @@
 
 typedef struct 
 {
-  uint8_t buff[20];
+  uint8_t buff[10];
 
-  uint16_t X;
-  uint16_t Y;
+  int16_t Angle;
+  int16_t AngErr;
+	uint8_t Flag;
 }Camera_t;
 
 
@@ -43,7 +44,7 @@ typedef struct
 extern Camera_t Camera;
 
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
-
+void Camera_getMassage(uint8_t *CameraBuff);
 
 
 #endif	// __CAMERA_H

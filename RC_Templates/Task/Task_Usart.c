@@ -23,18 +23,21 @@
 #include "Servo.h"
 #include "OpticFlow.h" 
 #include "Gyro.h"
+#include "Camera.h" 
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 QueueHandle_t xUsart1RxQueue = NULL;
 QueueHandle_t xUsart2RxQueue = NULL;
 QueueHandle_t xUsart3RxQueue = NULL;
 QueueHandle_t xUsart6RxQueue = NULL;
+QueueHandle_t xUart7RxQueue = NULL;
 QueueHandle_t xusartTxQueue = NULL;
 
 static TaskHandle_t xHandleUsart1Receive = NULL;
 static TaskHandle_t xHandleUsart2Receive = NULL;
 static TaskHandle_t xHandleUsart3Receive = NULL;
 static TaskHandle_t xHandleUsart6Receive = NULL;
+static TaskHandle_t xHandleUart7Receive = NULL;
 static TaskHandle_t xHandleUsartsend     = NULL;
 
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
@@ -43,6 +46,7 @@ static void vTaskUsart1Receive(void *pvParameters);
 static void vTaskUsart2Receive(void *pvParameters);
 static void vTaskUsart3Receive(void *pvParameters);
 static void vTaskUsart6Receive(void *pvParameters);
+static void vTaskUart7Receive(void *pvParameters);
 static void vTaskUsartSend(void *pvParameters);
 
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
@@ -60,6 +64,7 @@ void UsartTaskCreate(void)
 	xUsart2RxQueue = xQueueCreate(20,28*sizeof(uint8_t));
 	xUsart3RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
 	xUsart6RxQueue = xQueueCreate(20,20*sizeof(uint8_t));
+	xUart7RxQueue  = xQueueCreate(20,20*sizeof(uint8_t));
 	xusartTxQueue  = xQueueCreate(20,sizeof(USARTSend_t));
 
 	
@@ -70,13 +75,13 @@ void UsartTaskCreate(void)
 					  	3,       			                  /* 任务优先级*/
 					  	&xHandleUsart1Receive);         /* 任务句柄  */ 
 	
-	xTaskCreate(vTaskUsart2Receive,            
-					  	"vTaskUsart2Receive",          
-						  128,       			   
-						  NULL,                 
-						  3,       			   
-					  	&xHandleUsart2Receive);	
-	
+//	xTaskCreate(vTaskUsart2Receive,            
+//					  	"vTaskUsart2Receive",          
+//						  128,       			   
+//						  NULL,                 
+//						  3,       			   
+//					  	&xHandleUsart2Receive);	
+//	
 	xTaskCreate(vTaskUsart3Receive,            
 					  	"vTaskUsart3Receive",          
 						  128,       			   
@@ -90,7 +95,14 @@ void UsartTaskCreate(void)
 						  NULL,                 
 						  3,       			   
 					  	&xHandleUsart6Receive);
-
+							
+	xTaskCreate(vTaskUart7Receive,            
+					  	"vTaskUsart7Receive",          
+						  128,       			   
+						  NULL,                 
+						  3,       			   
+					  	&xHandleUart7Receive);
+							
 	xTaskCreate(vTaskUsartSend,            
 					  	"vTaskUsartSend",          
 						  128,       			   
@@ -169,6 +181,20 @@ static void vTaskUsart6Receive(void *pvParameters)
 	//	Posture_getMessage(usart6RxBuffer);
 	//	LED_TOGGLE(LED_R);
 		DXL1_getMassage(usart6RxBuffer);
+		//OpticFlow_getMassage(usart2RxBuffer);
+	}
+
+}
+
+static void vTaskUart7Receive(void *pvParameters)
+{
+  uint8_t usart7RxBuffer[8];
+  while(1)
+	{
+	  xQueueReceive(xUart7RxQueue, &usart7RxBuffer,portMAX_DELAY);
+	//	Posture_getMessage(usart6RxBuffer);
+	//	LED_TOGGLE(LED_R);
+		Camera_getMassage(usart7RxBuffer);
 		//OpticFlow_getMassage(usart2RxBuffer);
 	}
 

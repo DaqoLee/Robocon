@@ -45,7 +45,7 @@ void Joint_Init(void)
 	Joint.PID_Spin.maxInput=360;
 	
 	DigitalServo.MX_64[0].MiddleAngle = 2600;
-	DigitalServo.MX_64[1].MiddleAngle = 2548;
+	DigitalServo.MX_64[1].MiddleAngle = 2500;
 	DigitalServo.MX_64[2].MiddleAngle = 2748;
 	DigitalServo.MX_64[3].MiddleAngle = 2548;
 	DigitalServo.MX_64[4].MiddleAngle = 2600;
@@ -96,13 +96,13 @@ void Thigh_M6020Ctrl(void)
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
 	static float temp=0;
-	static int16_t  Err=-100,ErrCr=100,Er=5-0;
+	static int16_t  Err=0,ErrCr=100,Er=5-0;
 	
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.08f;
-	
+	  temp=temp>2*PI?0:temp+0.07f;
+//	Vy=Vy/2;
 	//Tex=DR16.switch_left==1?450:0;
 	Joint.Vz = PID_Calc(&Joint.PID_Z,GY955.Roll,GY955.targetRoll);
 	DXL1_setSyncMsg(USART_6,POSITION,12,
@@ -205,39 +205,34 @@ static void Joint_PassSandDune(uint8_t Temp)
 							0x07,DigitalServo.MX_64[6].MiddleAngle, /*LH*/               
 							0x08,DigitalServo.MX_64[7].MiddleAngle);
 		vTaskDelay(50);
-			for(uint16_t i=0;i<Tex;i+=10)
+			for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
 										0x01,2400 - i , /*LH*/               
 										0x02,2648 + i );
-				vTaskDelay(5);
+				vTaskDelay(3);
 			}
-			for(uint16_t i=0;i<Tex;i+=10)
+			for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
 										0x01,2400 - Tex + i  , /*LH*/               
 										0x02,2648 + Tex - i);
-				vTaskDelay(5);
+				vTaskDelay(3);
 			}
-
-	//		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,40,0,0);
-//			break;
-//			
-//		case 2:
 			
-			for(uint16_t i=0;i<Tex;i+=10)
+			for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
 										0x03,2548 - i , /*LH*/               
-										0x04,2648 + i );
-			vTaskDelay(5);
+										0x04,2696 + i );
+				vTaskDelay(3);
 			}
-			for(uint16_t i=0;i<Tex;i+=10)
+			for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
-										0x03,2548 - Tex + i , /*LH*/               
-										0x04,2648 + Tex - i);
-				vTaskDelay(5);
+										0x03,2548 - Tex + i  , /*LH*/               
+										0x04,2696 + Tex - i);
+				vTaskDelay(3);
 			}
 			
 		  DigitalServo.MX_64[0].MiddleAngle=2400;
@@ -245,93 +240,10 @@ static void Joint_PassSandDune(uint8_t Temp)
 			
 		  DigitalServo.MX_64[1].MiddleAngle=2348;
 			DigitalServo.MX_64[3].MiddleAngle=2348;
-			vTaskDelay(5);
-//			DigitalServo.MX_64[1].MiddleAngle=2400;
-//			DigitalServo.MX_64[3].MiddleAngle=2348;
-//			
-//	    DigitalServo.MX_64[1].MiddleAngle=2500;
-//			DigitalServo.MX_64[3].MiddleAngle=2448;
-//			
-//			DigitalServo.MX_64[5].MiddleAngle=2200;
-//			DigitalServo.MX_64[7].MiddleAngle=2448;
 			
-//			vTaskDelay(200);
-//			for(uint16_t i=0;i<300;i+=5)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,2,
-//											0x05,DigitalServo.MX_64[4].MiddleAngle - i , /*LH*/               
-//											0x06,DigitalServo.MX_64[5].MiddleAngle + i );
-//				vTaskDelay(5);
-//			}
-
-//			for(uint16_t i=0;i<600;i+=10)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,1,
-//											0x05,DigitalServo.MX_64[4].MiddleAngle + i );
-//				vTaskDelay(5);
-//			}
-//			for(uint16_t i=0;i<600;i+=10)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-//											0x06,DigitalServo.MX_64[5].MiddleAngle - i );
-//				vTaskDelay(5);
-//			}
-//			for(uint16_t i=0;i<300;i+=5)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,4,
-//											0x02,DigitalServo.MX_64[1].MiddleAngle+Tex-i,
-//											0x04,DigitalServo.MX_64[3].MiddleAngle+Tex-i,
-//											0x05,DigitalServo.MX_64[4].MiddleAngle+300 - i , /*LH*/               
-//											0x06,DigitalServo.MX_64[5].MiddleAngle-300 + i );
-//				vTaskDelay(5);
-//			}
-//			
-//			for(uint16_t i=0;i<300;i+=5)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,2,
-//											0x07,DigitalServo.MX_64[6].MiddleAngle - i , /*LH*/               
-//											0x08,DigitalServo.MX_64[7].MiddleAngle + i );
-//				vTaskDelay(5);
-//			}
-//			for(uint16_t i=0;i<600;i+=10)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,1,
-//										0x07,DigitalServo.MX_64[6].MiddleAngle + i );
-//				vTaskDelay(5);
-//			}
-//			for(uint16_t i=0;i<600;i+=10)
-//			{					
-//				DXL1_setSyncMsg(USART_6,POSITION,1,               
-//									0x08,DigitalServo.MX_64[7].MiddleAngle - i);
-//					vTaskDelay(5);
-//			}
-//			
-//			for(uint16_t i=0;i<300;i+=5)
-//			{
-//				DXL1_setSyncMsg(USART_6,POSITION,2,
-//											0x07,DigitalServo.MX_64[6].MiddleAngle+300 - i , /*LH*/               
-//											0x08,DigitalServo.MX_64[7].MiddleAngle-300 + i );
-//				vTaskDelay(5);
-//			}
-//			
-//	//		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,40,0,0);
-//			
-////		  DigitalServo.MX_64[1].MiddleAngle=2600;
-////			DigitalServo.MX_64[3].MiddleAngle=2548;
-////			
-////			DigitalServo.MX_64[5].MiddleAngle=2200;
-////			DigitalServo.MX_64[7].MiddleAngle=2124;
-////			
-////			DXL1_setSyncMsg(USART_6,POSITION,6,0x02,DigitalServo.MX_64[1].MiddleAngle,
-////			                                   0x04,DigitalServo.MX_64[3].MiddleAngle,
-////			                                   0x05,DigitalServo.MX_64[4].MiddleAngle,
-////			                                   0x06,DigitalServo.MX_64[5].MiddleAngle,
-////			                                   0x07,DigitalServo.MX_64[6].MiddleAngle,
-////			                                   0x08,DigitalServo.MX_64[7].MiddleAngle);
-//			vTaskDelay(100);
 			break;
 			
-		case 3:
+		case 2:
 			
 			Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
 //		  DigitalServo.MX_64[0].MiddleAngle=2600;
@@ -355,13 +267,41 @@ static void Joint_PassSandDune(uint8_t Temp)
 							0x0B,DigitalServo.MX_64[10].MiddleAngle+150, /*LH*/               
 							0x0C,DigitalServo.MX_64[11].MiddleAngle-150);
 
-			vTaskDelay(200);
+			vTaskDelay(1000);
+
+			break;
+//			
+		case 3:
+
 			for(uint16_t i=0;i<Tex;i+=20)
+			{
+				DXL1_setSyncMsg(USART_6,POSITION,2,
+											0x05,DigitalServo.MX_64[4].MiddleAngle - i , /*LH*/               
+											0x06,DigitalServo.MX_64[5].MiddleAngle+ 100 + i );
+				vTaskDelay(3);
+			}
+
+			for(uint16_t i=0;i<180;i+=10)
+			{
+				DXL1_setSyncMsg(USART_6,POSITION,1,
+											0x05,DigitalServo.MX_64[4].MiddleAngle + Tex + i );
+				vTaskDelay(3);
+			}
+			for(uint16_t i=0;i<700;i+=20)
+			{
+				DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
+											0x06,DigitalServo.MX_64[5].MiddleAngle + Tex - i );
+				vTaskDelay(3);
+			}
+		  break;
+		case 4:
+			
+		  for(uint16_t i=0;i<Tex;i+=20)
 			{
 				DXL1_setSyncMsg(USART_6,POSITION,2,
 											0x07,DigitalServo.MX_64[6].MiddleAngle - i , /*LH*/               
 											0x08,DigitalServo.MX_64[7].MiddleAngle + i );
-				vTaskDelay(5);
+				vTaskDelay(3);
 			}
 			for(uint16_t i=0;i<180;i+=10)
 			{
@@ -373,246 +313,31 @@ static void Joint_PassSandDune(uint8_t Temp)
 			{					
 				DXL1_setSyncMsg(USART_6,POSITION,1,         				
 									0x08,DigitalServo.MX_64[7].MiddleAngle + Tex - i);
-					vTaskDelay(5);
+					vTaskDelay(3);
 			}
-		  vTaskDelay(5);
+		  vTaskDelay(3);
 		
-			for(uint16_t i=0;i<Tex;i+=20)
-			{
-				DXL1_setSyncMsg(USART_6,POSITION,2,
-											0x05,DigitalServo.MX_64[4].MiddleAngle - i , /*LH*/               
-											0x06,DigitalServo.MX_64[5].MiddleAngle+ 100 + i );
-				vTaskDelay(5);
-			}
-
-			for(uint16_t i=0;i<180;i+=10)
-			{
-				DXL1_setSyncMsg(USART_6,POSITION,1,
-											0x05,DigitalServo.MX_64[4].MiddleAngle + Tex + i );
-				vTaskDelay(5);
-			}
-			for(uint16_t i=0;i<700;i+=20)
-			{
-				DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-											0x06,DigitalServo.MX_64[5].MiddleAngle + Tex - i );
-				vTaskDelay(5);
-			}
-//			break;
-//			
-//		case 4:
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//							0x07,DigitalServo.MX_64[6].MiddleAngle, /*LH*/               
-//							0x08,DigitalServo.MX_64[7].MiddleAngle);
-//			vTaskDelay(200);
-//			Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
-//			vTaskDelay(200);
-
-//			for(uint16_t i=0;i<300;i++)
-//			{
-//				Joint_TrotMotionModel(-DR16.ch1/2,30,-DR16.ch3/2);
-//				vTaskDelay(1);
-//			}			
-//			
+      break;			
+		case 5:
 			DigitalServo.MX_64[0].MiddleAngle=2600;
 			DigitalServo.MX_64[2].MiddleAngle=2748;
 			
 		  DigitalServo.MX_64[1].MiddleAngle=2548;
 			DigitalServo.MX_64[3].MiddleAngle=2548;
-			DXL1_setSyncMsg(USART_6,POSITION,8,
-		          0x01, DigitalServo.MX_64[0].MiddleAngle,
-							0x02, DigitalServo.MX_64[1].MiddleAngle,
-							0x03, DigitalServo.MX_64[2].MiddleAngle,
-							0x04, DigitalServo.MX_64[3].MiddleAngle,
-							0x05,DigitalServo.MX_64[4].MiddleAngle, /*LH*/               
-							0x06,DigitalServo.MX_64[5].MiddleAngle,
-							0x07,DigitalServo.MX_64[6].MiddleAngle, /*LH*/               
-							0x08,DigitalServo.MX_64[7].MiddleAngle);
+//			DXL1_setSyncMsg(USART_6,POSITION,8,
+//		          0x01, DigitalServo.MX_64[0].MiddleAngle,
+//							0x02, DigitalServo.MX_64[1].MiddleAngle,
+//							0x03, DigitalServo.MX_64[2].MiddleAngle,
+//							0x04, DigitalServo.MX_64[3].MiddleAngle,
+//							0x05,DigitalServo.MX_64[4].MiddleAngle, /*LH*/               
+//							0x06,DigitalServo.MX_64[5].MiddleAngle,
+//							0x07,DigitalServo.MX_64[6].MiddleAngle, /*LH*/               
+//							0x08,DigitalServo.MX_64[7].MiddleAngle);
 			break;
 		default:
 			break;
 	
 	}
-	
-//	if(Temp==1)
-//	{
-//		for(uint16_t i=0;i<Tex;i+=10)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x01,2400 - i , /*LH*/               
-//									0x02,2648 + i );
-//			vTaskDelay(5);
-//		}
-//		for(uint16_t i=0;i<Tex;i+=10)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x01,2400 - Tex + i  , /*LH*/               
-//									0x02,2648 + Tex - 2*i);
-//			vTaskDelay(5);
-//		}
-
-//	  DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x01,DigitalServo.MX_64[0].MiddleAngle  , /*LH*/               
-//									0x02,DigitalServo.MX_64[1].MiddleAngle );
-//		vTaskDelay(100);
-//		
-//		for(uint16_t i=0;i<Tex;i+=10)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x03,2548 - i , /*LH*/               
-//									0x04,2648 + i );
-//		vTaskDelay(5);
-//		}
-//		for(uint16_t i=0;i<Tex;i+=10)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x03,2548 - Tex + i , /*LH*/               
-//									0x04,2648 + Tex - 2*i);
-//			vTaskDelay(5);
-//		}
-//		
-
-//		DXL1_setSyncMsg(USART_6,POSITION,2,
-//									0x03,DigitalServo.MX_64[2].MiddleAngle, /*LH*/               
-//									0x04,DigitalServo.MX_64[3].MiddleAngle );
-//		vTaskDelay(100);
-//			
-////		
-////		for(uint16_t i=0;i<200;i+=20)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////										0x05,2400 - i , /*LH*/               
-////										0x06,2700 + i );
-////			vTaskDelay(5);
-////		}
-////		
-////		for(uint16_t i=0;i<600;i+=20)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,1,
-////										0x05,2400 - Tex + i );
-////			vTaskDelay(5);
-////		}
-////		for(uint16_t i=0;i<600;i+=20)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-////										0x06,2700 + Tex - i );
-////			vTaskDelay(5);
-////		}
-////		
-
-////		for(uint16_t i=0;i<Tex;i+=20)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////										0x07,2400 - i , /*LH*/               
-////										0x08,2948 + i );
-////			vTaskDelay(5);
-////		}
-////		for(uint16_t i=0;i<600;i+=20)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,1,
-////									0x07,2400 - Tex + i );
-////			vTaskDelay(5);
-////		}
-////		for(uint16_t i=0;i<600;i+=20)
-////		{					
-////			DXL1_setSyncMsg(USART_6,POSITION,1,               
-////								0x08,2948 + Tex - i);
-////				vTaskDelay(5);
-////		}
-////		
-////				for(uint16_t i=0;i<Tex;i+=10)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////									0x01,2400 - i , /*LH*/               
-////									0x02,2648 + i );
-////			vTaskDelay(5);
-////		}
-////		for(uint16_t i=0;i<Tex;i+=10)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////									0x01,2400 - Tex + i  , /*LH*/               
-////									0x02,2648 + Tex - 2*i);
-////			vTaskDelay(5);
-////		}
-
-
-////		for(uint16_t i=0;i<Tex;i+=10)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////									0x03,2548 - i , /*LH*/               
-////									0x04,2648 + i );
-////		vTaskDelay(5);
-////		}
-////		for(uint16_t i=0;i<Tex;i+=10)
-////		{
-////			DXL1_setSyncMsg(USART_6,POSITION,2,
-////									0x03,2548 - Tex + i , /*LH*/               
-////									0x04,2648 + Tex - 2*i);
-////			vTaskDelay(5);
-////		}
-////		
-////	
-////    DigitalServo.MX_64[1].MiddleAngle=2400;
-////		DigitalServo.MX_64[3].MiddleAngle=2348;
-////		
-////		DigitalServo.MX_64[5].MiddleAngle=2300;
-////		DigitalServo.MX_64[7].MiddleAngle=2548;
-////		
-//		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,40,0,0);
-
-//	}
-//	else if(Temp==2)
-//	{
-//	
-//	}
-//  else if(Temp==2)
-//	{
-//	  Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
-//		for(uint16_t i=0;i<Tex;i+=20)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//										0x05,2400 - i , /*LH*/               
-//										0x06,2700 + i );
-//			vTaskDelay(5);
-//		}
-//		
-//		for(uint16_t i=0;i<700;i+=20)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,1,
-//										0x05,2400 - Tex + i );
-//			vTaskDelay(5);
-//		}
-//		for(uint16_t i=0;i<700;i+=20)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,1,/*LH*/               
-//										0x06,2700 + Tex - i );
-//			vTaskDelay(5);
-//		}
-////		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
-//	}
-//	else if(Temp==3)
-//	{
-//		Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
-//		for(uint16_t i=0;i<Tex;i+=20)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,2,
-//										0x07,2400 - i , /*LH*/               
-//										0x08,2948 + i );
-//			vTaskDelay(5);
-//		}
-//		for(uint16_t i=0;i<700;i+=20)
-//		{
-//			DXL1_setSyncMsg(USART_6,POSITION,1,
-//									0x07,2400 - Tex + i );
-//			vTaskDelay(5);
-//		}
-//		for(uint16_t i=0;i<700;i+=20)
-//		{					
-//			DXL1_setSyncMsg(USART_6,POSITION,1,               
-//								0x08,2948 + Tex - i);
-//				vTaskDelay(5);
-//		}
-//		//Joint.PID_Z.f_PID_Reset(&Joint.PID_Z,0,0,0);
-//	}
 	
 	DXL1_setSyncMsg(USART_6,ACC,12,0x01,0,0x02,100,0x03,0,
 																 0x04,0,0x05,100,0x06,0,
@@ -711,26 +436,7 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	{
 		static uint8_t temp=1;
 		PhotoelectricScan();/*¹âµç¿ª¹ØÉ¨Ãè*/
-		if(DR16.switch_left == 1)
-		{
-			if(!PhoFlg.RF&&!PhoFlg.LF)
-			{
-				temp=2;
-			}
-//			else if(!PhoFlg.LF)
-//			{
-//				temp=3;
-//			}
-			else if(!PhoFlg.LH&&!PhoFlg.RH)
-			{
-				temp=4;
-			}
-//			else if(!PhoFlg.RH)
-//			{
-//				temp=5;
-//			}
-			
-		}
+
 //		if(DR16.switch_left == 2)
 //		{
 //			temp=1;
@@ -739,7 +445,18 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 		switch (temp)
 		{
 			case 1:/*×´Ì¬1 ¶Ô½Ç²½Ì¬ÍùÉ³Çð*/
-				Joint_TrotMotionModel(-DR16.ch1/2,100,-DR16.ch3/2);
+				Joint_TrotMotionModel(-DR16.ch3/2,80,-DR16.ch1/2);
+			  if(DR16.switch_left == 1)
+				{
+					if(!PhoFlg.RF&&!PhoFlg.LF)
+					{
+						temp=2;
+					}
+					else 
+					{
+						temp=1;
+					}
+				}
 				break;
 			case 2:/*×´Ì¬2 Èý½Ç²½Ì¬¹ýÉ³Çð*/
 				//for(uint8_t i=0;i<2;i++)
@@ -749,34 +466,39 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 				break;
 			case 3:/*×´Ì¬3 ¶Ô½Ç²½Ì¬Íù²ÝµØ*/
 				Joint_PassSandDune(2);
-        temp=6;
+        temp=4;
 				break;
 			case 4:/*×´Ì¬4 Èý½Ç²½Ì¬¹ý²ÝµØ*/
-//							DigitalServo.MX_64[8].MiddleAngle-=150;
-//							DigitalServo.MX_64[9].MiddleAngle+=150;
-//							DigitalServo.MX_64[10].MiddleAngle+=150;
-//							DigitalServo.MX_64[11].MiddleAngle-=150;
-////			DigitalServo.MX_64[5].MiddleAngle = 2400;
-////			DigitalServo.MX_64[6].MiddleAngle = 2600;
-////			DigitalServo.MX_64[7].MiddleAngle = 2648-150;
-//			DigitalServo.MX_64[8].MiddleAngle = 2324+150;
-//			DigitalServo.MX_64[9].MiddleAngle = 1766+150;
-//			DigitalServo.MX_64[10].MiddleAngle = 2324;
-//			DigitalServo.MX_64[11].MiddleAngle = 1766;
-//			for(uint16_t i=0;i<300;i++)
-//			{
-//				Joint_TrotMotionModel(-DR16.ch1/2,50,-DR16.ch3/2);
-//				vTaskDelay(1);
-//			}
-				Joint_PassSandDune(3);
-		  	temp=6;
+				Joint_TrotMotionModel(-DR16.ch3/2,100,-DR16.ch1/2);
+			  if(!PhoFlg.LH)
+				{
+					Joint_PassSandDune(3);
+				}
+				else if(!PhoFlg.RH)
+				{
+				  Joint_PassSandDune(4);
+				}
+				else
+				{
+//					Joint_PassSandDune(5);
+				   temp=4;
+				}
+				
 				break;
 			case 5:/*×´Ì¬5 ×ªÍäµÈ´ýÉÏÆÂÐÅºÅ*/
 	      Joint_PassSandDune(4);
 		  	temp=6;
 				break;
 			case 6:/*×´Ì¬6 ¶Ô½Ç²½Ì¬ÉÏÆÂ*/
-  			Joint_TrotMotionModel(-DR16.ch1/2,100,-DR16.ch3/2);
+  			Joint_TrotMotionModel(-DR16.ch3/2,100,-DR16.ch1/2);
+			  if(!PhoFlg.LH&&!PhoFlg.RH)
+				{
+					temp=3;
+				}
+				else
+				{
+				  temp=6;
+				}
 				break;		
 			case 7:/*×´Ì¬7 ¾ÙÆðÁîÅÆ*/
 				Joint_TrotMotionModel(0,0,0);
@@ -894,7 +616,7 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp)
 {
 //		return (Filter.p_Limit(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp),\
 //			Filter.p_ABS(TarAng),0));	
-	TarAng*=3;
+	TarAng*=2.5;
 	TarAng=TarAng>600?600:TarAng;
 	TarAng=TarAng<-600?-600:TarAng;
 //	if(Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp)>0)
