@@ -95,12 +95,7 @@ void Thigh_M6020Ctrl(void)
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
 	static float temp=0;
-<<<<<<< HEAD
 	static int16_t  thighErr=-100,crusErr=300,hipErr=50;
-=======
-	static int16_t  thighErr=-100,crusErr=100,hipErr=5-0;
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
-	
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
@@ -108,7 +103,6 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 
 	Joint.Vz = PID_Calc(&Joint.PID_Z,GY955.Roll,GY955.targetRoll);
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-<<<<<<< HEAD
 	0x01,DigitalServo.MX_64[0].MiddleAngle +thighErr + Joint.Vz 
 	- Joint_getThighTarAng(Vy,0,temp), /*LH*/               
 	0x02,DigitalServo.MX_64[1].MiddleAngle +crusErr + Joint.Vz 
@@ -133,33 +127,7 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	0x0A,1766-hipErr + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
 	0x0B,2324+hipErr + Joint_getThighTarAng(Omega - Vx,0,temp),
 	0x0C,1766-hipErr + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
-=======
-	                0x01,DigitalServo.MX_64[0].MiddleAngle +thighErr + Joint.Vz 
-	                - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						      0x02,DigitalServo.MX_64[1].MiddleAngle +crusErr + Joint.Vz 
-	                + Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
-									
-									0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr+ Joint.Vz  
-	                - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-									0x04,DigitalServo.MX_64[3].MiddleAngle +crusErr+ Joint.Vz 
-                	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
-									
-                  0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr- 0*Joint.Vz 
-	                + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-									0x06,DigitalServo.MX_64[5].MiddleAngle +crusErr+0*Joint.Vz 
-	                + Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
-	
-									0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr- 0*Joint.Vz 
-									+ Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-									0x08,DigitalServo.MX_64[7].MiddleAngle +crusErr+0* Joint.Vz 
-									+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
-									
-                  0x09,2324+hipErr + Joint_getThighTarAng(Omega + Vx,0,temp),
-									0x0A,1766-hipErr + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-									0x0B,2324+hipErr + Joint_getThighTarAng(Omega - Vx,0,temp),
-									0x0C,1766-hipErr + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
-							 
+
 //	vTaskDelay(5);	
 }
 
@@ -210,10 +178,6 @@ void Joint_NewTrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 //	vTaskDelay(5);	
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
 	/**
 	* @Data    2019-01-09 11:33
 	* @brief   过沙丘
@@ -222,11 +186,8 @@ void Joint_NewTrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	*/
 static void Joint_PassSandDune(uint8_t Temp)
 {
-<<<<<<< HEAD
 	static uint16_t  Tex=650;
-=======
-	static uint16_t  Tex=580;
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
+
 	DXL1_setSyncMsg(USART_6,ACC,12,0x01,100,0x02,100,0x03,100,
 																	0x04,100,0x05,100,0x06,100,
 																	0x07,100,0x08,100,0x09,100,
@@ -512,12 +473,8 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 				break;
 
 			case 4:/*状态4 三角步态过草地*/
-<<<<<<< HEAD
 				//Joint_PassSandDune(2);
 			  if(!PhoFlg.RH)
-=======
-			  if(!PhoFlg.LH)
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
 				{
 				//	Joint_PassSandDune(2);
 					Joint_PassSandDune(4);
@@ -529,7 +486,6 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 				}
 				else
 				{
-<<<<<<< HEAD
 					//Joint_PassSandDune(5);
 				  DigitalServo.MX_64[0].MiddleAngle=2600;
 		    	DigitalServo.MX_64[2].MiddleAngle=2748;
@@ -540,11 +496,6 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 				  temp=4;
 				}
 			
-=======
-					Joint_TrotMotionModel(-DR16.ch3/2,100,-DR16.ch1/2);
-				  temp=4;
-				}
->>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
 				break;
 
 			case 5:/*状态5 转弯等待上坡信号*/
