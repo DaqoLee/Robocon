@@ -43,14 +43,14 @@ TaskHandle_t StartTaskHandler=NULL;
 
 static TaskHandle_t TaskLEDHandler=NULL;
 static TaskHandle_t TaskTestHandler=NULL;
-static TaskHandle_t TaskMonitorHandler=NULL;
+//static TaskHandle_t TaskMonitorHandler=NULL;
 
 volatile uint32_t ulHighFrequencyTimerTicks = 0UL;
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
 static void vTaskLED(void *pvParameters);
 static void vTaskTest(void *pvParameters);
-static void vTaskMonitor(void *pvParameters);
+//static void vTaskMonitor(void *pvParameters);
 
 static void TestTaskCreate(void);
 
@@ -238,6 +238,7 @@ static void vTaskTest(void *pvParameters)
 	* @param   void
 	* @retval  void
 	*/
+<<<<<<< HEAD
 static void vTaskMonitor(void *pvParameters)
 {
 	uint8_t pcWriteBuffer[500];
@@ -253,8 +254,25 @@ static void vTaskMonitor(void *pvParameters)
 		printf("\r\n任务名\t\t运行计数\t\t使用率\r\n");
 		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
 		printf("%s\r\n", pcWriteBuffer);
+=======
+//static void vTaskMonitor(void *pvParameters)
+//{
+//	uint8_t pcWriteBuffer[500];
+//	BSP_USART2_Init(115200);
+//	BSP_TIM6Init(0,20000);
+//	while(1)
+//	{
+//		printf("=================================================\r\n");
+//		printf("任务名\t\t任务状态\t优先级\t剩余栈\t任务序号\r\n");
+//		vTaskList((char *)&pcWriteBuffer);
+//		printf("%s\r\n", pcWriteBuffer);
+//	
+//		printf("\r\n任务名       运行计数         使用率\r\n");
+//		vTaskGetRunTimeStats((char *)&pcWriteBuffer);
+//		printf("%s\r\n", pcWriteBuffer);
+>>>>>>> 27eb1155b7777b4b6bc53edb53e2f7e2c598fb3c
 
-		vTaskDelay(100);
-	}
-}
+//		vTaskDelay(100);
+//	}
+//}
 /*-----------------------------------FILE OF END------------------------------*/
