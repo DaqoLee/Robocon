@@ -29,11 +29,13 @@ typedef struct
 	int16_t Vx;			    //Vx速度
 	int16_t Vy;				//Vy速度
 	int16_t Vz;	
+	int16_t Vp;	
 	int16_t Vspin;			//自旋速度
 
 	pid_t   PID_X;
 	pid_t   PID_Z;
 	pid_t   PID_Y;
+	pid_t   PID_P;
 	pid_t   PID_Spin;
 
 }Joint_t;
@@ -55,6 +57,8 @@ void Joint_StateMachine(void);
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_TrotMotionModelx(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
+void Joint_NewTrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
+void Joint_NewWalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_RobotArmCtrl(uint16_t UpperarmTarang,uint16_t ForearmTarang);
 #endif	// __JOINT_H
 /*----------------------------------FILE OF END-------------------------------*/

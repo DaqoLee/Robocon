@@ -71,7 +71,7 @@ void vTaskStart(void *pvParameters)
   BSP_USART1_Init(100000); /*DR16接收机*/
   BSP_USART2_Init(115200);  /*SMS舵机*/
 	BSP_USART3_Init(115200);  /*GY955陀螺仪*/
-	BSP_USART6_Init(3000000);  /*DXL舵机*/
+	BSP_USART6_Init(1000000);  /*DXL舵机*/
 	BSP_UART7_Init(115200);   /*摄像头*/
 	BSP_UART8_Init(57600);   /*超声波*/
 	

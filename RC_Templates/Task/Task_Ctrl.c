@@ -121,9 +121,12 @@ static void vTaskCtrlJoint(void *pvParameters)
 	GY955.targetRoll = GY955.Roll;
 //	DXL1_setSyncMsg(USART_6,SPEED,2,0x01,600,0x02,600);
 	vTaskDelay(100);
+	
+//			DXL1_setSyncMsg(USART_6,0x04,1,0x0B,0x01);
 //	DXL1_setSyncMsg(USART_6,ACC,2,0x01,100,0x02,100);
   while(1)
 	{
+		
 	
 		Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
 //		
@@ -134,8 +137,11 @@ static void vTaskCtrlJoint(void *pvParameters)
 		}
 		else if(DR16.switch_right == 2)
 		{
-			
-			Joint_TrotMotionModel(-DR16.ch3/2,DR16.ch2/2,-DR16.ch1/2);
+//			DXL1_setSyncMsg(USART_6,SPEED,12,0x01,100,0x02,100,0x03,100,
+//																	0x04,100,0x05,100,0x06,100,
+//																	0x07,100,0x08,100,0x09,100,
+//																	0x0A,100,0x0B,100,0x0C,100);
+			Joint_NewTrotMotionModel(-DR16.ch1/2,DR16.ch2/2,DR16.ch3/2);
 			//Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 		}
 

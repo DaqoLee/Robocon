@@ -31,6 +31,7 @@ Joint_t Joint;
 
 static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp);
 static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp);
+static int16_t Joint_getHipTarAng(int16_t TarAng ,float Phase,float Temp);
 static void Joint_PassSandDune(uint8_t Temp);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 	/**
@@ -42,7 +43,7 @@ static void Joint_PassSandDune(uint8_t Temp);
 void Joint_Init(void)
 {
 	Joint.PID_Spin.maxInput=360;
-	
+#if 0
 	DigitalServo.MX_64[0].MiddleAngle = 2600;
 	DigitalServo.MX_64[1].MiddleAngle = 2500;
 	DigitalServo.MX_64[2].MiddleAngle = 2748;
@@ -55,11 +56,35 @@ void Joint_Init(void)
 	DigitalServo.MX_64[9].MiddleAngle = 1766;
 	DigitalServo.MX_64[10].MiddleAngle = 2324;
 	DigitalServo.MX_64[11].MiddleAngle = 1766;
+#endif
+#if 1
+	DigitalServo.MX_64[0].MiddleAngle = 2348;
+	DigitalServo.MX_64[1].MiddleAngle = 1148;
+	DigitalServo.MX_64[2].MiddleAngle = 2480;
+	DigitalServo.MX_64[3].MiddleAngle = 1148;
 	
+	DigitalServo.MX_64[4].MiddleAngle = 2348;
+	DigitalServo.MX_64[5].MiddleAngle = 1020;
+	DigitalServo.MX_64[6].MiddleAngle = 2348;
+	DigitalServo.MX_64[7].MiddleAngle = 1248;
+	
+//	DigitalServo.MX_64[4].MiddleAngle = 1348;
+//	DigitalServo.MX_64[5].MiddleAngle = 2620;
+//	DigitalServo.MX_64[6].MiddleAngle = 1348;
+//	DigitalServo.MX_64[7].MiddleAngle = 2848;
+
+	DigitalServo.MX_64[8].MiddleAngle = 2068;
+	DigitalServo.MX_64[9].MiddleAngle = 2028;
+	DigitalServo.MX_64[10].MiddleAngle = 2048;
+	DigitalServo.MX_64[11].MiddleAngle = 2048;
+	
+	
+#endif
 	
 	PID_StructInit(&Joint.PID_X, POSITION_PID, 800, 500, 2, 0, 0);
 	PID_StructInit(&Joint.PID_Y, POSITION_PID, 800, 500, 2, 0, 0);
-	PID_StructInit(&Joint.PID_Z, POSITION_PID, 500, 100, 0, 0, 0);
+	PID_StructInit(&Joint.PID_Z, POSITION_PID, 500, 100, 20, 0, 10);
+	PID_StructInit(&Joint.PID_P, POSITION_PID, 500, 100, 20, 0, 10);
 	PID_StructInit(&Joint.PID_Spin, POSITION_PID, 50, 100, 10, 0, 0);
 }
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -108,27 +133,73 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	0x02,DigitalServo.MX_64[1].MiddleAngle +crusErr + Joint.Vz 
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
 	
-	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr+ Joint.Vz  
+	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr + Joint.Vz  
 	- Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-	0x04,DigitalServo.MX_64[3].MiddleAngle +crusErr+ Joint.Vz 
+	0x04,DigitalServo.MX_64[3].MiddleAngle +crusErr + Joint.Vz 
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
 	
 	0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr- 0*Joint.Vz 
 	+ Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-	0x06,DigitalServo.MX_64[5].MiddleAngle +crusErr+0*Joint.Vz 
+	0x06,DigitalServo.MX_64[5].MiddleAngle +crusErr + 0*Joint.Vz 
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
 
 	0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr- 0*Joint.Vz 
 	+ Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-	0x08,DigitalServo.MX_64[7].MiddleAngle +crusErr+0* Joint.Vz 
+	0x08,DigitalServo.MX_64[7].MiddleAngle +crusErr + 0* Joint.Vz 
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
 	
-	0x09,2324+hipErr + Joint_getThighTarAng(Omega + Vx,0,temp),
-	0x0A,1766-hipErr + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-	0x0B,2324+hipErr + Joint_getThighTarAng(Omega - Vx,0,temp),
-	0x0C,1766-hipErr + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
+	0x09,DigitalServo.MX_64[8].MiddleAngle + hipErr + Joint_getThighTarAng(Omega + Vx,0,temp),
+	0x0A,DigitalServo.MX_64[9].MiddleAngle - hipErr + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
+	0x0B,DigitalServo.MX_64[10].MiddleAngle + hipErr + Joint_getThighTarAng(Omega - Vx,0,temp),
+	0x0C,DigitalServo.MX_64[11].MiddleAngle - hipErr + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
 
 //	vTaskDelay(5);	
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   三角步态关节运动模型
+	* @param   void
+	* @retval  void
+	*/
+void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
+{	
+	static float temp=0;
+
+	if(Vx == 0 && Vy == 0 && Omega == 0)
+		temp=0;
+	else
+	  temp=temp>2*PI?0:temp+0.04f;
+	DXL1_setSyncMsg(USART_6,POSITION,12,
+	                0x01,DigitalServo.MX_64[0].MiddleAngle 
+                  - Joint_getThighTarAng(Vy,-0.5f,temp), /*LF左前*/               
+						      0x02,DigitalServo.MX_64[1].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
+									
+									0x03,DigitalServo.MX_64[2].MiddleAngle 
+                  - Joint_getThighTarAng(Vy,-1.5f,temp), /*RH*/ 
+									0x04,DigitalServo.MX_64[3].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-1.25f,temp),
+								
+                  0x05,DigitalServo.MX_64[4].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,-1.0,temp), /*RH*/ 
+									0x06,DigitalServo.MX_64[5].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.75f,temp),
+								
+									0x07,DigitalServo.MX_64[6].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,0.0f,temp), /*LF*/ 
+									0x08,DigitalServo.MX_64[7].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+									
+                  0x09,DigitalServo.MX_64[8].MiddleAngle 
+                  + Joint_getThighTarAng(Omega + Vx,0,temp),
+									0x0A,DigitalServo.MX_64[9].MiddleAngle 
+                  + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
+									0x0B,DigitalServo.MX_64[10].MiddleAngle 
+                  + Joint_getThighTarAng(Omega - Vx,0,temp),
+									0x0C,DigitalServo.MX_64[11].MiddleAngle 
+                  + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
 }
 
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -140,43 +211,117 @@ void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 	*/
 void Joint_NewTrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 {	
-	static float temp=0;
-	static int16_t  thighErr=-100,crusErr=-100,hipErr=50;
+	static float temp=0,flag=0;
+	static int16_t  thighErr=100,crusErr=100,hipErr=50;
 	
 	if(Vx == 0 && Vy == 0 && Omega == 0)
 		temp=0;
 	else
-	  temp=temp>2*PI?0:temp+0.07f;
+	  temp=temp>2*PI?0:temp+0.08f;
+	
+#if 0
+ 	PhotoelectricScan();/*光电开关扫描*/	
+	if(!PhoFlg.RF||!PhoFlg.LF)
+	{
+		flag=1;
+	}
+	else
+	{
+	
+	}
+	
+	if(flag==1)
+	{
+		thighErr=100;
+		crusErr=0;
+		hipErr=50;
+	}
+	else 
+	{
+		thighErr=100;
+		crusErr=100;
+		hipErr=50;
+	}
+#endif
 
 	Joint.Vz = PID_Calc(&Joint.PID_Z,GY955.Roll,GY955.targetRoll);
+	Joint.Vp = PID_Calc(&Joint.PID_P,GY955.Pitch,GY955.targetPitch);
+	
 	DXL1_setSyncMsg(USART_6,POSITION,12,
-	0x01,DigitalServo.MX_64[0].MiddleAngle +thighErr + Joint.Vz 
+	0x01,DigitalServo.MX_64[0].MiddleAngle +thighErr - 0*Joint.Vz 
 	+ Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-	0x02,DigitalServo.MX_64[1].MiddleAngle +crusErr + Joint.Vz 
+	0x02,DigitalServo.MX_64[1].MiddleAngle +crusErr + Joint.Vz + Joint.Vp
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
 	
-	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr+ Joint.Vz  
+	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr-0* Joint.Vz  
 	+ Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-	0x04,DigitalServo.MX_64[3].MiddleAngle +crusErr+ Joint.Vz 
+	0x04,DigitalServo.MX_64[3].MiddleAngle +crusErr+ Joint.Vz - Joint.Vp
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
 	
-	0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr- 0*Joint.Vz 
+	0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr + Joint.Vz 
 	+ Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-	0x06,DigitalServo.MX_64[5].MiddleAngle +crusErr+0*Joint.Vz 
+	0x06,DigitalServo.MX_64[5].MiddleAngle +crusErr - Joint.Vz - Joint.Vp
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),0.25f,temp),
 
-	0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr- 0*Joint.Vz 
+	0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr + Joint.Vz 
 	+ Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-	0x08,DigitalServo.MX_64[7].MiddleAngle +crusErr+0* Joint.Vz 
+	0x08,DigitalServo.MX_64[7].MiddleAngle +crusErr- Joint.Vz + Joint.Vp
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega),1.25f,temp),
 	
-	0x09,2324+hipErr + Joint_getThighTarAng(Omega + Vx,0,temp),
-	0x0A,1766-hipErr + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-	0x0B,2324+hipErr + Joint_getThighTarAng(Omega - Vx,0,temp),
-	0x0C,1766-hipErr + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
+	0x09,DigitalServo.MX_64[8].MiddleAngle + hipErr + Joint_getHipTarAng(Omega + Vx,0,temp),
+	0x0A,DigitalServo.MX_64[9].MiddleAngle - hipErr + Joint_getHipTarAng(Omega + Vx,1.0f,temp),
+	0x0B,DigitalServo.MX_64[10].MiddleAngle - hipErr + Joint_getHipTarAng(Omega - Vx,0,temp),
+	0x0C,DigitalServo.MX_64[11].MiddleAngle + hipErr + Joint_getHipTarAng(Omega - Vx,1.0f,temp));
 							 
 //	vTaskDelay(5);	
 }
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   三角步态关节运动模型
+	* @param   void
+	* @retval  void
+	*/
+void Joint_NewWalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
+{	
+	static float temp=0;
+
+	if(Vx == 0 && Vy == 0 && Omega == 0)
+		temp=0;
+	else
+	  temp=temp>2*PI?0:temp+0.08f;
+	DXL1_setSyncMsg(USART_6,POSITION,12,
+	                0x01,DigitalServo.MX_64[0].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,-0.5f,temp), /*LF左前*/               
+						      0x02,DigitalServo.MX_64[1].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
+									
+									0x03,DigitalServo.MX_64[2].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,-1.5f,temp), /*RH*/ 
+									0x04,DigitalServo.MX_64[3].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-1.25f,temp),
+								
+                  0x05,DigitalServo.MX_64[4].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,-1.0,temp), /*RH*/ 
+									0x06,DigitalServo.MX_64[5].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.75f,temp),
+								
+									0x07,DigitalServo.MX_64[6].MiddleAngle 
+                  + Joint_getThighTarAng(Vy,0.0f,temp), /*LF*/ 
+									0x08,DigitalServo.MX_64[7].MiddleAngle 
+                  + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
+									
+                  0x09,DigitalServo.MX_64[8].MiddleAngle 
+                  + Joint_getHipTarAng(Omega + Vx,0,temp),
+									0x0A,DigitalServo.MX_64[9].MiddleAngle 
+                  + Joint_getHipTarAng(Omega + Vx,1.0f,temp),
+									0x0B,DigitalServo.MX_64[10].MiddleAngle 
+                  + Joint_getHipTarAng(Omega - Vx,0,temp),
+									0x0C,DigitalServo.MX_64[11].MiddleAngle 
+                  + Joint_getHipTarAng(Omega - Vx,1.0f,temp));
+}
+
 
 	/**
 	* @Data    2019-01-09 11:33
@@ -351,88 +496,6 @@ static void Joint_PassSandDune(uint8_t Temp)
 
 }
 
-	/**
-	* @Data    2019-01-09 11:33
-	* @brief   对角步态关节运动模型
-	* @param   void
-	* @retval  void
-	*/
-void Joint_TrotMotionModelx(int16_t Vx, int16_t Vy, int16_t Omega)
-{	
-	static float temp=0;
-	if(Vx == 0 && Vy == 0 && Omega == 0 )
-		temp=0;
-	else
-	  temp=temp>2*PI?0:temp+0.02f;
-	
-	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x09,2048 - Joint_getThighTarAng(Vy,0,temp), /*LH*/               
-						      0x02,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
-									
-									0x03,2748 - Joint_getThighTarAng(Vy,1.0f,temp), /*RH*/ 
-									0x04,2548 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
-									
-                  0x0B,2048 + Joint_getThighTarAng(Vy,0,temp), /*RF*/ 
-									0x06,2400 + Joint_getCrusTarAng(Vy + Vx + Omega,0.5f,temp),
-									
-									0x07,2648 + Joint_getThighTarAng(Vy,1.0f,temp), /*LF*/ 
-									0x08,2648 + Joint_getCrusTarAng(Vy + Vx + Omega,1.25f,temp),
-									
-                  0x01,2600 + Joint_getThighTarAng(Omega + Vx,0,temp),
-									0x0A,2048 + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-									0x05,2648 + Joint_getThighTarAng(Omega - Vx,0,temp),
-									0x0C,2048 + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
-							 
-//	vTaskDelay(5);	
-	
-}
-
-/*------------------------------80 Chars Limit--------------------------------*/
-	/**
-	* @Data    2019-01-09 11:33
-	* @brief   三角步态关节运动模型
-	* @param   void
-	* @retval  void
-	*/
-void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
-{	
-	static float temp=0;
-
-	if(Vx == 0 && Vy == 0 && Omega == 0)
-		temp=0;
-	else
-	  temp=temp>2*PI?0:temp+0.04f;
-	DXL1_setSyncMsg(USART_6,POSITION,12,
-	                0x01,DigitalServo.MX_64[0].MiddleAngle 
-                  - Joint_getThighTarAng(Vy,-0.5f,temp), /*LF左前*/               
-						      0x02,DigitalServo.MX_64[1].MiddleAngle 
-                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.25f,temp),
-									
-									0x03,DigitalServo.MX_64[2].MiddleAngle 
-                  - Joint_getThighTarAng(Vy,-1.5f,temp), /*RH*/ 
-									0x04,DigitalServo.MX_64[3].MiddleAngle 
-                  + Joint_getCrusTarAng(Vy + Vx + Omega,-1.25f,temp),
-								
-                  0x05,DigitalServo.MX_64[4].MiddleAngle 
-                  + Joint_getThighTarAng(Vy,-1.0,temp), /*RH*/ 
-									0x06,DigitalServo.MX_64[5].MiddleAngle 
-                  + Joint_getCrusTarAng(Vy + Vx + Omega,-0.75f,temp),
-								
-									0x07,DigitalServo.MX_64[6].MiddleAngle 
-                  + Joint_getThighTarAng(Vy,0.0f,temp), /*LF*/ 
-									0x08,DigitalServo.MX_64[7].MiddleAngle 
-                  + Joint_getCrusTarAng(Vy + Vx + Omega,0.25f,temp),
-									
-                  0x09,DigitalServo.MX_64[8].MiddleAngle 
-                  + Joint_getThighTarAng(Omega + Vx,0,temp),
-									0x0A,DigitalServo.MX_64[9].MiddleAngle 
-                  + Joint_getThighTarAng(Omega + Vx,1.0f,temp),
-									0x0B,DigitalServo.MX_64[10].MiddleAngle 
-                  + Joint_getThighTarAng(Omega - Vx,0,temp),
-									0x0C,DigitalServo.MX_64[11].MiddleAngle 
-                  + Joint_getThighTarAng(Omega - Vx,1.0f,temp));
-}
-
 
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
@@ -448,7 +511,7 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 		switch (temp)
 		{
 			case 1:/*状态1 对角步态往沙丘*/
-				Joint_TrotMotionModel(-DR16.ch3/2,80,-DR16.ch1/2);
+				Joint_NewTrotMotionModel(-DR16.ch1/2,-180,-DR16.ch3/2);
 			  if(DR16.switch_left == 1)
 				{
 					if(!PhoFlg.RF&&!PhoFlg.LF)
@@ -492,7 +555,7 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 			
 		      DigitalServo.MX_64[1].MiddleAngle=2548;
 		    	DigitalServo.MX_64[3].MiddleAngle=2548;
-					Joint_TrotMotionModel(-DR16.ch3/2,100,-DR16.ch1/2);
+					Joint_NewTrotMotionModel(-DR16.ch1/2,-100,-DR16.ch3/2);
 				  temp=4;
 				}
 			
@@ -503,7 +566,7 @@ void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega)
 		  	temp=6;
 				break;
 			case 6:/*状态6 对角步态上坡*/
-  			Joint_TrotMotionModel(-DR16.ch3/2,100,-DR16.ch1/2);
+  			Joint_TrotMotionModel(-DR16.ch1/2,100,-DR16.ch3/2);
 			  if(!PhoFlg.LH&&!PhoFlg.RH)
 				{
 					temp=3;
@@ -595,6 +658,23 @@ void Thigh_Forward(void)
 
 
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   髋关节控制
+	* @param   TarAng 目标角度， Phase相位 ，Temp 倍率
+	* @retval  滤波后的角度
+	*/
+
+static int16_t Joint_getHipTarAng(int16_t TarAng ,float Phase,float Temp)
+{
+	  TarAng=TarAng>80?80:TarAng;
+		TarAng=TarAng<-80?-80:TarAng;
+	  return ((Curve_Sin(TarAng,2,Phase,0,Temp)));
+}
+
+
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-09 11:33
@@ -620,7 +700,7 @@ static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp)
 	*/
 static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp)
 {
-	TarAng*=2.5;
+	TarAng*=2;
 	TarAng=TarAng>600?600:TarAng;
 	TarAng=TarAng<-600?-600:TarAng;
 
