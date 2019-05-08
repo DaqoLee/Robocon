@@ -115,19 +115,52 @@ static void vTaskCtrlGimbal(void *pvParameters)
 static void vTaskCtrlJoint(void *pvParameters)
 {
 	portTickType CurrentControlTick = 0;
+	static uint8_t flag=0;
 	vTaskDelay(1000);
 	GY955.targetYaw = GY955.Yaw;
 	GY955.targetPitch = GY955.Pitch;
 	GY955.targetRoll = GY955.Roll;
 //	DXL1_setSyncMsg(USART_6,SPEED,2,0x01,600,0x02,600);
+
 	vTaskDelay(100);
 	
 //			DXL1_setSyncMsg(USART_6,0x04,1,0x0B,0x01);
 //	DXL1_setSyncMsg(USART_6,ACC,2,0x01,100,0x02,100);
   while(1)
 	{
+//		DXL1_setBulkReadMsg(USART_6,1,0x01,0x1E);
+//		vTaskDelay(5);
+//		DXL1_setBulkReadMsg(USART_6,1,0x02,0x1E);
+//		vTaskDelay(5);
+//		DXL1_setBulkReadMsg(USART_6,1,0x03,0x1E);
+//		
+//	flag++;
+//	if(flag==8)
+//	{
+//	  
+//		flag=0;
+//	}
+//	else
+//	{
+//	
+//	}
+////		
+//	
+//	 DXL1_setBulkReadMsg(USART_6,1,flag,0x1E);
 		
-	
+//		 DXL1_setPingMsg(USART_6,0xFE);
+//		 
+//		 for(uint8_t i=1;i<13;i++)
+//		 {
+//		   if(DigitalServo.MX_64[i].Error==0x20)
+//			 {
+//				 DXL1_setRebootMsg(USART_6,i);
+//				 vTaskDelay(5);
+//			 }
+//		 }
+
+  
+	#if 1
 		Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
 //		
 		if(DR16.switch_right == 3)
@@ -141,14 +174,18 @@ static void vTaskCtrlJoint(void *pvParameters)
 //																	0x04,100,0x05,100,0x06,100,
 //																	0x07,100,0x08,100,0x09,100,
 //																	0x0A,100,0x0B,100,0x0C,100);
-			Joint_NewTrotMotionModel(-DR16.ch1/2,DR16.ch2/2,DR16.ch3/2);
+			
+//			Joint_TextPassSandDune(0);
+			Joint_NewTrotMotionModel(-DR16.ch3/2,DR16.ch2/2,DR16.ch1/2);
+//			Joint_NewWalkMotionModel(-DR16.ch3/2,DR16.ch2/2,DR16.ch1/2);
 			//Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 		}
-
+#endif
 //		Joint_TrotMotionModelx(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(DR16.ch1,DR16.ch2/2,DR16.ch3);
  //   Joint_WalkMotionModel(DR16.ch1,0,DR16.ch3);
+		
 	  vTaskDelayUntil(&CurrentControlTick, 10 / portTICK_RATE_MS);/*5msÑÓÊ±*/
 	}
 }

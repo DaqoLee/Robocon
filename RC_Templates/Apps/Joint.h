@@ -54,6 +54,7 @@ void Joint_Init(void);
 void Thigh_M6020Ctrl(void);
 void Joint_MotionTest(void);
 void Joint_StateMachine(void);
+void Joint_TextPassSandDune(uint8_t Temp);
 void Joint_TrotMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_TrotMotionModelx(int16_t Vx, int16_t Vy, int16_t Omega);
 void Joint_WalkMotionModel(int16_t Vx, int16_t Vy, int16_t Omega);

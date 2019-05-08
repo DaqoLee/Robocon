@@ -78,7 +78,7 @@ void vTaskStart(void *pvParameters)
 	DMA_USART1RxConfig((uint32_t)DR16.buff,20);
 	DMA_USART2RxConfig((uint32_t)Posture.buff,28);
 	DMA_USART3RxConfig((uint32_t)GY955.buff,20);
-	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
+	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,6);
 	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
 	DMA_UART7RxConfig((uint32_t)Camera.buff,10);
 
@@ -131,7 +131,7 @@ static void TestTaskCreate(void)
 						NULL,                /* 任务参数  */
 						1,       			   		 /* 任务优先级*/
 						&TaskLEDHandler);   /* 任务句柄  */ 
-#if 0
+#if 1
 	xTaskCreate(vTaskTest,            
 						"vTaskTest",          
 						256,       			   
@@ -184,14 +184,14 @@ static void vTaskLED(void *pvParameters)
 static void vTaskTest(void *pvParameters)
 {
 //	float x=0.0f;//1000
-	int8_t t=0;
-	OLED_ShowCHinese(0,0,0);//中
-	OLED_ShowCHinese(18,0,1);//景
-	OLED_ShowCHinese(36,0,2);//园
-	OLED_ShowCHinese(54,0,3);//电
-	OLED_ShowCHinese(72,0,4);//子
-	OLED_ShowCHinese(90,0,5);//科
-	OLED_ShowCHinese(108,0,6);//技
+//	int8_t t=0;
+//	OLED_ShowCHinese(0,4,0);//中
+//	OLED_ShowCHinese(18,4,1);//景
+//	OLED_ShowCHinese(36,4,2);//园
+//	OLED_ShowCHinese(54,4,3);//电
+//	OLED_ShowCHinese(72,4,4);//子
+//	OLED_ShowCHinese(90,4,5);//科
+//	OLED_ShowCHinese(108,4,6);//技
 	while(1)
 	{
 //		for(;x<5250;x+=30)
@@ -221,14 +221,25 @@ static void vTaskTest(void *pvParameters)
 
 		
 		//OLED_ShowString(0,3,"1.3' OLED TEST");
-		
-		t++;
-		if(t>'~')t=' ';
-		  OLED_ShowNum(103,6,t,3,16);//显示ASCII字符的码值 	
+//		 for(uint8_t i=0;i<4;i++)
+//		 {
+//		 //  if(DigitalServo.MX_64[i].Error==0x20)
+//			 {
+//	//			 DXL1_setRebootMsg(USART_6,i);
+//				 OLED_ShowNum(103,2*i,DigitalServo.MX_64[i+1].Error,3,16);
+//				 vTaskDelay(5);
+//			 }
+//		 }	
+		 OLED_ShowNum(10,4,Camera.Angle,3,16);
+		 OLED_ShowNum(64,4,Camera.Offset,3,16);
+		 OLED_ShowNum(103,4,Camera.Flag,3,16);
+//		t++;
+//		if(t>'~')t=' ';
+//		  OLED_ShowNum(103,6,t,3,16);//显示ASCII字符的码值 	
 			
 		
 //		OLED_ShowString(20,20,"abcd");
-		vTaskDelay(500);
+		vTaskDelay(50);
 	}
 }
 

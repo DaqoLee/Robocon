@@ -55,27 +55,28 @@ void ServoParamInit()
 	*/
 void DXL1_getMassage(uint8_t *DynamixelBuffer)
 {
-	 uint16_t crc=0;
+	 uint8_t crc=0;
 	
-   for(uint8_t i=0;i<20;i++)
-   {
-      if(DynamixelBuffer[i] == 0xFF && DynamixelBuffer[i+1]==0xFF)
+//   for(uint8_t i=0;i<20;i++)
+//   {
+      if(DynamixelBuffer[0] == 0xFF && DynamixelBuffer[1]==0xFF)
       {
-				for(int j=i;j<(DynamixelBuffer[i+3]+1);j++)/*校验和*/
+				for(int j=0;j<(DynamixelBuffer[3]+1);j++)/*校验和*/
 				{
 					crc+=DynamixelBuffer[j+2];
 				}
 				crc=~crc;
 
-				if(DynamixelBuffer[i+7]==crc)
+				if(DynamixelBuffer[5]==crc)
 				{
-					DigitalServo.MX_64[DynamixelBuffer[i+2]].realAngle=DynamixelBuffer[i+5] 
-																							|(DynamixelBuffer[i+6]<<8);
+					DigitalServo.MX_64[DynamixelBuffer[2]].Error=DynamixelBuffer[4];
+//					DigitalServo.MX_64[DynamixelBuffer[2]].realAngle=DynamixelBuffer[5] 
+//																							|(DynamixelBuffer[6]<<8);
 				}
 				
-				break;
+//				break;
       }
-   }
+ //  }
 }
 
 /*------------------------------80 Chars Limit--------------------------------*/
@@ -186,7 +187,71 @@ void DXL1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd, uint16_t Data)
    
 }
 
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   单个舵机写入目标角度
+	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
+	* @retval  void
+	*/
+void DXL1_setPingMsg(USARTx_e USARTx,uint8_t ID)
+{
+	USARTSend_t usartSend;
+	uint8_t sendBuff[9];
+	
+	usartSend.crc=0;
+	usartSend.USART_x=USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=ID;
+	usartSend.pUSARTSendBuff[3]=0x02;
+	
+	usartSend.pUSARTSendBuff[4]=PING;
 
+	for(int i=0;i<3;i++)
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+	usartSend.pUSARTSendBuff[5]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);
+   
+}
+
+/*------------------------------80 Chars Limit--------------------------------*/
+	/**
+	* @Data    2019-01-10 14:07
+	* @brief   单个舵机写入目标角度
+	* @param   ID ：舵机ID Cmd：命令 Data：目标角度
+	* @retval  void
+	*/
+void DXL1_setRebootMsg(USARTx_e USARTx,uint8_t ID)
+{
+	USARTSend_t usartSend;
+	uint8_t sendBuff[9];
+	
+	usartSend.crc=0;
+	usartSend.USART_x=USARTx;
+	usartSend.pUSARTSendBuff=sendBuff;
+	
+	usartSend.pUSARTSendBuff[0]=0xFF;
+	usartSend.pUSARTSendBuff[1]=0xFF;
+	usartSend.pUSARTSendBuff[2]=ID;
+	usartSend.pUSARTSendBuff[3]=0x02;
+	
+	usartSend.pUSARTSendBuff[4]=REBOOT;
+
+	for(int i=0;i<3;i++)
+	{
+		usartSend.crc+=usartSend.pUSARTSendBuff[i+2];
+	}
+	usartSend.pUSARTSendBuff[5]=~usartSend.crc;
+	
+	xQueueSend(xusartTxQueue, &usartSend, 20);
+   
+}
 /*------------------------------80 Chars Limit--------------------------------*/
 	/**
 	* @Data    2019-01-10 14:07

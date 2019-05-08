@@ -76,7 +76,7 @@ typedef struct
 
 typedef struct
 {
-	uint8_t DxlBuff[20];
+	uint8_t DxlBuff[6];
 	uint8_t SmsBuff[20];
 	
 	DXL_t MX_64[12];
@@ -118,8 +118,11 @@ void DXL1_setMassage(USARTx_e USARTx,uint8_t ID, uint16_t Length,
                                      uint8_t Cmd, uint8_t *Data);
 void DXL1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd,  uint16_t Data);
 void DXL1_getMassage(uint8_t *DXLBuffer);
+void DXL1_setPingMsg(USARTx_e USARTx,uint8_t ID);
+void DXL1_setRebootMsg(USARTx_e USARTx,uint8_t ID);
 void DXL1_setSyncTarAng(USARTx_e USARTx,uint8_t Num,...);
 void DXL1_setSyncMsg(USARTx_e USARTx,uint8_t Addr,uint8_t Num,...);
+void DXL1_setBulkReadMsg(USARTx_e USARTx,uint8_t Num,...);
 void SMS1_setTargetAngle(USARTx_e USARTx,uint8_t ID, uint8_t Cmd, uint16_t Position);
 #endif	// __SERVO_H
 /*----------------------------------FILE OF END-------------------------------*/

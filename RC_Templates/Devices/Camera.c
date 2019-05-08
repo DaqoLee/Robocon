@@ -35,10 +35,17 @@ void Camera_getMassage(uint8_t *CameraBuff)
 		{
 		  if(CameraBuff[i+4] == ',' && CameraBuff[i+8] == ',')
 			{
-        Camera.Angle = 
-				  (CameraBuff[i+1] - '0') * 100
-				+ (CameraBuff[i+2] - '0') * 10
-        + (CameraBuff[i+3] - '0');
+				if(CameraBuff[i+1]=='0')
+				{
+					Camera.Angle =  ((CameraBuff[i+2] - '0') * 10
+							           + (CameraBuff[i+3] - '0'))*-1;
+				}
+				else
+        {
+					Camera.Angle = (CameraBuff[i+2] - '0') * 10
+					               + (CameraBuff[i+3] - '0');
+				}
+
 
 				Camera.Offset =
 			  	(CameraBuff[i+5] - '0') * 100
