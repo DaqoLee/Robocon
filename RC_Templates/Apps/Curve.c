@@ -94,11 +94,21 @@ float Curve_Bezier(uint8_t *x,uint8_t n,float t)
   * @param   void
   * @retval  void
   */
-double Curve_Sin(double A,double w,double fi,double b,double pi)
+double Curve_Sin(double A,double w,double fi,double b,double x)
 {
-  return (A*sin(w*pi+fi*PI)+b);
+  return (A*sin(w*x+fi*PI)+b);
 }
 
+  /**
+  * @Data    2019-03-03 13:05
+  * @brief   
+  * @param   void
+  * @retval  void
+  */
+double Curve_SinWalk(double A,double w,double fi,double b,double x)
+{
+  return (A*sin(w*(x+fi*PI))+b);
+}
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
 

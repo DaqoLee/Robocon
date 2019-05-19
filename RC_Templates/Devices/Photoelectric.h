@@ -30,6 +30,9 @@ typedef struct
   uint8_t LH : 1;
   uint8_t RF : 1;
   uint8_t RH : 1;
+	uint8_t CLAMP :1;
+	uint8_t SLOPE :1;
+	uint8_t SDOP :1;
 }PhoFlg_t;
 
 
@@ -50,6 +53,18 @@ typedef struct
 #define RH_GPIO_CLK             	RCC_AHB1Periph_GPIOA
 #define RH_PIN                  	GPIO_Pin_3
 #define RH_GPIO_PORT           	  GPIOA
+
+#define SDOP_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define SDOP_PIN                  	GPIO_Pin_11
+#define SDOP_GPIO_PORT           	GPIOA
+
+#define CLAMP_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define CLAMP_PIN                  	GPIO_Pin_9
+#define CLAMP_GPIO_PORT           	GPIOA
+
+#define SLOPE_GPIO_CLK             	RCC_AHB1Periph_GPIOA
+#define SLOPE_PIN                  	GPIO_Pin_8
+#define SLOPE_GPIO_PORT           	GPIOA
 
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 

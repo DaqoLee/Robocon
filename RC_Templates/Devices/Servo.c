@@ -70,8 +70,8 @@ void DXL1_getMassage(uint8_t *DynamixelBuffer)
 				if(DynamixelBuffer[5]==crc)
 				{
 					DigitalServo.MX_64[DynamixelBuffer[2]].Error=DynamixelBuffer[4];
-//					DigitalServo.MX_64[DynamixelBuffer[2]].realAngle=DynamixelBuffer[5] 
-//																							|(DynamixelBuffer[6]<<8);
+					DigitalServo.MX_64[DynamixelBuffer[2]].realAngle=DynamixelBuffer[5] 
+																							|(DynamixelBuffer[6]<<8);
 				}
 				
 //				break;
@@ -241,7 +241,7 @@ void DXL1_setRebootMsg(USARTx_e USARTx,uint8_t ID)
 	usartSend.pUSARTSendBuff[2]=ID;
 	usartSend.pUSARTSendBuff[3]=0x02;
 	
-	usartSend.pUSARTSendBuff[4]=REBOOT;
+	usartSend.pUSARTSendBuff[4]=REBOOT;//0x08
 
 	for(int i=0;i<3;i++)
 	{

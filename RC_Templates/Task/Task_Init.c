@@ -78,7 +78,7 @@ void vTaskStart(void *pvParameters)
 	DMA_USART1RxConfig((uint32_t)DR16.buff,20);
 	DMA_USART2RxConfig((uint32_t)Posture.buff,28);
 	DMA_USART3RxConfig((uint32_t)GY955.buff,20);
-	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,6);
+	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
 	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
 	DMA_UART7RxConfig((uint32_t)Camera.buff,10);
 
@@ -194,6 +194,7 @@ static void vTaskTest(void *pvParameters)
 //	OLED_ShowCHinese(108,4,6);//技
 	while(1)
 	{
+		
 //		for(;x<5250;x+=30)
 //		{
 //		  i++;
@@ -230,9 +231,9 @@ static void vTaskTest(void *pvParameters)
 //				 vTaskDelay(5);
 //			 }
 //		 }	
-		 OLED_ShowNum(10,4,Camera.Angle,3,16);
-		 OLED_ShowNum(64,4,Camera.Offset,3,16);
-		 OLED_ShowNum(103,4,Camera.Flag,3,16);
+		 OLED_ShowNum(10,4,RunFlag,3,16);
+//		 OLED_ShowNum(64,4,Camera.Offset,3,16);
+//		 OLED_ShowNum(103,4,Camera.Flag,3,16);
 //		t++;
 //		if(t>'~')t=' ';
 //		  OLED_ShowNum(103,6,t,3,16);//显示ASCII字符的码值 	

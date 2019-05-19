@@ -40,7 +40,7 @@ void Photoelectric_Init(void)
 	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_IN;   
 	GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;	
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
-	GPIO_InitStructure.GPIO_Pin   = LF_PIN|LH_PIN|RF_PIN|RH_PIN;	 
+	GPIO_InitStructure.GPIO_Pin   = LF_PIN|LH_PIN|RF_PIN|RH_PIN|CLAMP_PIN|SLOPE_PIN|SDOP_PIN;	 
 
 	GPIO_Init(LF_GPIO_PORT, &GPIO_InitStructure);
 }
@@ -57,6 +57,9 @@ void Photoelectric_Init(void)
     PhoFlg.LH=GPIO_ReadInputDataBit(LH_GPIO_PORT,LH_PIN);
     PhoFlg.RF=GPIO_ReadInputDataBit(RF_GPIO_PORT,RF_PIN);
     PhoFlg.RH=GPIO_ReadInputDataBit(RH_GPIO_PORT,RH_PIN);
+		PhoFlg.CLAMP=GPIO_ReadInputDataBit(CLAMP_GPIO_PORT,CLAMP_PIN);
+		PhoFlg.SLOPE=GPIO_ReadInputDataBit(SLOPE_GPIO_PORT,SLOPE_PIN);
+		PhoFlg.SDOP=GPIO_ReadInputDataBit(SDOP_GPIO_PORT,SDOP_PIN);
   }
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 

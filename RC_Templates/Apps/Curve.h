@@ -38,7 +38,8 @@
 
 void Curve_Straight(int16_t Len);
 void Curve_Straight1(int16_t Len);
-double Curve_Sin(double A,double w,double fi,double b,double pi);
+double Curve_Sin(double A,double w,double fi,double b,double x);
+double Curve_SinWalk(double A,double w,double fi,double b,double x);
 
 
 #endif	// __CURVE_H

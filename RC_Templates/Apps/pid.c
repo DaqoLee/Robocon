@@ -89,23 +89,23 @@ float PID_Calc(pid_t* pid, float get, float set)
 		 
       absLimit(&(pid->Iout), pid->integralLimit);
 
-	  pid->posOut = pid->Pout + pid->Iout + pid->Dout;
+	    pid->posOut = pid->Pout + pid->Iout + pid->Dout;
 			
       absLimit(&(pid->posOut), pid->maxOutput);
       pid->lastPosOut = pid->posOut;	//update last time 
     }
     else if(pid->pidMode == DELTA_PID)//ÔöÁ¿Ê½P
     {
-	  pid->Pout = pid->P * (pid->err[NOW] - pid->err[LAST]);
-	  pid->Iout = pid->I * pid->err[NOW];
-	  pid->Dout = pid->D * (pid->err[NOW] - 2*pid->err[LAST] + pid->err[LLAST]);
-			
-	  absLimit(&(pid->Iout), pid->integralLimit);
-	  pid->deltaU = pid->Pout + pid->Iout + pid->Dout;
-	
-	  pid->deltaOut = pid->lastDeltaOut + pid->deltaU;
-	  absLimit(&(pid->deltaOut), pid->maxOutput);
-	  pid->lastDeltaOut = pid->deltaOut;	//update last time
+			pid->Pout = pid->P * (pid->err[NOW] - pid->err[LAST]);
+			pid->Iout = pid->I * pid->err[NOW];
+			pid->Dout = pid->D * (pid->err[NOW] - 2*pid->err[LAST] + pid->err[LLAST]);
+				
+			absLimit(&(pid->Iout), pid->integralLimit);
+			pid->deltaU = pid->Pout + pid->Iout + pid->Dout;
+		
+			pid->deltaOut = pid->lastDeltaOut + pid->deltaU;
+			absLimit(&(pid->deltaOut), pid->maxOutput);
+			pid->lastDeltaOut = pid->deltaOut;	//update last time
     }
     
     pid->err[LLAST] = pid->err[LAST];

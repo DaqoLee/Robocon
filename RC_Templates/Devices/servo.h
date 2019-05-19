@@ -76,10 +76,10 @@ typedef struct
 
 typedef struct
 {
-	uint8_t DxlBuff[6];
+	uint8_t DxlBuff[20];
 	uint8_t SmsBuff[20];
 	
-	DXL_t MX_64[12];
+	DXL_t MX_64[14];
 	SMS_t SM_60[12];
 	
 }DigitalServo_t;
