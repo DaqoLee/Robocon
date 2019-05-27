@@ -127,10 +127,10 @@ static void vTaskCtrlJoint(void *pvParameters)
 //			DXL1_setSyncMsg(USART_6,0x04,1,0x0B,0x01);
 	DXL1_setSyncMsg(USART_6,SPEED,2,0x0D,100,0x0E,100);
 	vTaskDelay(100);
-//	DXL1_setSyncMsg(USART_6,0x06,1,0x08,1024);
-//		vTaskDelay(100);
-//	DXL1_setSyncMsg(USART_6,0x08,1,0x08,3072);
-	Joint_RobotArmCtrl(890,2068);
+	DXL1_setSyncMsg(USART_6,0x06,1,0x08,824);
+		vTaskDelay(100);
+	DXL1_setSyncMsg(USART_6,0x08,1,0x08,3272);
+	Joint_RobotArmCtrl(3180,2100);
   while(1)
 	{
 //		DXL1_setBulkReadMsg(USART_6,1,0x01,0x1E);
@@ -151,7 +151,7 @@ static void vTaskCtrlJoint(void *pvParameters)
 //	}
 //////		
 ////	
-//	 DXL1_setBulkReadMsg(USART_6,1,flag,0x28);
+//	 D-XL1_setBulkReadMsg(USART_6,1,flag,0x28);
 		
 //		 DXL1_setPingMsg(USART_6,0xFE);
 //		 
@@ -166,7 +166,7 @@ static void vTaskCtrlJoint(void *pvParameters)
 
   
 	#if 1
-		Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
+		Joint.Vspin = PID_Calc(&Joint.PID_Spin, GY955.Yaw, GY955.targetYaw);
 //		
 
 //    if(DR16.switch_left == 2)
@@ -180,8 +180,10 @@ static void vTaskCtrlJoint(void *pvParameters)
 		if(DR16.switch_right == 3)
 		{
 			
-			Joint_NewTrotMotionModel(-DR16.ch3/2,DR16.ch2/2,DR16.ch1/2,0.06f);
+	//		Joint_NewTrotMotionModel(-DR16.ch3/2, DR16.ch2/2, Joint.Vspin, 0.3f);
 //			Joint_TrotMotionModel(-DR16.ch1/2,DR16.ch2/2,-Joint.Vspin);
+			Joint_NewTrotMotionModel(0, 20, 0, 0.25f);
+
 		}
 		else if(DR16.switch_right == 2)
 		{
@@ -189,7 +191,9 @@ static void vTaskCtrlJoint(void *pvParameters)
 //																	0x04,100,0x05,100,0x06,100,
 //																	0x07,100,0x08,100,0x09,100,
 //																	0x0A,100,0x0B,100,0x0C,100);
-			Joint_StateMachine();
+		//Joint_NewTrotMotionModel(-DR16.ch3/2, DR16.ch2/2, DR16.ch1/2, 0.25f);
+
+		Joint_StateMachine();
 //			Joint_TextPassSandDune(0);
 			
 //			Joint_NewWalkMotionModel(-DR16.ch3/2,DR16.ch2/2,DR16.ch1/2);
@@ -197,13 +201,15 @@ static void vTaskCtrlJoint(void *pvParameters)
 		}	
 		else if(DR16.switch_right == 1)
     {
-		  Joint_NewTrotMotionModel(-DR16.ch3/2,DR16.ch2/2,Joint.Vspin,0.06f);
+			
+			//Joint_NewWalkMotionModel(-DR16.ch3/2, DR16.ch2/2, DR16.ch1/2);
+		  Joint_NewTrotMotionModel(-DR16.ch3/2,  DR16.ch2/2, DR16.ch1/2, 0.25f);
 		}
 #endif
 //		Joint_TrotMotionModelx(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(-DR16.ch1/2,DR16.ch2/2,-DR16.ch3/2);
 //		Joint_WalkMotionModel(DR16.ch1,DR16.ch2/2,DR16.ch3);
- //   Joint_WalkMotionModel(DR16.ch1,0,DR16.ch3);
+//   Joint_WalkMotionModel(DR16.ch1,0,DR16.ch3);
 		
 		vTaskDelay(10);
 		
