@@ -36,11 +36,14 @@ float LH=0,RH=0;
 
 static int16_t Joint_getThighTarAng(int16_t TarAng ,float Phase,float Temp,float coe);
 static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp,float coe);
+static int16_t Joint_getRopeCrusTarAng(int16_t TarAng ,float Phase,float Temp,float coe);
 static int16_t Joint_getHipTarAng(int16_t TarAng ,float Phase,float Temp);
 static void Joint_PassSandDune(uint8_t Temp);
 static void Joint_walkModel(int16_t Vx, int16_t Vy, int16_t Omega,float T);
 static void Joint_UpslopeModel(int16_t Vx, int16_t Vy, int16_t Omega,float T);
 static void Joint_RopeModel(int16_t Vx, int16_t Vy, int16_t Omega,float T);
+static void Joint_RopeModelF(int16_t Vx, int16_t Vy, int16_t Omega,float T);
+static void Joint_RopeModelH(int16_t Vx, int16_t Vy, int16_t Omega,float T);
 static void Joint_SandDuneModel(int16_t Vx, int16_t Vy, int16_t Omega,float T);
 /*------------------G L O B A L - F U N C T I O N S --------------------------*/
 	/**
@@ -68,16 +71,16 @@ void Joint_Init(void)
 #endif
 #if 1
 	//大腿
-	DigitalServo.MX_64[0].MiddleAngle = 3072;
-	DigitalServo.MX_64[2].MiddleAngle = 3072;
-	DigitalServo.MX_64[4].MiddleAngle = 2030;
-	DigitalServo.MX_64[6].MiddleAngle = 3072;	
+	DigitalServo.MX_64[0].MiddleAngle = 2048;
+	DigitalServo.MX_64[2].MiddleAngle = 2048;
+	DigitalServo.MX_64[4].MiddleAngle = 2048;
+	DigitalServo.MX_64[6].MiddleAngle = 2048;	
 	
 	//小腿
 	DigitalServo.MX_64[1].MiddleAngle = 2048;
 	DigitalServo.MX_64[3].MiddleAngle = 2048;
 	DigitalServo.MX_64[5].MiddleAngle = 2100;
-	DigitalServo.MX_64[7].MiddleAngle = 1850;
+	DigitalServo.MX_64[7].MiddleAngle = 2700;
 	
 //	DigitalServo.MX_64[4].MiddleAngle = 1348;
 //	DigitalServo.MX_64[5].MiddleAngle = 2620;
@@ -424,8 +427,58 @@ static void Joint_RopeModel(int16_t Vx, int16_t Vy, int16_t Omega,float T)
 {	
 	static float temp=0;
 	static uint16_t flag=0,flag1=0;
-	static int16_t  thighErr=-300,crusErr=-600,hipErr=-50,hipErr1 = -50,crusErr1=-600,crusErr2=-700,thighErr1=0;
-  float thigh_anglecoe = 1,crus_anglecoe = 8;
+	static int16_t  thighErr=-300,crusErr=-400,hipErr=-50,hipErr1 = -50,crusErr1=-500,crusErr2=-500,thighErr1=0;
+  float thigh_anglecoe = 1,crus_anglecoe = 1;
+//	static int16_t  thighErr=-800,crusErr=1700,hipErr=50;
+
+	if(Vx == 0 && Vy == 0 && Omega == 0)
+		temp=0;
+	else
+	  temp = (temp>2*PI)?0:(temp+T);
+
+
+	DXL1_setSyncMsg(USART_6,POSITION,12,
+	/*LH*/	
+	0x01, DigitalServo.MX_64[0].MiddleAngle +thighErr - 0*Joint.Vz +thighErr1 
+	+ Joint_getThighTarAng(Vy,0,temp,thigh_anglecoe), 
+	/*RH*/
+	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr-0* Joint.Vz+thighErr1 
+	+ Joint_getThighTarAng(Vy,1.0f,temp,thigh_anglecoe), 
+	/*RF*/
+	0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr + 0*Joint.Vz 
+	+ Joint_getThighTarAng(Vy,0,temp,thigh_anglecoe), 
+	/*LF*/
+	0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr + 0*Joint.Vz 
+	+ Joint_getThighTarAng(Vy,1.0f,temp,thigh_anglecoe), 	
+	
+	/*LH*/	
+	0x02,DigitalServo.MX_64[1].MiddleAngle  + Joint.Vz + Joint.Vp + crusErr1 
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 0.25f, temp,2),	
+	/*RH*/ 
+	0x04,DigitalServo.MX_64[3].MiddleAngle + Joint.Vz - Joint.Vp +crusErr1
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 1.25f, temp,2),
+	/*RF*/	
+	0x06,DigitalServo.MX_64[5].MiddleAngle  - Joint.Vz - Joint.Vp+crusErr2
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 0.25f, temp,2),
+	/*LF*/	
+	0x08,DigitalServo.MX_64[7].MiddleAngle - Joint.Vz + Joint.Vp+crusErr2
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 1.25f, temp,2),
+	
+	0x09,DigitalServo.MX_64[8].MiddleAngle + hipErr + Joint_getHipTarAng(Omega + Vx, 0, temp),
+	0x0A,DigitalServo.MX_64[9].MiddleAngle - hipErr + Joint_getHipTarAng(Omega + Vx, 1.0f, temp),
+	0x0B,DigitalServo.MX_64[10].MiddleAngle + hipErr1 + Joint_getHipTarAng(Omega - Vx, 0, temp),
+	0x0C,DigitalServo.MX_64[11].MiddleAngle - hipErr1 + Joint_getHipTarAng(Omega - Vx, 1.0f, temp));
+	
+}
+
+
+//绳子
+static void Joint_RopeModelF(int16_t Vx, int16_t Vy, int16_t Omega,float T)
+{	
+	static float temp=0;
+	static uint16_t flag=0,flag1=0;
+	static int16_t  thighErr=-300,crusErr=-600,hipErr=-50,hipErr1 = -50,crusErr1=-500,crusErr2=-500,thighErr1=0;
+  float thigh_anglecoe = 1,crus_anglecoe = 10;
 //	static int16_t  thighErr=-800,crusErr=1700,hipErr=50;
 
 	if(Vx == 0 && Vy == 0 && Omega == 0)
@@ -456,6 +509,56 @@ static void Joint_RopeModel(int16_t Vx, int16_t Vy, int16_t Omega,float T)
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 1.25f, temp,crus_anglecoe),
 	/*RF*/	
 	0x06,DigitalServo.MX_64[5].MiddleAngle  - Joint.Vz - Joint.Vp+crusErr2
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 0.25f, temp,0.5f),
+	/*LF*/	
+	0x08,DigitalServo.MX_64[7].MiddleAngle - Joint.Vz + Joint.Vp+crusErr2
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 1.25f, temp,0.5f),
+	
+	0x09,DigitalServo.MX_64[8].MiddleAngle + hipErr + Joint_getHipTarAng(Omega + Vx, 0, temp),
+	0x0A,DigitalServo.MX_64[9].MiddleAngle - hipErr + Joint_getHipTarAng(Omega + Vx, 1.0f, temp),
+	0x0B,DigitalServo.MX_64[10].MiddleAngle + hipErr1 + Joint_getHipTarAng(Omega - Vx, 0, temp),
+	0x0C,DigitalServo.MX_64[11].MiddleAngle - hipErr1 + Joint_getHipTarAng(Omega - Vx, 1.0f, temp));
+	
+}
+
+
+//绳子
+static void Joint_RopeModelH(int16_t Vx, int16_t Vy, int16_t Omega,float T)
+{	
+	static float temp=0;
+	static uint16_t flag=0,flag1=0;
+	static int16_t  thighErr=-300,crusErr=-600,hipErr=-50,hipErr1 =-50,crusErr1=-500,crusErr2=-500,thighErr1=0;
+  float thigh_anglecoe = 1,crus_anglecoe = 10;
+//	static int16_t  thighErr=-800,crusErr=1700,hipErr=50;
+
+	if(Vx == 0 && Vy == 0 && Omega == 0)
+		temp=0;
+	else
+	  temp = (temp>2*PI)?0:(temp+T);
+
+
+	DXL1_setSyncMsg(USART_6,POSITION,12,
+	/*LH*/	
+	0x01, DigitalServo.MX_64[0].MiddleAngle +thighErr - 0*Joint.Vz +thighErr1 
+	+ Joint_getThighTarAng(Vy,0,temp,thigh_anglecoe), 
+	/*RH*/
+	0x03,DigitalServo.MX_64[2].MiddleAngle +thighErr-0* Joint.Vz+thighErr1 
+	+ Joint_getThighTarAng(Vy,1.0f,temp,thigh_anglecoe), 
+	/*RF*/
+	0x05,DigitalServo.MX_64[4].MiddleAngle +thighErr + 0*Joint.Vz 
+	+ Joint_getThighTarAng(Vy,0,temp,thigh_anglecoe), 
+	/*LF*/
+	0x07,DigitalServo.MX_64[6].MiddleAngle +thighErr + 0*Joint.Vz 
+	+ Joint_getThighTarAng(Vy,1.0f,temp,thigh_anglecoe), 	
+	
+	/*LH*/	
+	0x02,DigitalServo.MX_64[1].MiddleAngle  + Joint.Vz + Joint.Vp + crusErr1 
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 0.25f, temp,0.5f),	
+	/*RH*/ 
+	0x04,DigitalServo.MX_64[3].MiddleAngle + Joint.Vz - Joint.Vp +crusErr1
+	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 1.25f, temp,0.5f),
+	/*RF*/	
+	0x06,DigitalServo.MX_64[5].MiddleAngle  - Joint.Vz - Joint.Vp+crusErr2
 	+ Joint_getCrusTarAng(Filter.p_ABS(Vy) + Filter.p_ABS(Vx) + Filter.p_ABS(Omega), 0.25f, temp,crus_anglecoe),
 	/*LF*/	
 	0x08,DigitalServo.MX_64[7].MiddleAngle - Joint.Vz + Joint.Vp+crusErr2
@@ -467,8 +570,6 @@ static void Joint_RopeModel(int16_t Vx, int16_t Vy, int16_t Omega,float T)
 	0x0C,DigitalServo.MX_64[11].MiddleAngle - hipErr1 + Joint_getHipTarAng(Omega - Vx, 1.0f, temp));
 	
 }
-
-
 //平地走
 static void Joint_walkModel(int16_t Vx, int16_t Vy, int16_t Omega,float T)
 {	
@@ -672,6 +773,7 @@ void Joint_TextPassSandDune(uint8_t Temp)
 static void Joint_PassSandDune(uint8_t Temp)
 {
 	static uint16_t  Tex=650;
+	
 
 //	DXL1_setSyncMsg(USART_6,ACC,12,0x01,100,0x02,100,0x03,100,
 //																	0x04,100,0x05,100,0x06,100,
@@ -818,7 +920,8 @@ static void Joint_PassSandDune(uint8_t Temp)
 	*/
 	void Joint_StateMachine(void)
 	{
-		static uint16_t temp=1,timFlg=0;
+		static uint16_t temp=1,timFlg=0,upslope_flag;
+		static uint8_t ropeFlg=0;
 		PhotoelectricScan();/*光电开关扫描*/
 		KeyScan();
 		GY955.targetYaw=GY955.targetYaw>360?GY955.targetYaw-360:GY955.targetYaw;
@@ -842,6 +945,16 @@ static void Joint_PassSandDune(uint8_t Temp)
 				vTaskDelay(300);
 				RunFlag++;
 				
+			}
+			else if(!PhoFlg.RH)
+			{
+				vTaskDelay(300);
+			  RunFlag=7;
+			}
+			else if(!PhoFlg.LH)
+			{
+				vTaskDelay(300);
+			  RunFlag=4;
 			}
 		}
 		else
@@ -924,8 +1037,95 @@ static void Joint_PassSandDune(uint8_t Temp)
 //							timFlg=0;
 //							RunFlag=0;
 //						}
+			    	timFlg++;
 				    Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
-            Joint_RopeModel(0,40,Joint.Vspin,0.15f);
+				
+				    if(ropeFlg<4)
+						{
+						  if(timFlg<200)
+							{
+								Joint_RopeModelF(0,120,Joint.Vspin,0.1f);
+							}
+							else if(timFlg>=200&&timFlg<300)
+							{
+								Joint_RopeModel(-DR16.ch3/2, 120, Joint.Vspin, 0.15f);
+							}
+							else if(timFlg>=300&&timFlg<500)
+							{
+								Joint_RopeModelH(0,120,Joint.Vspin,0.1f);
+							}
+							else if(timFlg>=500&&timFlg<550)
+							{
+								Joint_RopeModel(-DR16.ch3/2, 120, Joint.Vspin, 0.15f);
+							}
+							else
+							{
+							  timFlg=0;
+								ropeFlg++;
+							}
+						}
+						else
+						{
+						  Joint_RopeModel(0,0,0,0.1f);
+						}
+				
+#if 0				
+            if(timFlg<200)
+						{
+							Joint_RopeModelF(0,150,Joint.Vspin,0.15f);
+						}
+						else if(timFlg>200&&timFlg<400)
+						{
+						  Joint_RopeModelH(0,150,Joint.Vspin,0.15f);
+						}
+						else if(timFlg>400&&timFlg<600)
+						{
+						  Joint_RopeModelF(0,150,Joint.Vspin,0.15f);
+						}
+						else if(timFlg>600&&timFlg<800)
+						{
+						  Joint_RopeModelH(0,150,Joint.Vspin,0.15f);
+						}
+						else if(timFlg>800&&timFlg<1000)
+						{
+						  Joint_RopeModelF(0,150,Joint.Vspin,0.15f);
+						}
+						else if(timFlg>1000&&timFlg<1200)
+						{
+						  Joint_RopeModelH(0,150,Joint.Vspin,0.15f);
+						}
+						else
+						{
+							Joint_RopeModel(0,0,0,0.1f);
+						}
+#endif
+#if 0
+						
+					  if(timFlg<400)
+						{
+				      Joint_NewTrotMotionModel(-DR16.ch3/2, 35, Joint.Vspin, 0.25f);
+						}
+					  else if(timFlg<600)
+						{
+							Joint_RopeModelF(0,120,Joint.Vspin,0.1f);
+						}
+						else if(timFlg>600&&timFlg<800)
+						{
+						  Joint_RopeModelH(0,120,Joint.Vspin,0.1f);
+						}
+						else if(timFlg>800&&timFlg<1000)
+						{
+						  Joint_RopeModelF(0,120,Joint.Vspin,0.1f);
+						}
+						else if(timFlg>1000&&timFlg<1400)
+						{
+						  Joint_RopeModelH(0,120,Joint.Vspin,0.1f);
+						}
+						else
+						{
+							Joint_RopeModel(0,0,0,0.1f);
+						}
+#endif
 				break;
 				
 				case 4://爬坡
@@ -936,24 +1136,30 @@ static void Joint_PassSandDune(uint8_t Temp)
 //							
 //						}
 					 //Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
-					 
-					if(GY955.Roll < -8)
-					{
-						Joint_UpslopeModel(0,30,0,0.3f);
-						timFlg = 0;
-					}
-					else
-					{
-						if(++timFlg>150)
-						{							
-							Joint_walkModel(0,0,0,0.3f);
-							Joint_RobotArmCtrl(1900,1002);//机械臂收起令牌
-						}
-						else
-						{
-							Joint_walkModel(0,20,0,0.2f);
-						}
-					}
+					 if(!PhoFlg.SDOP)
+					 {
+						 RunFlag = 5;
+					 }
+					 else
+					 {
+						 Joint_Init();
+						 Joint_NewTrotMotionModel(0,0,0,0.3f);
+						 RunFlag = 4;
+					 }
+						upslope_flag = 0;
+//					else
+//					{
+//						if(++timFlg>100)
+//						{					
+//							RunFlag	= 5;						
+//							Joint_NewTrotMotionModel(0,0,0,0.3f);
+//							Joint_RobotArmCtrl(1900,1002);//机械臂收起令牌
+//						}
+//						else
+//						{
+//							Joint_NewTrotMotionModel(-DR16.ch3/2, 50, DR16.ch1/2, 0.25f);
+//						}
+//					}
 					
 //					if (!PhoFlg.CLAMP && !PhoFlg.SLOPE)//到达终点
 //					{
@@ -969,10 +1175,52 @@ static void Joint_PassSandDune(uint8_t Temp)
 //					}
 					
 				break;
-				case 5:
-					 Joint_RobotArmCtrl(1900,1024);
-           Joint_NewTrotMotionModel(0,0,0,0.06f);
-				break;		
+				case 5:		
+					Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
+					if(upslope_flag)
+					{
+						if((Filter.p_ABS(GY955.Roll - GY955.targetRoll)< 3)&&(++timFlg>50))
+						{
+							RunFlag = 6;
+						}
+						else
+						{
+							Joint_NewTrotMotionModel(-DR16.ch3/2, 50, Joint.Vspin, 0.25f);
+						}
+					}
+					else
+					{
+						if(Filter.p_ABS(GY955.Roll - GY955.targetRoll)> 7)
+						{
+							timFlg = 0;
+							upslope_flag = 1;
+						}
+						else
+						{
+							Joint_NewTrotMotionModel(-DR16.ch3/2, 50, Joint.Vspin, 0.25f);
+						}
+					}
+					 
+				break;
+				case 6:
+						upslope_flag = 0;
+						Joint_NewTrotMotionModel(0,0,0,0.3f);
+					  Joint_RobotArmCtrl(1900,1002);//机械臂收起令牌
+					break;
+				case 7:
+					  Joint.Vspin = PID_Calc(&Joint.PID_Spin,GY955.Yaw,GY955.targetYaw);
+				   	timFlg++;
+						if(timFlg<150)
+						{
+				      Joint_RopeModel(-DR16.ch3/2, 120, Joint.Vspin, 0.25f);
+						}
+						else
+						{
+							timFlg=0;
+							RunFlag=3;
+						}
+				break;
+				
 				default:
 
 					break;
@@ -1112,8 +1360,8 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp,float 
 {
 	static int16_t temp=0;
 	TarAng*=coe;
-	TarAng=TarAng>800?800:TarAng;
-	TarAng=TarAng<-800?-800:TarAng;
+	TarAng=TarAng>1000?1000:TarAng;
+	TarAng=TarAng<-1000?-1000:TarAng;
 	temp=Curve_Sin(Filter.p_ABS(TarAng),1,Phase,0,Temp);
   if(temp<0)
 	  return temp;
@@ -1128,6 +1376,30 @@ static int16_t Joint_getCrusTarAng(int16_t TarAng ,float Phase,float Temp,float 
 }
 
 
+	/**
+	* @Data    2019-01-09 11:33
+	* @brief   小腿控制
+	* @param   TarAng 目标角度， Phase相位 ，Temp 倍率
+	* @retval  滤波后的角度
+	*/
+static int16_t Joint_getRopeCrusTarAng(int16_t TarAng ,float Phase,float Temp,float coe)
+{
+	static int16_t temp=0;
+	TarAng*=coe;
+	TarAng=TarAng>1200?1200:TarAng;
+	TarAng=TarAng<-1200?-1200:TarAng;
+	temp=Curve_Sin(Filter.p_ABS(TarAng),1,Phase,0,Temp);
+  if(temp<0)
+	  return temp;
+	else
+		return 0;
+//	return Curve_Sin(Filter.p_ABS(TarAng),2,Phase,0,Temp);
+//		  if(Temp>PI/2&&Temp<2*PI)
+//	    return ((Curve_SinWalk(TarAng,2.0f/3.0f,Phase,0,Temp)));
+//		else
+//			return ((Curve_SinWalk(TarAng,1,Phase,0,Temp)));
+	//return Curve_Sin(Filter.p_ABS(TarAng), 1, Phase, 0, Temp);
+}
 /*-----------------------------------FILE OF END------------------------------*/
 
 

@@ -47,7 +47,7 @@ typedef struct
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 extern Chassis_t Chassis;
-
+extern int16_t Speed;
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed);
 void Chassis_Init(void);

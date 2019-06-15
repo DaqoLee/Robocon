@@ -55,7 +55,7 @@ typedef struct
 #define RH_GPIO_PORT           	  GPIOA
 
 #define SDOP_GPIO_CLK             	RCC_AHB1Periph_GPIOA
-#define SDOP_PIN                  	GPIO_Pin_11
+#define SDOP_PIN                  	GPIO_Pin_10
 #define SDOP_GPIO_PORT           	GPIOA
 
 #define CLAMP_GPIO_CLK             	RCC_AHB1Periph_GPIOA

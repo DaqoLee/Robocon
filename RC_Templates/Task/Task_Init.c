@@ -183,6 +183,8 @@ static void vTaskLED(void *pvParameters)
 	*/
 static void vTaskTest(void *pvParameters)
 {
+  static	uint8_t keyFlg=1,timFlg=0,str[15];
+	
 //	float x=0.0f;//1000
 //	int8_t t=0;
 //	OLED_ShowCHinese(0,4,0);//中
@@ -231,7 +233,34 @@ static void vTaskTest(void *pvParameters)
 //				 vTaskDelay(5);
 //			 }
 //		 }	
-		 OLED_ShowNum(10,4,RunFlag,3,16);
+     KeyScan();
+		 if(!KeyStatus)
+		 {
+			 timFlg++;
+		 }
+		 else if(timFlg>1 && timFlg<10)
+		 {
+		   if(keyFlg)
+			 {
+			   Speed+=100;
+			 }
+			 else
+       {
+			   Speed-=100;
+			 }
+			 timFlg=0;
+		 }
+		 else if( timFlg>10)
+		 {
+			 vTaskDelay(200);
+		   keyFlg=!keyFlg; 
+			 timFlg=0;
+		 }
+		 
+		 sprintf(str, "Speed = %5d",Speed);
+//		 OLED_ShowNum(10,4,Speed,4,16);
+		 
+//		  OLED_ShowNum(10,6,GY955.Roll+10,3,16);
 //		 OLED_ShowNum(64,4,Camera.Offset,3,16);
 //		 OLED_ShowNum(103,4,Camera.Flag,3,16);
 //		t++;
@@ -239,7 +268,9 @@ static void vTaskTest(void *pvParameters)
 //		  OLED_ShowNum(103,6,t,3,16);//显示ASCII字符的码值 	
 			
 		
-//		OLED_ShowString(20,20,"abcd");
+		OLED_ShowString(10,4,str);
+		 
+		 *str=NULL;
 		vTaskDelay(50);
 	}
 }

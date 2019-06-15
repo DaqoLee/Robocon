@@ -29,6 +29,7 @@ const float Radian=PI/6;
 
 Chassis_t Chassis;
 
+int16_t Speed=0;
 static float Slope[]=
 {
 	0.000000, 0.085480, 0.170623, 0.255093, 0.338556, 
@@ -266,7 +267,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 //  Chassis_MotionModel(-10*DR16.ch3,-10*(DR16.ch2+DR16.ch4),10*DR16.ch1,velBuff);
 		
 		
-    RoboModule_DRV_Velocity_Mode(0,1,3000,velBuff[0]);
+    RoboModule_DRV_Velocity_Mode(0,1,3000,Speed);
     RoboModule_DRV_Velocity_Mode(0,2,3000,velBuff[1]);
     RoboModule_DRV_Velocity_Mode(0,3,3000,velBuff[2]);
   }

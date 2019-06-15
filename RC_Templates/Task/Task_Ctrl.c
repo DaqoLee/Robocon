@@ -125,12 +125,20 @@ static void vTaskCtrlJoint(void *pvParameters)
 	vTaskDelay(100);
 	
 //			DXL1_setSyncMsg(USART_6,0x04,1,0x0B,0x01);
-	DXL1_setSyncMsg(USART_6,SPEED,2,0x0D,100,0x0E,100);
+	DXL1_setSyncMsg(USART_6,SPEED,2,0x0D,100,0x0E,200);
 	vTaskDelay(100);
-	DXL1_setSyncMsg(USART_6,0x06,1,0x08,824);
-		vTaskDelay(100);
-	DXL1_setSyncMsg(USART_6,0x08,1,0x08,3272);
+	DXL1_setSyncMsg(USART_6,SPEED,12,0x01,100,0x02,100,0x03,100,0x04,100
+	                                ,0x05,100,0x06,100,0x07,100,0x08,100
+	                                ,0x09,100,0x0A,100,0x0B,100,0x0C,100);
+	vTaskDelay(100);
+	Joint_NewTrotMotionModel(0, 0, 0, 0);
+	vTaskDelay(1000);
 	Joint_RobotArmCtrl(3180,2100);
+	vTaskDelay(100);
+	DXL1_setSyncMsg(USART_6,SPEED,12,0x01,0,0x02,0,0x03,0,0x04,0
+	                                ,0x05,0,0x06,0,0x07,0,0x08,0
+	                                ,0x09,0,0x0A,0,0x0B,0,0x0C,0);
+	vTaskDelay(100);
   while(1)
 	{
 //		DXL1_setBulkReadMsg(USART_6,1,0x01,0x1E);
