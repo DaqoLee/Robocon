@@ -27,7 +27,7 @@
 
 typedef struct 
 {
-  uint8_t buff[10];
+  uint8_t buff[12];
 
   int16_t Angle;
   int16_t Offset;
@@ -42,10 +42,10 @@ typedef struct
 /*----------------------G L O B A L - D E F I N E S---------------------------*/
 
 extern Camera_t Camera;
-
+extern uint8_t RFIDBuf[9];
 /*-----------G L O B A L - F U N C T I O N S - P R O T O T Y P E S------------*/
 void Camera_getMassage(uint8_t *CameraBuff);
-
+void RFID_getMassage(uint8_t *CameraBuff);
 
 #endif	// __CAMERA_H
 /*-----------------------------------file of end------------------------------*/

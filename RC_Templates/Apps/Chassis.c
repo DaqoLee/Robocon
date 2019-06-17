@@ -24,6 +24,7 @@
 #include "Encoder.h"
 #include "Curve.h"
 #include "Filter.h"
+#include "Motor.h"
 /*-------------------------- D E F I N E S -----------------------------------*/
 const float Radian=PI/6;
 
@@ -115,9 +116,13 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   void Chassis_Init(void)
   {
 		
-    PID_StructInit(&Chassis.PID_X, POSITION_PID, 800, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 800, 500, 2, 0, 0);
-    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 800, 500, -50, 0, 0);
+    PID_StructInit(&Chassis.PID_X, POSITION_PID, 2000, 500, 10, 0, 0);
+    PID_StructInit(&Chassis.PID_Y, POSITION_PID, 2000, 500, 10, 0, 0);
+    PID_StructInit(&Chassis.PID_Spin, POSITION_PID, 2000, 500, 50, 0, 0);
+		for(uint8_t i=0;i<4;i++)
+		{
+		  PID_StructInit(&Motor.M3508[i].OutPID,POSITION_PID,2000,500 ,2.5f ,1.0f ,0);
+		}
 		
     Posture.targetZ_Angle=0;
 		Chassis.Vy=0;
@@ -134,7 +139,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
   {
     static uint16_t temp = 0;
 		static uint8_t temp1=1;
-    int16_t velBuff[3];
+    int16_t velBuff[4];
 
 #if 0
 		if(DR16.switch_right==3)
@@ -197,7 +202,7 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 //		}
 #endif
 
-#if 1 /*全场定位切线跑曲线*/
+#if 0 /*全场定位切线跑曲线*/
 
   if(temp<162 && DR16.switch_right == 3)/*一共取了170个点*/
 	{
@@ -261,15 +266,44 @@ void Chassis_MotionModel(float Vx, float Vy, float Omega, int16_t *Speed)
 //			Posture.realZ_Angle,Posture.targetZ_Angle);
 	}  
 #endif	
-	
-    Chassis_MotionModel(Chassis.Vx,Chassis.Vy,Chassis.Vspin,velBuff);
+  if(DR16.switch_right==2)
+	{
+	  Posture.targetX_Coords=DR16.ch1; 
+		Posture.targetY_Coords=DR16.ch2; 
+		Chassis.Vx=PID_Calc(&Chassis.PID_X,
+													Posture.realX_Coords,Posture.targetX_Coords);
+		Chassis.Vy=PID_Calc(&Chassis.PID_Y,
+													Posture.realY_Coords,Posture.targetY_Coords);
+	  Chassis.Vspin=PID_Calc(&Chassis.PID_Spin,
+	                       Posture.realZ_Angle,Posture.targetZ_Angle);
+		Chassis_MotionModel(Chassis.Vx,Chassis.Vy,-Chassis.Vspin,velBuff);
 
-//  Chassis_MotionModel(-10*DR16.ch3,-10*(DR16.ch2+DR16.ch4),10*DR16.ch1,velBuff);
-		
-		
-    RoboModule_DRV_Velocity_Mode(0,1,3000,Speed);
-    RoboModule_DRV_Velocity_Mode(0,2,3000,velBuff[1]);
-    RoboModule_DRV_Velocity_Mode(0,3,3000,velBuff[2]);
+	//  Chassis_MotionModel(-10*DR16.ch3,-10*(DR16.ch2+DR16.ch4),10*DR16.ch1,velBuff);
+		for(uint8_t i=0;i<4;i++)
+		{
+			Motor.M3508[i].targetSpeed=velBuff[i];
+			Motor.M3508[i].targetCurrent= PID_Calc(&Motor.M3508[i].OutPID,
+																							Motor.M3508[i].realSpeed,
+																							Motor.M3508[i].targetSpeed);
+		}
+	}
+	else
+	{
+	  for(uint8_t i=0;i<4;i++)
+		{
+			Motor.M3508[i].targetSpeed=0;
+			Motor.M3508[i].targetCurrent= PID_Calc(&Motor.M3508[i].OutPID,
+																							Motor.M3508[i].realSpeed,
+																							Motor.M3508[i].targetSpeed);
+		}
+	}
+	
+	Motor.p_M3508setCur(CAN_1);
+	
+
+//    RoboModule_DRV_Velocity_Mode(0,1,3000,Speed);
+//    RoboModule_DRV_Velocity_Mode(0,2,3000,velBuff[1]);
+//    RoboModule_DRV_Velocity_Mode(0,3,3000,velBuff[2]);
   }
 
 /**

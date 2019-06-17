@@ -80,7 +80,7 @@ void vTaskStart(void *pvParameters)
 	DMA_USART3RxConfig((uint32_t)GY955.buff,20);
 	DMA_USART6RxConfig((uint32_t)DigitalServo.DxlBuff,20);
 	DMA_UART8RxConfig((uint32_t)Ultrasonic.buff,20);
-	DMA_UART7RxConfig((uint32_t)Camera.buff,10);
+	DMA_UART7RxConfig((uint32_t)Camera.buff,12);
 
 	BSP_CAN1_Init();
 	//BSP_I2C2_Init();
@@ -183,7 +183,7 @@ static void vTaskLED(void *pvParameters)
 	*/
 static void vTaskTest(void *pvParameters)
 {
-  static	uint8_t keyFlg=1,timFlg=0,str[15];
+  static	uint8_t keyFlg=1,timFlg=0,str[15],str1[15],str2[15];
 	
 //	float x=0.0f;//1000
 //	int8_t t=0;
@@ -257,7 +257,10 @@ static void vTaskTest(void *pvParameters)
 			 timFlg=0;
 		 }
 		 
-		 sprintf(str, "Speed = %5d",Speed);
+		 sprintf(str,  "realX = %5d",(int)Posture.realX_Coords);
+		 sprintf(str1, "realY = %5d",(int)Posture.realY_Coords);
+		 
+		 sprintf(str2, "realZ = %5d",(int)(Posture.realZ_Angle*10));
 //		 OLED_ShowNum(10,4,Speed,4,16);
 		 
 //		  OLED_ShowNum(10,6,GY955.Roll+10,3,16);
@@ -268,9 +271,10 @@ static void vTaskTest(void *pvParameters)
 //		  OLED_ShowNum(103,6,t,3,16);//ÏÔÊ¾ASCII×Ö·ûµÄÂëÖµ 	
 			
 		
-		OLED_ShowString(10,4,str);
-		 
-		 *str=NULL;
+		OLED_ShowString(10,0,str);
+		OLED_ShowString(10,2,str1);
+		OLED_ShowString(10,4,str2);
+		OLED_ShowString(32,6,RFIDBuf);
 		vTaskDelay(50);
 	}
 }

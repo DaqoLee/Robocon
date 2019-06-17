@@ -20,7 +20,7 @@
 /*-------------------------- D E F I N E S -----------------------------------*/
 
 Camera_t Camera;
-
+uint8_t RFIDBuf[9];
 /*-----------L O C A L - F U N C T I O N S - P R O T O T Y P E S--------------*/
 
 
@@ -63,6 +63,24 @@ void Camera_getMassage(uint8_t *CameraBuff)
 	}
 }
 
+void RFID_getMassage(uint8_t *CameraBuff)
+{
+  for(uint8_t i=0;i<15;i++)
+	{
+		if(CameraBuff[i]==0xFF && CameraBuff[i+1]==0xFF
+		&& CameraBuff[i+10]==0xFF && CameraBuff[i+11]==0xFF)
+		{
+			RFIDBuf[0]=CameraBuff[2];
+			RFIDBuf[1]=CameraBuff[3];
+			RFIDBuf[2]=CameraBuff[4];
+			RFIDBuf[3]=CameraBuff[5];
+			RFIDBuf[4]=CameraBuff[6];
+			RFIDBuf[5]=CameraBuff[7];
+			RFIDBuf[6]=CameraBuff[8];
+			RFIDBuf[7]=CameraBuff[9];
+		}
+	}
+}
 /*---------------------L O C A L - F U N C T I O N S--------------------------*/
 
 

@@ -50,6 +50,9 @@ typedef struct
    int16_t targetCurrent;	/*目标电流*/
 	 int16_t targetSpeed;		/*目标速度*/
 	uint16_t targetAngle;		/*目标角度*/
+	
+	 pid_t OutPID;				/*外环PID*/
+	 pid_t InPID;					/*内环PID*/
 
 }M3508_t;
 

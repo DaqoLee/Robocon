@@ -188,13 +188,14 @@ static void vTaskUsart6Receive(void *pvParameters)
 
 static void vTaskUart7Receive(void *pvParameters)
 {
-  uint8_t usart7RxBuffer[10];
+  uint8_t usart7RxBuffer[12];
   while(1)
 	{
 	  xQueueReceive(xUart7RxQueue, &usart7RxBuffer,portMAX_DELAY);
 	//	Posture_getMessage(usart6RxBuffer);
 	//	LED_TOGGLE(LED_R);
-		Camera_getMassage(usart7RxBuffer);
+	//	Camera_getMassage(usart7RxBuffer);
+		RFID_getMassage(usart7RxBuffer);
 		//OpticFlow_getMassage(usart2RxBuffer);
 	}
 

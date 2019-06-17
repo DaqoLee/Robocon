@@ -38,8 +38,8 @@ typedef struct
 }Chassis_t;
 /*------------------------G L O B A L - M A C R O S --------------------------*/
 
-#define MECANUM   0  /*麦克纳姆轮*/
-#define THROMNI		1  /*三轮全向*/
+#define MECANUM   1  /*麦克纳姆轮*/
+#define THROMNI		0  /*三轮全向*/
 #define FOROMNI		0  /*四轮全向*/
 
 #define PI        3.141592653589

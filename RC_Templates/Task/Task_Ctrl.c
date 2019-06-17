@@ -173,7 +173,7 @@ static void vTaskCtrlJoint(void *pvParameters)
 //		 }
 
   
-	#if 1
+#if 0
 		Joint.Vspin = PID_Calc(&Joint.PID_Spin, GY955.Yaw, GY955.targetYaw);
 //		
 
